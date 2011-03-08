@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=no">
+    
+	<link rel="stylesheet" href="css/devtrac.css" type="text/css">
+	<link rel="stylesheet" href="css/jqtouch.min.css" type="text/css">
+	<link rel="stylesheet" href="css/jquery.ui.tabs.css" type="text/css">
+	<link rel="stylesheet" href="css/theme.min.css" type="text/css">
+	
+    <script src="javascript/lib/constants.js" type="text/javascript"></script>
+    <script src="javascript/lib/initializer.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/json2.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/crypto_sha256.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/hmac.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/phonegap.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/jquery.1.4.4.min.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/jqtouch.min.js" type="text/javascript"></script>
+    <script src="javascript/lib/ext/ui.js" type="text/javascript"></script>
+
+    <script src="javascript/interactions/common.js" type="text/javascript"></script>
+    <script src="javascript/interactions/user.login.js" type="text/javascript"></script>
+    <script src="javascript/interactions/get.field.trips.js" type="text/javascript"></script>
+
+    <script src="javascript/controllers/login.js" type="text/javascript"></script>
+    <script src="javascript/controllers/site.js" type="text/javascript"></script>
+    <script src="javascript/controllers/questions.js" type="text/javascript"></script>
+    <script src="javascript/controllers/fieldTripReports.js" type="text/javascript"></script>
+
+    <script src="javascript/models/user.js" type="text/javascript"></script>
+
+    <script src="javascript/main.js" type="text/javascript"></script>
+    
+    <script src="javascript/ui.js" type="text/javascript" charset="utf-8"></script>
+    <title>DevTrac for BlackBerry</title>
+</head>
+<body onload="init()">
+
+<!--<div id="spinner" class="spinner">
+    <img src="resources/ajax-loader.gif"/>
+</div>-->
+<div id="light" class="white_content">Loading...</div>
+<div id="fade" class="black_overlay"></div>
+<!--Login Screen -->
+<div id="login_screen" class="content">
+    <div class="toolbar">
+        <h1>Login</h1>
+    </div>
+    <p>
+        <label>Username</label>
+        <input type="text" name="username" id="username" class="input" value="sdharmap" size="20" tabindex="10"/>
+    </p>
+
+    <p>
+        <label>Password</label>
+        <input type="password" name="password" id="password" class="input" value="p@ssw0rd" size="20" tabindex="20"/>
+    </p>
+
+    <p class="submit">
+        <input type="button" name="login" id="login" class="button" value="Log In"/>
+    </p>
+</div>
+
+<!--Report Items Screen -->
+<div id="trip_report" class="content">
+    <div class="toolbar">
+        <h1>Field Trip: Visit to Adoo - 4/Mar</h1>
+    </div>
+    <div id="tabs_container">
+        <!-- tabs -->
+        <ul class="tabs">
+            <li class="active"><a href="#" rel="#list_trip" class="tab">Sites to Visit</a></li>
+            <li><a href="#" rel="#add_trip" class="tab">Add New Site</a></li>
+        </ul>
+
+        <!-- tab containers -->
+        <div class="tab_contents_container">
+            <div id="list_trip" class="tab_contents tab_contents_active">
+                <ul>
+                    <li><a id="location1" href="#">Toro health center</a></li>
+                    <li><a id="location2" href="#">Acwera water point</a></li>
+                </ul>
+            </div>
+            <div id="add_trip" class="tab_contents">
+                <p>
+                    <label>Site Name</label>
+                    <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/>
+                    <span class="tip">(example: Toro health center, Acwera water point)</span>
+                </p>
+
+                <p>
+                    <label>Site Type</label>
+                    <select id="edit-tid" class="select" name="tid">
+                        <option value="All">&lt;Any&gt;</option>
+                        <option value="49">Administrative Units</option>
+                        <option value="3">-Government Office</option>
+                        <option value="47">-NGO</option>
+                        <option value="48">-Faith-based Organisation</option>
+                        <option value="58">-Office</option>
+                        <option value="23">Water Points</option>
+                        <option value="192">-Protected Spring</option>
+                        <option value="24">-Bore Holes</option>
+                        <option value="191">-Deep Borehole</option>
+                        <option value="53">-Tap</option>
+                        <option value="25">-Well</option>
+                        <option value="55">-Unknown Waterpoint</option>
+                        <option value="2">Health Facilities</option>
+                        <option value="197">-Health Centre</option>
+                        <option value="8">-Health Centre II</option>
+                        <option value="7">-Health Centre III</option>
+                        <option value="50">-Health Centre IV</option>
+                        <option value="56">-Health Unit</option>
+                        <option value="51">-Hospital</option>
+                        <option value="52">-Other Health Centre</option>
+                        <option selected="selected" value="1">Schools</option>
+                        <option value="195">-Primary School</option>
+                        <option value="57">-Primary Community School</option>
+                        <option value="4">-Primary Government School</option>
+                        <option value="59">-Primary Private School</option>
+                        <option value="6">-Secondary Community School</option>
+                        <option value="5">-Secondary Government School</option>
+                        <option value="60">-Secondary Private School</option>
+                        <option value="61">-Other School</option>
+                    </select>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
+                </p>
+            </div>
+        </div>
+        <!-- end tabs -->
+    </div>
+</div>
+
+<!-- Questionnaire form Screen -->
+<div id="questions_form" class="content">
+    <div class="toolbar">
+        <h1 id="Report_item">Site Name</h1>
+    </div>
+    <div class="question">
+        <label id="q1">Is the platform/apron finished?</label>
+        <input type="text" name="q1" id="q1_" class="input" value="" size="10"/>
+    </div>
+    <div class="question">
+        <label id="q2">Is the drainage good?</label>
+        <input type="text" name="q2" id="q2_" class="input" value="" size="10"/>
+    </div>
+    <div class="question">
+        <label id="q3">Are the surroundings of the water point clean?</label>
+        <input type="text" name="q3" id="q3_" class="input" value="" size="10"/>
+    </div>
+    <div class="question">
+        <label id="q4">Is the water point more than 15m from nearest latrine?</label>
+        <input type="text" name="q4" id="q4_" class="input" value="" size="10"/>
+    </div>
+    <div class="question">
+        <label id="q5">Is the water point working?</label>
+        <input type="text" name="q5" id="q5_" class="input" value="" size="10"/>
+    </div>
+    <p class="submit">
+         <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
+    </p>
+</div>
+
+</body>
+</html>

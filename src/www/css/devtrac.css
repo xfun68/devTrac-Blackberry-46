@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Helvetica;
+    background: white;
+    height: 100%;
+}
+
+.toolbar {
+    background: url("images/header_background.jpg") repeat-x scroll 0 0 #000000;
+    border-bottom: 1px solid #000000;
+    color: #FFFFFF;
+    min-height: 20px;
+    padding: 10px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1em;
+    margin: 1px 0 0 10px;
+    overflow: hidden;
+    text-align: center;
+    text-shadow: 0 -1px 1px #000000;
+}
+
+.input, .select {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    font-size: 15px;
+    padding: 3px;
+    margin-top: 5px;
+}
+
+.select {
+    width: 200px
+}
+
+label {
+    display: block;
+}
+
+input.button {
+    background: url("images/header_background.jpg") repeat-x scroll left bottom #21759B;
+    border: 1px solid #000000;
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+    font-size: 15px;
+    margin-top: -3px;
+    padding: 3px 10px;
+    text-decoration: none;
+    width: 200px;
+}
+
+.content {
+    margin: 0;
+}
+
+p {
+    margin-bottom: 16px;
+	padding: 0 10px;
+}
+
+.tip {
+    color: #B5B5B5;
+    display: block;
+    font-size: 13px;
+}
+
+/*#login .input {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    font-size: 24px;
+    margin-bottom: 16px;
+}*/
+#list_trip ul  li {
+    list-style-type: none;
+    padding: 10px 0;
+}
+
+.question {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333333;
+	padding: 0 10px 10px 10px;
+}
+
+.black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    background: url(../resources/overlay.png);
+}
+
+.white_content {
+    display: none;
+    position: absolute;
+    font-weight: bold;
+    padding: 5px;
+    z-index: 1002;
+    top: 45%;
+	left: 38%;
+	color: white;
+	overflow: auto;
+}
