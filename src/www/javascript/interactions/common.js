@@ -1,8 +1,5 @@
 function callService(dataString, callback, errorCallback){
-    alert("In callService");
-    alert("Datastring: " + JSON.stringify(dataString));
     navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
-    alert("called.");
 }
 
 function generateHash(method, timestamp){
@@ -17,7 +14,6 @@ function convertHash(hash){
         paramStr += hash[param];
         paramStr += "&";
     }
-    alert("Paramstr: " + paramStr);
     return paramStr;
 }
 
@@ -71,11 +67,11 @@ function getErrorMessage(response){
 }
 
 function hideLoadingScreen(){
-    $('#light').hide();
-    $('#fade').hide();
+    //$('#light').hide();
+    //$('#fade').hide();
 }
 
 function showLoadingScreen(){
-    $('#light').show();
-    $('#fade').show();
+    //$('#light').show();
+    //$('#fade').show();
 }

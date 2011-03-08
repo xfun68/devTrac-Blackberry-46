@@ -2,19 +2,15 @@ var loginController = new Object();
 
 loginController.login = function() {
     var userName = $("#username").val();
-	alert(userName);
-    var password = $("#password").val();
-	alert(password);
-
+	var password = $("#password").val();
+	
     var renderView = function() {
-		alert("Logged in successfully. Now show the trip reports.");
-        //fieldTripReports.showTripReports();
+		fieldTripReports.showTripReports();
     };
 
     var loginFailed = function() {
-		alert("Login failed.");
 		hideLoadingScreen();
     };
-    // showLoadingScreen();
+    showLoadingScreen();
     user.authenticate(userName, password, renderView, loginFailed);
 };

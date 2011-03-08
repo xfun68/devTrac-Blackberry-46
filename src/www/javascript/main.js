@@ -3,7 +3,6 @@ $(document).ready(function(){
 });
 
 function init(){
-    alert("In init()");
     hideScreensExceptLogin();
     // Initialize all application events
     initializeAll();

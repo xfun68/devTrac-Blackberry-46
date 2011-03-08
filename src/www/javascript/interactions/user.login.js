@@ -1,8 +1,6 @@
 function authenticate(userName, password, successCallback, failedCallback){
     var connectCallback = function(data){
-        alert("In connectCallback");
         var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
-        alert("SessionId: " + sessionId);
         if (userLoggedIn(data)) {
             successCallback(data);
         }
@@ -23,8 +21,9 @@ function authenticate(userName, password, successCallback, failedCallback){
             callService(convertHash(params), successCallback, failedCallback);
         }
     };
-    alert("About to call service.");
-    callService("method=" + DT.SYSTEM_CONNECT, connectCallback, failedCallback);
+    callService(convertHash({
+        method: DT.SYSTEM_CONNECT
+    }), connectCallback, failedCallback);
 }
 
 function userLoggedIn(response){

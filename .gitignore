@@ -3,3 +3,4 @@
 .settings
 bin
 deliverables
+*.tmp_*
