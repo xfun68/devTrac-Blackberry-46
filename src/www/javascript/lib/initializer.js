@@ -4,4 +4,5 @@ function initializeAll(){
     $("#questions-submit").click(questionsController.create);
     $("#location1").click(questionsController.show);
     $("#location2").click(questionsController.show);
+	$("#datatest").click(dataTest);
 }

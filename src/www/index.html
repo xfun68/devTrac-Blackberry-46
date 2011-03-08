@@ -13,6 +13,9 @@
 		<script type="text/javascript" src="javascript/lib/ext/crypto_sha256.js"></script>
 		<script type="text/javascript" src="javascript/lib/ext/hmac.js"></script>
         <script type="text/javascript" src="javascript/lib/ext/jquery.1.4.4.min.js"></script>
+		<script type="text/javascript" src="javascript/lib/ext/adapters/blackberrypersistentstorageadapter.js"></script>
+		<script type="text/javascript" src="javascript/lib/ext/adapters/lawnchairadapterhelpers.js"></script>
+		<script type="text/javascript" src="javascript/lib/ext/lawnchair.js"></script>
         
 		<script type="text/javascript" src="javascript/lib/initializer.js"></script>
 		<script type="text/javascript" src="javascript/lib/constants.js"></script>
@@ -22,6 +25,7 @@
 		<script type="text/javascript" src="javascript/interactions/get.field.trips.js"></script>
 		
 		<script type="text/javascript" src="javascript/models/user.js"></script>
+		<script type="text/javascript" src="javascript/models/storage.js"></script>
 		
 		<script type="text/javascript" src="javascript/controllers/login.js"></script>
 		<script type="text/javascript" src="javascript/controllers/fieldTripReports.js"></script>
@@ -59,6 +63,7 @@
             </p>
             <p class="submit">
                 <input type="button" name="login" id="login" class="button" value="Log In"/>
+				<input type="button" name="datatest" id="datatest" class="button" value="DataTest"/>
             </p>
         </div><!--Report Items Screen -->
         <div id="trip_report" class="content">
