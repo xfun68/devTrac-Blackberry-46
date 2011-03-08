@@ -1,73 +1,81 @@
-function callService(dataString, callback, errorCallback) {
-	alert("In callService");
-	alert("Datastring: " + JSON.stringify(dataString));
-    if (!errorCallback) {
-        errorCallback = function(data, status) {
-            alert("Status: " + status);
-            alert(data.responseText);
-        }
-    }
-    $.ajax({
-        type: 'POST',
-        url: DT.SERVICE_ENDPOINT,
-        data: dataString,
-        contentType: 'application/x-www-form-urlencoded',
-        dataType: 'json',
-        success: callback,
-        error: errorCallback
-    });
+function callService(dataString, callback, errorCallback){
+    alert("In callService");
+    alert("Datastring: " + JSON.stringify(dataString));
+    navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
+    alert("called.");
 }
 
-function generateHash(method, timestamp) {
+function generateHash(method, timestamp){
     return Crypto.HMAC(Crypto.SHA256, timestamp + ";" + DT.DOMAIN + ";" + timestamp + ";" + method, DT.API_KEY)
 }
 
-function hasError(response) {
+function convertHash(hash){
+    var paramStr = "";
+    for (param in hash) {
+        paramStr += param;
+        paramStr += '=';
+        paramStr += hash[param];
+        paramStr += "&";
+    }
+    alert("Paramstr: " + paramStr);
+    return paramStr;
+}
+
+function hasError(response){
     if (response["#error"]) {
         return true;
-    } else {
+    }
+    else {
         if (response["#data"]) {
             var data = response["#data"];
             if (data["#error"]) {
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
-        } else {
+        }
+        else {
             return true;
         }
     }
 }
 
-function getErrorMessage(response) {
+function getErrorMessage(response){
     if (response["#error"]) {
         if (response["#message"]) {
             return response["#message"];
-        } else if (response["#data"]) {
-            return response["#data"];
-        } else {
-            return "Unknown error occured. Please try again.";
         }
-    } else {
+        else 
+            if (response["#data"]) {
+                return response["#data"];
+            }
+            else {
+                return "Unknown error occured. Please try again.";
+            }
+    }
+    else {
         if (response["#data"]) {
             var data = response["#data"];
             if (data["#error"]) {
                 return data["#message"];
-            } else {
+            }
+            else {
                 return "Unknown error.";
             }
-        } else {
+        }
+        else {
             return "Unexpected #data format.";
         }
     }
 }
 
-function hideLoadingScreen() {
+function hideLoadingScreen(){
     $('#light').hide();
     $('#fade').hide();
 }
 
-function showLoadingScreen() {
+function showLoadingScreen(){
     $('#light').show();
     $('#fade').show();
 }

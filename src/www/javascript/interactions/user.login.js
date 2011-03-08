@@ -1,11 +1,12 @@
-function authenticate(userName, password, successCallback, failedCallback) {
-    var connectCallback = function(data) {
-		alert("In connectCallback");
+function authenticate(userName, password, successCallback, failedCallback){
+    var connectCallback = function(data){
+        alert("In connectCallback");
         var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
-		alert("SessionId: " + sessionId);
+        alert("SessionId: " + sessionId);
         if (userLoggedIn(data)) {
             successCallback(data);
-        } else {
+        }
+        else {
             var timestamp = Math.round(new Date().getTime() / 1000);
             var params = {
                 method: DT.USER_LOGIN,
@@ -18,16 +19,17 @@ function authenticate(userName, password, successCallback, failedCallback) {
                 nonce: timestamp,
                 hash: generateHash(DT.USER_LOGIN, timestamp)
             };
-
-            callService(params, successCallback, failedCallback);
+            
+            callService(convertHash(params), successCallback, failedCallback);
         }
     };
-	alert("About to call service.");
-    callService({method: DT.SYSTEM_CONNECT}, connectCallback, failedCallback);
+    alert("About to call service.");
+    callService("method=" + DT.SYSTEM_CONNECT, connectCallback, failedCallback);
 }
 
-function userLoggedIn(response) {
+function userLoggedIn(response){
     return response[DT.DATA_REF] && response[DT.DATA_REF][DT.USER_REF] &&
-            response[DT.DATA_REF][DT.USER_REF][DT.NAME_REF] && response[DT.DATA_REF][DT.USER_REF][DT.PASSWORD_REF];
+    response[DT.DATA_REF][DT.USER_REF][DT.NAME_REF] &&
+    response[DT.DATA_REF][DT.USER_REF][DT.PASSWORD_REF];
 }
 
