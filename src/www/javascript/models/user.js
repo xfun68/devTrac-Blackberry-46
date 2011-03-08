@@ -9,7 +9,7 @@ user.uid = "";
 user.authenticate = function(userName, password, successCallback, failedCallback) {
     var success = function(response) {
         if (hasError(response)) {
-            fail(getErrorMessage(response));
+            alert(getErrorMessage(response));
             failedCallback();
         } else {
             user.parseUserData(response);
@@ -18,7 +18,7 @@ user.authenticate = function(userName, password, successCallback, failedCallback
     };
 
     var failed = function(response, textStatus) {
-        fail("Error occured in authenticating. Details: [" + textStatus + "], " + JSON.stringify(response));
+        alert("Error occured in authenticating. Details: [" + textStatus + "], " + JSON.stringify(response));
     };
     authenticate(userName, password, success, failed);
 };

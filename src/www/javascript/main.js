@@ -3,8 +3,8 @@ $(document).ready(function() {
 });
 
 function init() {
-	alert("Yo! I'm loaded.");
-    hideScreensExceptLogin();
+	alert("In init()");
+	hideScreensExceptLogin();
     // Initialize all application events
     initializeAll();
 }

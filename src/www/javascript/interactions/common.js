@@ -1,8 +1,10 @@
 function callService(dataString, callback, errorCallback) {
+	alert("In callService");
+	alert("Datastring: " + JSON.stringify(dataString));
     if (!errorCallback) {
         errorCallback = function(data, status) {
-            debug("Status: " + status);
-            fail(data.responseText);
+            alert("Status: " + status);
+            alert(data.responseText);
         }
     }
     $.ajax({
@@ -14,18 +16,6 @@ function callService(dataString, callback, errorCallback) {
         success: callback,
         error: errorCallback
     });
-}
-
-function fail(error) {
-    navigator.notification.alert(error, null, "Error");
-}
-
-function alert(message, callback, title) {
-    navigator.notification.alert(message, callback, title);
-}
-
-function debug(message) {
-    navigator.notification.alert(message, null, "Debug");
 }
 
 function generateHash(method, timestamp) {
@@ -80,19 +70,4 @@ function hideLoadingScreen() {
 function showLoadingScreen() {
     $('#light').show();
     $('#fade').show();
-}
-
-function reachableCallback(reachability) {
-    // There is no consistency on the format of reachability
-    var networkState = reachability.code || reachability;
-
-    var states = {};
-    states[NetworkStatus.NOT_REACHABLE] = 'No network connection';
-    states[NetworkStatus.REACHABLE_VIA_CARRIER_DATA_NETWORK] = 'Carrier data connection';
-    states[NetworkStatus.REACHABLE_VIA_WIFI_NETWORK] = 'WiFi connection';
-
-}
-
-function isServiceReachable() {
-    navigator.network.isReachable(DT.SERVICE_ENDPOINT, reachableCallback);
 }
