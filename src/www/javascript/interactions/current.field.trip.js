@@ -1,5 +1,5 @@
-function getFieldTrips(successCallback, failedCallback) {
-    var connectCallback = function(data) {
+function getFieldTrips(successCallback, failedCallback){
+    var connectCallback = function(data){
         var sessionId = data['#data']['sessid'];
         var timestamp = Math.round(new Date().getTime() / 1000);
         var params = {
@@ -14,10 +14,12 @@ function getFieldTrips(successCallback, failedCallback) {
             display_id: 'page_1',
             args: '["' + user.uid + '"]'
         };
-
+        
         callService(params, successCallback, failedCallback);
     };
-
-    callService({method: DT.SYSTEM_CONNECT}, connectCallback, failedCallback);
+    
+    callService({
+        method: DT.SYSTEM_CONNECT
+    }, connectCallback, failedCallback);
 }
 

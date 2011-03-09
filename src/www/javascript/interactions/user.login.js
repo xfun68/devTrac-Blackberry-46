@@ -18,12 +18,12 @@ function authenticate(userName, password, successCallback, failedCallback){
                 hash: generateHash(DT.USER_LOGIN, timestamp)
             };
             
-            callService(convertHash(params), successCallback, failedCallback);
+            callService(params, successCallback, failedCallback);
         }
     };
-	callService(convertHash({
+    callService({
         method: DT.SYSTEM_CONNECT
-    }), connectCallback, failedCallback);
+    }, connectCallback, failedCallback);
 }
 
 function userLoggedIn(response){

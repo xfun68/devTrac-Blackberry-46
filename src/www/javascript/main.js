@@ -18,7 +18,7 @@ function checkLoginStatus(){
     navigator.store.get(function(response){
         if (response) {
             user = JSON.parse(response);
-            fieldTripReports.showTripReports();
+            fieldTripController.showTripReports();
         }
         else {
             showLoginScreen();

@@ -16,7 +16,7 @@ loginController.login = function(){
             alert("Error: " + JSON.stringify(e));
         }
         showTripReportScreen();
-        fieldTripReports.showTripReports();
+        fieldTripController.showTripReports();
     };
     
     var loginFailed = function(){
