@@ -22,7 +22,8 @@ loginController.login = function(){
     var loginFailed = function(){
         showLoginScreen();
     };
-    user.authenticate(userName, password, renderView, loginFailed);
+    showLoadingScreen();
+	user.authenticate(userName, password, renderView, loginFailed);
 };
 
 loginController.logout = function(){
