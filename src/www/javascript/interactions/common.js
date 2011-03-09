@@ -65,13 +65,3 @@ function getErrorMessage(response){
         }
     }
 }
-
-function hideLoadingScreen(){
-    //$('#light').hide();
-    //$('#fade').hide();
-}
-
-function showLoadingScreen(){
-    //$('#light').show();
-    //$('#fade').show();
-}
