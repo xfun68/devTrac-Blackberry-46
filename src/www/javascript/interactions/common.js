@@ -1,6 +1,5 @@
 function callService(dataString, callback, errorCallback){
-	alert("Trying to call");
-    navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
+	navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
 }
 
 function generateHash(method, timestamp){

@@ -5,12 +5,17 @@ loginController.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-        navigator.store.put(function(){
-        	alert("Saved: " + user.name);
-		}, function(){
-			alert("Error in saving: " + user.name);
-        }, "user", JSON.stringify(user));
-		showTripReportScreen();
+        try {
+            navigator.store.put(function(){
+                // Ignore
+            }, function(){
+                alert("Error in saving: " + user.name);
+            }, "user", JSON.stringify(user));
+        } 
+        catch (e) {
+            alert("Error: " + JSON.stringify(e));
+        }
+        showTripReportScreen();
         fieldTripReports.showTripReports();
     };
     

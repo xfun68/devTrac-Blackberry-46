@@ -6,7 +6,12 @@ function init(){
     showLoadingScreen();
     // Initialize all application events
     initializeAll();
-    checkLoginStatus();
+    try {
+        checkLoginStatus();
+    } 
+    catch (e) {
+        showLoginScreen();
+    }
 }
 
 function checkLoginStatus(){
@@ -19,7 +24,6 @@ function checkLoginStatus(){
             showLoginScreen();
         }
     }, function(error){
-        alert("Error in retreival: " + error);
         showLoginScreen();
     }, "user");
 }

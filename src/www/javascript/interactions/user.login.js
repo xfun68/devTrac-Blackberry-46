@@ -21,8 +21,7 @@ function authenticate(userName, password, successCallback, failedCallback){
             callService(convertHash(params), successCallback, failedCallback);
         }
     };
-	alert("Calling system.connect");
-    callService(convertHash({
+	callService(convertHash({
         method: DT.SYSTEM_CONNECT
     }), connectCallback, failedCallback);
 }
