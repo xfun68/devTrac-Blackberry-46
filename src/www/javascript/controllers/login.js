@@ -24,3 +24,21 @@ loginController.login = function(){
     };
     user.authenticate(userName, password, renderView, loginFailed);
 };
+
+loginController.logout = function(){
+    try {
+        navigator.store.remove(function(){
+            // Ignore
+        }, function(){
+            // Ignore
+        }, "user");
+    } 
+    catch (e) {
+        // Log to console
+    }
+    user.loggedIn = false;
+    user.name = "";
+    user.email = "";
+    user.uid = 0;
+	showLoginScreen();
+}
