@@ -1,5 +1,12 @@
 function callService(dataString, callback, errorCallback){
-    navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
+    try {
+		alert("Datastring: " + dataString);
+        navigator.network.XHR(DT.SERVICE_ENDPOINT, dataString, callback);
+    } 
+    catch (e) {
+        alert("Error occured in network communication: " + JSON.stringify(e));
+		errorCallback(e);
+    }
 }
 
 function generateHash(method, timestamp){
@@ -64,14 +71,4 @@ function getErrorMessage(response){
             return "Unexpected #data format.";
         }
     }
-}
-
-function hideLoadingScreen(){
-    //$('#light').hide();
-    //$('#fade').hide();
-}
-
-function showLoadingScreen(){
-    //$('#light').show();
-    //$('#fade').show();
 }

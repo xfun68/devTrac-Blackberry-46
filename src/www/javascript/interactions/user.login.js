@@ -1,10 +1,14 @@
 function authenticate(userName, password, successCallback, failedCallback){
     var connectCallback = function(data){
-        var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
+        alert("Received data: " + JSON.stringify(data));
+		var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
+		alert("Connect sessionId: " + sessionId);
         if (userLoggedIn(data)) {
+			alert("User is logged in already.");
             successCallback(data);
         }
         else {
+			alert("Creating login hash");
             var timestamp = Math.round(new Date().getTime() / 1000);
             var params = {
                 method: DT.USER_LOGIN,
@@ -21,6 +25,7 @@ function authenticate(userName, password, successCallback, failedCallback){
             callService(convertHash(params), successCallback, failedCallback);
         }
     };
+	alert("Calling connect api");
     callService(convertHash({
         method: DT.SYSTEM_CONNECT
     }), connectCallback, failedCallback);

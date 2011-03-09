@@ -1,10 +1,13 @@
 var store;
 
 function initializeLawnchair(){
-    alert("Trying to initialize datastore.");
-	store = new Lawnchair({
-        adaptor: "blackberry"
-    }, function(lawnchair){
-        alert("lawnchair initialized");
-    });
+    try {
+		store = new Lawnchair({
+			adaptor: "blackberry"
+		}, function(lawnchair){
+			// Ignore
+		});
+	}catch(error){
+		alert("Error: " + JSON.stringify(error));
+	}
 }

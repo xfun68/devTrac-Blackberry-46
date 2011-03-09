@@ -114,3 +114,14 @@ p {
 	color: white;
 	overflow: auto;
 }
+
+.loading {
+    display: none;
+    position: absolute;
+    font-weight: bold;
+    padding: 5px;
+    top: 45%;
+	left: 38%;
+	color: white;
+	overflow: auto;
+}
