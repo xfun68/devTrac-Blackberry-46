@@ -6,26 +6,27 @@ function init(){
     showLoadingScreen();
     // Initialize all application events
     initializeAll();
+    window.setTimeout(checkLoginStatus, 5000);
+}
+
+function checkLoginStatus(){
     try {
-        checkLoginStatus();
+        navigator.store.get(function(response){
+            if (response) {
+                user = JSON.parse(response);
+                fieldTripController.showTripReports();
+            }
+            else {
+                showLoginScreen();
+            }
+        }, function(error){
+            showLoginScreen();
+        }, "user");
     } 
     catch (e) {
         showLoginScreen();
     }
-}
-
-function checkLoginStatus(){
-    navigator.store.get(function(response){
-        if (response) {
-            user = JSON.parse(response);
-            fieldTripController.showTripReports();
-        }
-        else {
-            showLoginScreen();
-        }
-    }, function(error){
-        showLoginScreen();
-    }, "user");
+    
 }
 
 function showLoginScreen(){

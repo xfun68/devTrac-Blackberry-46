@@ -5,7 +5,7 @@ loginController.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-        try {
+		try {
             navigator.store.put(function(){
                 // Ignore
             }, function(){
