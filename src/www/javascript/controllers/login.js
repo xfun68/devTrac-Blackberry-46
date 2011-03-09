@@ -10,12 +10,12 @@ loginController.login = function(){
 		}, function(){
 			alert("Error in saving: " + user.name);
         }, "user", JSON.stringify(user));
+		showTripReportScreen();
         fieldTripReports.showTripReports();
     };
     
     var loginFailed = function(){
-        hideLoadingScreen();
+        showLoginScreen();
     };
-    showLoadingScreen();
     user.authenticate(userName, password, renderView, loginFailed);
 };
