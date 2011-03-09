@@ -3,7 +3,7 @@ $(document).ready(function(){
 });
 
 function init(){
-	showLoadingScreen();
+    showLoadingScreen();
     // Initialize all application events
     initializeAll();
     checkLoginStatus();
@@ -11,13 +11,12 @@ function init(){
 
 function checkLoginStatus(){
     navigator.store.get(function(response){
-        //alert("Retreived: " + response);
-        user = JSON.parse(response);
-        if (user.loggedIn) {
+        if (response) {
+            user = JSON.parse(response);
             fieldTripReports.showTripReports();
         }
         else {
-			showLoginScreen();
+            showLoginScreen();
         }
     }, function(error){
         alert("Error in retreival: " + error);
@@ -33,7 +32,7 @@ function showLoginScreen(){
 }
 
 function showTripReportScreen(){
-	$("#spinner").hide();
+    $("#spinner").hide();
     $("#login_screen").hide();
     $("#trip_report").show();
     $("#questions_form").hide();
