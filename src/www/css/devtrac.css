@@ -53,6 +53,9 @@ label {
     display: block;
 }
 
+a {
+    color: #DC0000;
+}
 input.button {
     background: url("images/header_background.jpg") repeat-x scroll left bottom #21759B;
     border: 1px solid #000000;
@@ -82,19 +85,23 @@ p {
     font-size: 13px;
 }
 #list_trip  ul{
-	padding: 5px;
-	*border: 1px solid #EAEAEA;
+    padding: 5px;
 
 }
 #list_trip ul  li, #site_details_screen ul li {
     list-style-type: none;
     padding: 5px 0 10px 0;
     border-bottom: 1px solid #D6D6D6;
-	overflow: hidden;
+    overflow: hidden;
 }
 
-#list_trip ul  li a {
-	float: left;
+#list_trip ul  li span {
+    color: #DC0000;
+    float: left;
+    text-decoration: underline;
+}
+#list_trip ul  li span.done {
+    float: right;
 }
 
 .question {
@@ -122,9 +129,9 @@ p {
     padding: 5px;
     z-index: 1002;
     top: 45%;
-	left: 38%;
-	color: white;
-	overflow: auto;
+    left: 38%;
+    color: white;
+    overflow: auto;
 }
 
 .loading {
@@ -158,10 +165,6 @@ p {
     font-size: 90%;
     text-align: right;
 	padding-bottom: 5px;
-}
-
-.done {
-	float: right;
 }
 
 /*login**/
