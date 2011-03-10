@@ -10,7 +10,11 @@ function init(){
 }
 
 function checkLoginStatus(){
+
     try {
+        navigator.network.isReachable("devtrac.org", function(data){
+            alert("Status: " + data == 0 ? "Offline" : "Online");
+        });
         navigator.store.get(function(response){
             if (response) {
                 user = JSON.parse(response);
