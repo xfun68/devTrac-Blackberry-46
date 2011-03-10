@@ -1,5 +1,5 @@
 function callService(data, callback, errorCallback){
-	navigator.network.XHR(DT.SERVICE_ENDPOINT, convertHash(data), callback);
+    navigator.network.XHR(DT.SERVICE_ENDPOINT, convertHash(data), callback);
 }
 
 function generateHash(method, timestamp){

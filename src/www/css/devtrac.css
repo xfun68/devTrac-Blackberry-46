@@ -62,7 +62,7 @@ input.button {
     margin-top: -3px;
     padding: 3px 10px;
     text-decoration: none;
-    width: 200px;
+    width: auto;
 }
 
 .content {
@@ -153,8 +153,4 @@ p {
 
 #site_narrative_screen textarea {
     height: 120px;
-}
-
-#login_screen .content {
-	margin: 0 auto;
 }

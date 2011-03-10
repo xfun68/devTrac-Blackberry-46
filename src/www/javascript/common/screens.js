@@ -13,42 +13,20 @@ screens.list = {
 };
 
 screens.show = function(name){
-	for (var screen in screens.list) {
-		if (screen == name) {
-			$(screens.list[screen]).show();
+    for (var screen in screens.list) {
+        if (screen == name) {
+            var element = $(screens.list[screen]);
+            if (element) {
+                element.show();
+            }
+            
         }
         else {
-			$(screens.list[screen]).hide();
+            var element = $(screens.list[screen]);
+            if (element) {
+                element.hide();
+            }
         }
     }
-};
-
-screens.showLoginScreen = function(){
-	alert("Delete my usage showLoginScreen");
-    $("#spinner").hide();
-    $("#login_screen").show();
-    $("#trip_report").hide();
-    $("#questions_form").hide();
-};
-
-screens.showTripReportScreen = function(){
-	alert("Delete my usage showTripReportScreen");
-    $("#spinner").hide();
-    $("#login_screen").hide();
-    $("#trip_report").show();
-    $("#questions_form").hide();
-};
-
-screens.hideLoadingScreen = function(){
-	alert("Delete my usage hideLoadingScreen");
-    $("#spinner").hide();
-};
-
-screens.showLoadingScreen = function(){
-    alert("Delete my usage showLoadingScreen");
-	$("#spinner").show();
-    $("#login_screen").hide();
-    $("#trip_report").hide();
-    $("#questions_form").hide();
 };
 

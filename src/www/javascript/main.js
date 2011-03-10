@@ -10,25 +10,20 @@ function init(){
 }
 
 function checkLoginStatus(){
-
-    try {
-        navigator.network.isReachable("devtrac.org", function(data){
-            //console.log("Status: " + data == 0 ? "Offline" : "Online");
-        });
+    if (navigator && navigator.store) {
         navigator.store.get(function(response){
             if (response) {
                 user = JSON.parse(response);
                 fieldTripController.showTripReports();
             }
             else {
-				screens.show("login");
+                screens.show("login");
             }
         }, function(error){
             screens.show("login");
         }, "user");
-    } 
-    catch (e) {
+    }
+    else {
         screens.show("login");
     }
-    
 }

@@ -7,8 +7,8 @@ user.email = "";
 user.uid = "";
 
 user.authenticate = function(userName, password, successCallback, failedCallback) {
-    var success = function(response) {
-        if (hasError(response)) {
+	var success = function(response) {
+		if (hasError(response)) {
             alert(getErrorMessage(response));
             failedCallback();
         } else {

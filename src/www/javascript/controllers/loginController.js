@@ -5,29 +5,29 @@ loginController.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-        try {
+        if(navigator && navigator.store) {
             navigator.store.put(function(){
                 // Ignore
             }, function(){
                 alert("Error in saving: " + user.name);
             }, "user", JSON.stringify(user));
         } 
-        catch (e) {
-            alert("Error: " + JSON.stringify(e));
+        else {
+			alert("Offline storage unavailable.");
         }
         screens.show("trip_report");
         fieldTripController.showTripReports();
     };
     
     var loginFailed = function(){
-        screens.show("login");
+		screens.show("login");
     };
     screens.show("loading");
     user.authenticate(userName, password, renderView, loginFailed);
 };
 
 loginController.logout = function(){
-    try {
+    if(navigator && navigator.store) {
         navigator.store.remove(function(){
             user.loggedIn = false;
             user.name = "";
@@ -37,8 +37,7 @@ loginController.logout = function(){
         }, function(){
             console.log("Error occured in deleting user: " + user.name);
         }, "user");
-    } 
-    catch (e) {
-        console.log("Error occured in deleting user: " + user.name);
+    }else {
+        alert("Error occured in deleting user: " + user.name);
     }
 }
