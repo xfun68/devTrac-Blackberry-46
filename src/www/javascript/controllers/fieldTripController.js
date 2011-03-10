@@ -2,7 +2,7 @@ var fieldTripController = new Object();
 
 fieldTripController.showTripReports = function(){
     screens.show("loading");
-    if (user.loggedIn) {
+    if (devtrac.user.loggedIn) {
         var renderFieldTrips = function(response){
             fieldTrip.saveFieldTrip(response);
 			screens.show("sites_to_visit");

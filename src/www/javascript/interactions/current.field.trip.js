@@ -12,7 +12,7 @@ function getFieldTrips(successCallback, failedCallback){
             hash: generateHash(DT.VIEWS_GET, timestamp),
             view_name: 'api_fieldtrips',
             display_id: 'page_1',
-            args: '["' + user.uid + '"]'
+            args: '["' + devtrac.user.uid + '"]'
         };
         
         callService(params, successCallback, failedCallback);

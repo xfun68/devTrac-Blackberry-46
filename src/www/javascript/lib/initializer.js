@@ -1,9 +1,6 @@
-function initializeAll(){
-    $("#login").click(loginController.login);
-    $("#logout").click(loginController.logout);
+function initializeApplicationEvents(){
+    $("#login").click(devtrac.loginController.login);
+    $("#logout").click(devtrac.loginController.logout);
     $("#add_new_site_button").click(siteController.add);
     $("#sites_to_visit_button").click(siteController.list);
-    // $("#questions-submit").click(questionsController.create);
-    // $("#location1").click(questionsController.show);
-    $("#logout").click(loginController.logout);
 }

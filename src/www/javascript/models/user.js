@@ -1,32 +1,33 @@
-var user = new Object();
+function User(){
+    this.loggedIn = false;
+    this.name = "";
+    this.session = {};
+    this.email = "";
+    this.uid = "";
+}
 
-user.loggedIn = false;
-user.name = "";
-user.session = {};
-user.email = "";
-user.uid = "";
-
-user.authenticate = function(userName, password, successCallback, failedCallback) {
-	var success = function(response) {
-		if (hasError(response)) {
+User.prototype.authenticate = function(userName, password, successCallback, failedCallback){
+    var success = function(response){
+        if (hasError(response)) {
             alert(getErrorMessage(response));
             failedCallback();
-        } else {
-            user.parseUserData(response);
+        }
+        else {
+			devtrac.user.parseUserData(response);
             successCallback();
         }
     };
-
-    var failed = function(response, textStatus) {
+    
+    var failed = function(response, textStatus){
         alert("Error occured in authenticating. Details: [" + textStatus + "], " + JSON.stringify(response));
     };
     authenticate(userName, password, success, failed);
 };
 
-user.parseUserData = function(response) {
-    user.loggedIn = true;
-    user.name = response[DT.DATA_REF][DT.USER_REF][DT.NAME_REF];
-    user.email = response[DT.DATA_REF][DT.USER_REF]['mail'];
-    user.uid = response[DT.DATA_REF][DT.USER_REF]['uid'];
-    user.session.id = response[DT.DATA_REF][DT.SESSION_ID_REF];
+User.prototype.parseUserData = function(response){
+    this.loggedIn = true;
+    this.name = response[DT.DATA_REF][DT.USER_REF][DT.NAME_REF];
+    this.email = response[DT.DATA_REF][DT.USER_REF]['mail'];
+    this.uid = response[DT.DATA_REF][DT.USER_REF]['uid'];
+    this.session.id = response[DT.DATA_REF][DT.SESSION_ID_REF];
 };
