@@ -99,6 +99,7 @@ p {
     color: #DC0000;
     float: left;
     text-decoration: underline;
+    cursor: pointer;
 }
 #list_trip ul  li span.done {
     float: right;
