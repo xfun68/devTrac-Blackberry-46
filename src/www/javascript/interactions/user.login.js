@@ -1,11 +1,13 @@
 function authenticate(userName, password, successCallback, failedCallback){
     var connectCallback = function(data){
-		var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
+        var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
+        
         if (userLoggedIn(data)) {
+            alert("User is logged in already.");
             successCallback(data);
         }
         else {
-			var timestamp = Math.round(new Date().getTime() / 1000);
+            var timestamp = Math.round(new Date().getTime() / 1000);
             var params = {
                 method: DT.USER_LOGIN,
                 sessid: sessionId,
@@ -21,7 +23,7 @@ function authenticate(userName, password, successCallback, failedCallback){
             callService(params, successCallback, failedCallback);
         }
     };
-	callService({
+    callService({
         method: DT.SYSTEM_CONNECT
     }, connectCallback, failedCallback);
 }

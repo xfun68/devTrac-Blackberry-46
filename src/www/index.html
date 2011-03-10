@@ -47,11 +47,12 @@
         </script>
     </head>
     <body id="stage" class="theme">
-        <div id="spinner" class="spinner">
+        <div id="spinner">
             <p>
                 Loading...
             </p>
         </div>
+		
         <!--Login Screen -->
         <div id="login_screen">
             <div class="toolbar">
@@ -74,11 +75,13 @@
                     <input type="button" name="login" id="login" class="button" value="Log In"/>
                 </p>
             </div>
-        </div><!--Report Items Screen -->
+        </div>
+		
+		<!--Report Items Screen -->
         <div id="trip_report">
             <div class="toolbar">
                 <h1>Field Trip: Visit to Adoo - 4/Mar</h1>
-                <input type="button" name="logout" id="logout" class="button" value="Logout"/>
+                <input type="button" name="logout" id="logout" class="back" value="Logout"/>
             </div>
             <div class="content">
                 <div class="right">
@@ -144,32 +147,9 @@
                     </p>
                 </div>
             </div>
-        </div><!-- Site Details Menu -->
-        <div id="site_details_screen">
-            <div class="toolbar">
-                <h1 id="Report_item">Toro health center</h1>
-            </div>
-            <div class="content">
-                <ul>
-                    <li>
-                        <a href="#">Narrative</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact Info</a>
-                    </li>
-                    <li>
-                        <a href="#">Answer Questions</a>
-                    </li>
-                    <li>
-                        <a href="#">Photo</a>
-                    </li>
-                    <li>
-                        <a href="#">Action Item</a>
-                    </li>
-                </ul>
-            </div>
         </div>
-        <!-- Questionnaire form Screen -->
+		
+		<!-- Questionnaire form Screen -->
         <div id="questions_form">
             <div class="toolbar">
                 <h1 id="Report_item">Site Name</h1>
@@ -209,7 +189,9 @@
                     <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
                 </p>
             </div>
-        </div><!-- Site Narrative Screen -->
+        </div>
+		
+		<!-- Site Narrative Screen -->
         <div id="site_narrative_screen">
             <div class="toolbar">
                 <h1>Narrative</h1>
@@ -227,7 +209,9 @@
                     <input type="submit" name="narrative-save" id="narrative-save" class="button" value="Save"/>
                 </p>
             </div>
-        </div><!-- Contact Info Screen -->
+        </div>
+		
+		<!-- Contact Info Screen -->
         <div id="contact_info_screen">
             <div class="toolbar">
                 <h1>Contact Information</h1>

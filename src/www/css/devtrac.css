@@ -79,15 +79,15 @@ p {
     display: block;
     font-size: 13px;
 }
+#list_trip  ul{
+	padding: 5px;
+	border: 1px solid #EAEAEA;
 
-#list_trip ul {
-    padding: 5px;
-    border: 1px solid #EAEAEA;
 }
-
-#list_trip ul li {
+#list_trip ul  li, #site_details_screen ul li {
     list-style-type: none;
     padding: 10px 0;
+    border-bottom: 1px solid #D6D6D6;
 }
 
 .question {
@@ -115,9 +115,9 @@ p {
     padding: 5px;
     z-index: 1002;
     top: 45%;
-    left: 38%;
-    color: white;
-    overflow: auto;
+	left: 38%;
+	color: white;
+	overflow: auto;
 }
 
 .loading {
@@ -132,9 +132,9 @@ p {
 }
 
 .back {
+	background-color: #000000;
     color: #FFFFFF;
     padding: 3px;
-    max-width: 55px;
     margin-top: -15px;
     border-width: 0 8px 0 14px;
     text-decoration: none;
@@ -148,7 +148,7 @@ p {
 .right {
     font-size: 90%;
     text-align: right;
-    padding-bottom: 5px;
+	padding-bottom: 5px;
 }
 
 #site_narrative_screen textarea {
