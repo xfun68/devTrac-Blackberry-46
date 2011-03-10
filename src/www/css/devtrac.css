@@ -88,6 +88,11 @@ p {
     list-style-type: none;
     padding: 10px 0;
     border-bottom: 1px solid #D6D6D6;
+	overflow: hidden;
+}
+
+#list_trip ul  li a {
+	float: left;
 }
 
 .question {
@@ -142,7 +147,7 @@ p {
     font-size: 90%;
     float: left;
 	width: 80px;
-	text-align: center;
+	text-align: left;
 	text-decoration: underline;
     /*-webkit-border-image: url(images/back_button.png) 0 8 0 14;
     -moz-border-image: url(images/back_button.png) 0 8 0 14;*/
@@ -152,6 +157,10 @@ p {
     font-size: 90%;
     text-align: right;
 	padding-bottom: 5px;
+}
+
+.done {
+	float: right;
 }
 
 #site_narrative_screen textarea {
