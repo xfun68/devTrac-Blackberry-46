@@ -42,6 +42,7 @@ h2 {
     font-size: 15px;
     padding: 3px;
     margin-top: 5px;
+	width: 170px;
 }
 
 .select {
@@ -98,7 +99,7 @@ p {
 
 .question {
     margin-bottom: 10px;
-    border-bottom: 1px solid #333333;
+    border-bottom: 1px solid #D6D6D6;
     padding: 0 10px 10px 10px;
 }
 
@@ -164,10 +165,6 @@ p {
 	float: right;
 }
 
-#site_narrative_screen textarea {
-    height: 120px;
-}
-
 /*login**/
 p.submit {
 	text-align: right;
@@ -175,4 +172,22 @@ p.submit {
 #login_screen .content {
 	margin: 0 auto;
 	width: 200px;
+}
+
+/**Grid Style **/
+.grid_heading {
+	font-weight: bold;
+	background-color: #EAEAEA;
+    font-size: 16px;
+    padding: 5px;
+	overflow: hidden;
+}
+.grid .col1, .grid .col2{
+	float: left;
+	padding: 5px;
+    width: 40%;
+}
+.grid_row {
+	border-bottom: 1px solid #D6D6D6;
+	overflow: hidden;
 }
