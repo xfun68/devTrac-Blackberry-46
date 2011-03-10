@@ -18,4 +18,10 @@ function init(){
     screens.show("login");
     initializeApplicationEvents();
     devtrac.loginController.show();
+
+    //Move to the correct location
+    var questions = new Questions(questiondata);
+    $(questions.sitetypes()).each(function(i, option){
+      $('#sitetypes').append("<option>" + option + "</option>");
+    });
 }

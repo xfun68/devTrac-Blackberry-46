@@ -22,6 +22,8 @@
         </script>
         <script type="text/javascript" src="javascript/common/common.js">
         </script>
+        <script type="text/javascript" src="javascript/lib/data.js">
+        </script>        
         <script type="text/javascript" src="javascript/common/screens.js">
         </script>
         <script type="text/javascript" src="javascript/interactions/user.login.js">
@@ -121,38 +123,8 @@
                         <label>
                             Site Type
                         </label>
-                        <select id="edit-tid" class="select" name="tid">
-                            <option value="All">&lt;Any&gt;</option>
-                            <option value="49">Administrative Units</option>
-                            <option value="3">-Government Office</option>
-                            <option value="47">-NGO</option>
-                            <option value="48">-Faith-based Organisation</option>
-                            <option value="58">-Office</option>
-                            <option value="23">Water Points</option>
-                            <option value="192">-Protected Spring</option>
-                            <option value="24">-Bore Holes</option>
-                            <option value="191">-Deep Borehole</option>
-                            <option value="53">-Tap</option>
-                            <option value="25">-Well</option>
-                            <option value="55">-Unknown Waterpoint</option>
-                            <option value="2">Health Facilities</option>
-                            <option value="197">-Health Centre</option>
-                            <option value="8">-Health Centre II</option>
-                            <option value="7">-Health Centre III</option>
-                            <option value="50">-Health Centre IV</option>
-                            <option value="56">-Health Unit</option>
-                            <option value="51">-Hospital</option>
-                            <option value="52">-Other Health Centre</option>
-                            <option selected="selected" value="1">Schools</option>
-                            <option value="195">-Primary School</option>
-                            <option value="57">-Primary Community School</option>
-                            <option value="4">-Primary Government School</option>
-                            <option value="59">-Primary Private School</option>
-                            <option value="6">-Secondary Community School</option>
-                            <option value="5">-Secondary Government School</option>
-                            <option value="60">-Secondary Private School</option>
-                            <option value="61">-Other School</option>
-                        </select>
+						<select id="sitetypes" class="select" name="sitetypes">
+						</select>
                     </p>
                     <p class="submit">
                         <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
