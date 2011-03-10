@@ -1,11 +1,9 @@
 var questionsController = new Object();
 
 questionsController.create = function() {
-    $("#questions_form").hide();
-    $("#trip_report").show();
+    screens.show("trip_report");
 };
 
 questionsController.show = function() {
-    $("#trip_report").hide();
-    $("#questions_form").show();
+    screens.show("questions_form");
 }

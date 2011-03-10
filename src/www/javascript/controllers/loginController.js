@@ -15,14 +15,14 @@ loginController.login = function(){
         catch (e) {
             alert("Error: " + JSON.stringify(e));
         }
-        showTripReportScreen();
+        screens.show("trip_report");
         fieldTripController.showTripReports();
     };
     
     var loginFailed = function(){
-        showLoginScreen();
+        screens.show("login");
     };
-    showLoadingScreen();
+    screens.show("loading");
     user.authenticate(userName, password, renderView, loginFailed);
 };
 
@@ -33,7 +33,7 @@ loginController.logout = function(){
             user.name = "";
             user.email = "";
             user.uid = 0;
-            showLoginScreen();
+            screens.show("login");
         }, function(){
             console.log("Error occured in deleting user: " + user.name);
         }, "user");

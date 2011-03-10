@@ -21,7 +21,9 @@
         </script>
         <script type="text/javascript" src="javascript/lib/constants.js">
         </script>
-        <script type="text/javascript" src="javascript/interactions/common.js">
+        <script type="text/javascript" src="javascript/common/common.js">
+        </script>
+        <script type="text/javascript" src="javascript/common/screens.js">
         </script>
         <script type="text/javascript" src="javascript/interactions/user.login.js">
         </script>
@@ -29,7 +31,7 @@
         </script>
         <script type="text/javascript" src="javascript/models/user.js">
         </script>
-		<script type="text/javascript" src="javascript/models/fieldTrip.js">
+        <script type="text/javascript" src="javascript/models/fieldTrip.js">
         </script>
         <script type="text/javascript" src="javascript/controllers/loginController.js">
         </script>
@@ -49,142 +51,258 @@
             <p>
                 Loading...
             </p>
-        </div><!--Login Screen -->
-        <div id="login_screen" class="content">
+        </div>
+        <!--Login Screen -->
+        <div id="login_screen">
             <div class="toolbar">
                 <h1>Login</h1>
             </div>
-            <p>
-                <label>
-                    Username
-                </label>
-                <input type="text" name="username" id="username" class="input" value="sdharmap" size="20" tabindex="10"/>
-            </p>
-            <p>
-                <label>
-                    Password
-                </label>
-                <input type="password" name="password" id="password" class="input" value="p@ssw0rd" size="20" tabindex="20"/>
-            </p>
-            <p class="submit">
-                <input type="button" name="login" id="login" class="button" value="Log In"/>
-            </p>
+            <div class="content">
+                <p>
+                    <label>
+                        Username
+                    </label>
+                    <input type="text" name="username" id="username" class="input" value="sdharmap" size="20" tabindex="10"/>
+                </p>
+                <p>
+                    <label>
+                        Password
+                    </label>
+                    <input type="password" name="password" id="password" class="input" value="p@ssw0rd" size="20" tabindex="20"/>
+                </p>
+                <p class="submit">
+                    <input type="button" name="login" id="login" class="button" value="Log In"/>
+                </p>
+            </div>
         </div><!--Report Items Screen -->
-        <div id="trip_report" class="content">
+        <div id="trip_report">
             <div class="toolbar">
                 <h1>Field Trip: Visit to Adoo - 4/Mar</h1>
+                <input type="button" name="logout" id="logout" class="button" value="Logout"/>
             </div>
-			<div><input type="button" name="logout" id="logout" class="button" value="Logout"/></div>
-            <div id="tabs_container">
-                <!-- tabs -->
-                <ul class="tabs">
-                    <li class="active">
-                        <a href="#" rel="#list_trip" class="tab">Sites to Visit</a>
+            <div class="content">
+                <div class="right">
+                    <a href="#" rel="#add_trip" class="tab">Add New Site</a>
+                </div>
+                <h2>Sites to Visit</h2>
+                <div id="list_trip" class="tab_contents tab_contents_active">
+                    <ul>
+                        <li>
+                            <a id="location1" href="#">Toro health center</a>
+                        </li>
+                        <li>
+                            <a id="location2" href="#">Acwera water point</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="add_trip" class="tab_contents">
+                    <p>
+                        <label>
+                            Site Name
+                        </label>
+                        <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
+                    </p>
+                    <p>
+                        <label>
+                            Site Type
+                        </label>
+                        <select id="edit-tid" class="select" name="tid">
+                            <option value="All">&lt;Any&gt;</option>
+                            <option value="49">Administrative Units</option>
+                            <option value="3">-Government Office</option>
+                            <option value="47">-NGO</option>
+                            <option value="48">-Faith-based Organisation</option>
+                            <option value="58">-Office</option>
+                            <option value="23">Water Points</option>
+                            <option value="192">-Protected Spring</option>
+                            <option value="24">-Bore Holes</option>
+                            <option value="191">-Deep Borehole</option>
+                            <option value="53">-Tap</option>
+                            <option value="25">-Well</option>
+                            <option value="55">-Unknown Waterpoint</option>
+                            <option value="2">Health Facilities</option>
+                            <option value="197">-Health Centre</option>
+                            <option value="8">-Health Centre II</option>
+                            <option value="7">-Health Centre III</option>
+                            <option value="50">-Health Centre IV</option>
+                            <option value="56">-Health Unit</option>
+                            <option value="51">-Hospital</option>
+                            <option value="52">-Other Health Centre</option>
+                            <option selected="selected" value="1">Schools</option>
+                            <option value="195">-Primary School</option>
+                            <option value="57">-Primary Community School</option>
+                            <option value="4">-Primary Government School</option>
+                            <option value="59">-Primary Private School</option>
+                            <option value="6">-Secondary Community School</option>
+                            <option value="5">-Secondary Government School</option>
+                            <option value="60">-Secondary Private School</option>
+                            <option value="61">-Other School</option>
+                        </select>
+                    </p>
+                    <p class="submit">
+                        <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
+                    </p>
+                </div>
+            </div>
+        </div><!-- Site Details Menu -->
+        <div id="site_details_screen">
+            <div class="toolbar">
+                <h1 id="Report_item">Toro health center</h1>
+            </div>
+            <div class="content">
+                <ul>
+                    <li>
+                        <a href="#">Narrative</a>
                     </li>
                     <li>
-                        <a href="#" rel="#add_trip" class="tab">Add New Site</a>
+                        <a href="#">Contact Info</a>
+                    </li>
+                    <li>
+                        <a href="#">Answer Questions</a>
+                    </li>
+                    <li>
+                        <a href="#">Photo</a>
+                    </li>
+                    <li>
+                        <a href="#">Action Item</a>
                     </li>
                 </ul>
-                <!-- tab containers -->
-                <div class="tab_contents_container">
-                    <div id="list_trip" class="tab_contents tab_contents_active">
-                        <ul>
-                            <li>
-                                <a id="location1" href="#">Toro health center</a>
-                            </li>
-                            <li>
-                                <a id="location2" href="#">Acwera water point</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="add_trip" class="tab_contents">
-                        <p>
-                            <label>
-                                Site Name
-                            </label>
-                            <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
-                        </p>
-                        <p>
-                            <label>
-                                Site Type
-                            </label>
-                            <select id="edit-tid" class="select" name="tid">
-                                <option value="All">&lt;Any&gt;</option>
-                                <option value="49">Administrative Units</option>
-                                <option value="3">-Government Office</option>
-                                <option value="47">-NGO</option>
-                                <option value="48">-Faith-based Organisation</option>
-                                <option value="58">-Office</option>
-                                <option value="23">Water Points</option>
-                                <option value="192">-Protected Spring</option>
-                                <option value="24">-Bore Holes</option>
-                                <option value="191">-Deep Borehole</option>
-                                <option value="53">-Tap</option>
-                                <option value="25">-Well</option>
-                                <option value="55">-Unknown Waterpoint</option>
-                                <option value="2">Health Facilities</option>
-                                <option value="197">-Health Centre</option>
-                                <option value="8">-Health Centre II</option>
-                                <option value="7">-Health Centre III</option>
-                                <option value="50">-Health Centre IV</option>
-                                <option value="56">-Health Unit</option>
-                                <option value="51">-Hospital</option>
-                                <option value="52">-Other Health Centre</option>
-                                <option selected="selected" value="1">Schools</option>
-                                <option value="195">-Primary School</option>
-                                <option value="57">-Primary Community School</option>
-                                <option value="4">-Primary Government School</option>
-                                <option value="59">-Primary Private School</option>
-                                <option value="6">-Secondary Community School</option>
-                                <option value="5">-Secondary Government School</option>
-                                <option value="60">-Secondary Private School</option>
-                                <option value="61">-Other School</option>
-                            </select>
-                        </p>
-                        <p class="submit">
-                            <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
-                        </p>
-                    </div>
-                </div><!-- end tabs -->
             </div>
-        </div><!-- Questionnaire form Screen -->
-        <div id="questions_form" class="content">
+        </div>
+        <!-- Questionnaire form Screen -->
+        <div id="questions_form">
             <div class="toolbar">
                 <h1 id="Report_item">Site Name</h1>
             </div>
-            <div class="question">
-                <label id="q1">
-                    Is the platform/apron finished?
-                </label>
-                <input type="text" name="q1" id="q1_" class="input" value="" size="10"/>
+            <div class="content">
+                <div class="question">
+                    <label id="q1">
+                        Is the platform/apron finished?
+                    </label>
+                    <input type="text" name="q1" id="q1_" class="input" value="" size="10"/>
+                </div>
+                <div class="question">
+                    <label id="q2">
+                        Is the drainage good?
+                    </label>
+                    <input type="text" name="q2" id="q2_" class="input" value="" size="10"/>
+                </div>
+                <div class="question">
+                    <label id="q3">
+                        Are the surroundings of the water point clean?
+                    </label>
+                    <input type="text" name="q3" id="q3_" class="input" value="" size="10"/>
+                </div>
+                <div class="question">
+                    <label id="q4">
+                        Is the water point more than 15m from nearest latrine?
+                    </label>
+                    <input type="text" name="q4" id="q4_" class="input" value="" size="10"/>
+                </div>
+                <div class="question">
+                    <label id="q5">
+                        Is the water point working?
+                    </label>
+                    <input type="text" name="q5" id="q5_" class="input" value="" size="10"/>
+                </div>
+                <p class="submit">
+                    <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
+                </p>
             </div>
-            <div class="question">
-                <label id="q2">
-                    Is the drainage good?
-                </label>
-                <input type="text" name="q2" id="q2_" class="input" value="" size="10"/>
+        </div><!-- Site Narrative Screen -->
+        <div id="site_narrative_screen">
+            <div class="toolbar">
+                <h1>Narrative</h1>
+                <a class="back" href="#">Back</a>
             </div>
-            <div class="question">
-                <label id="q3">
-                    Are the surroundings of the water point clean?
-                </label>
-                <input type="text" name="q3" id="q3_" class="input" value="" size="10"/>
+            <div class="content">
+                <p>
+                    <label id="narrative_notes">
+                        Notes about your visit
+                    </label>
+                    <textarea id="narrative_notes_">
+                    </textarea>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="narrative-save" id="narrative-save" class="button" value="Save"/>
+                </p>
             </div>
-            <div class="question">
-                <label id="q4">
-                    Is the water point more than 15m from nearest latrine?
-                </label>
-                <input type="text" name="q4" id="q4_" class="input" value="" size="10"/>
+        </div><!-- Contact Info Screen -->
+        <div id="contact_info_screen">
+            <div class="toolbar">
+                <h1>Contact Information</h1>
             </div>
-            <div class="question">
-                <label id="q5">
-                    Is the water point working?
-                </label>
-                <input type="text" name="q5" id="q5_" class="input" value="" size="10"/>
+            <div class="content">
+                <div class="right" id="edit_contact">
+                    <a href="">Edit</a>
+                </div>
+                <p>
+                    <label id="contact_name">
+                        Name
+                    </label>
+                    <input type="text" name="contact_name_" id="contact_name_" class="input" value=""/>
+                </p>
+                <p>
+                    <label id="contact_number">
+                        Phone Number
+                    </label>
+                    <input type="text" name="contact_number_" id="contact_number_" class="input" value=""/>
+                </p>
+                <p>
+                    <label id="contact_email">
+                        Email
+                    </label>
+                    <input type="text" name="contact_email_" id="contact_email_" class="input" value=""/>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="contact_save" id="contact_save" class="button" value="Save"/>
+                </p>
             </div>
-            <p class="submit">
-                <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
-            </p>
+        </div><!-- Photo Screen -->
+        <div id="photo_screen">
+            <div class="toolbar">
+                <h1>Photo</h1>
+            </div>
+            <div class="content">
+                <p>
+                    <label id="photo">
+                        Browse photo
+                    </label>
+                    <input type="file"/>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="upload_photo" id="upload_photo" class="button" value="Upload"/>
+                </p>
+            </div>
+        </div><!-- Action item Screen -->
+        <div id="add_action_item_screen">
+            <div class="toolbar">
+                <h1>Add Action Item</h1>
+            </div>
+            <div class="content">
+                <p>
+                    <label id="action_title">
+                        Title
+                    </label>
+                    <input type="text" name="action_title_" id="action_title_" class="input" value=""/>
+                </p>
+                <p>
+                    <label id="action_task">
+                        Task
+                    </label>
+                    <textarea cols="10" rows="4" name="action_task_" id="action_task_" class="input">
+                    </textarea>
+                </p>
+                <p>
+                    <label id="action_assign">
+                        Assign To
+                    </label>
+                    <input type="text" name="action_assign_" id="action_assign_" class="input" value=""/>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="add_action" id="add_action" class="button" value="Add"/>
+                </p>
+            </div>
         </div>
     </body>
 </html>

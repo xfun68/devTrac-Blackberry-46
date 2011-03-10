@@ -1,21 +1,21 @@
 var fieldTripController = new Object();
 
 fieldTripController.showTripReports = function(){
-    showLoadingScreen();
+    screens.show("loading");
     if (user.loggedIn) {
         var renderFieldTrips = function(response){
             fieldTrip.saveFieldTrip(response);
-			showTripReportScreen();
+			screens.show("trip_report");
         };
         
         var showError = function(response){
-            showTripReportScreen();
+            screens.show("trip_report");
             fail("Error occured in fetching trip report");
         };
         getFieldTrips(renderFieldTrips, showError)
     }
     else {
-        showLoginScreen();
+        screens.show("login");
     }
 };
 
