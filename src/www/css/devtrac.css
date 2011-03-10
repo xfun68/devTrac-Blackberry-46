@@ -62,7 +62,7 @@ input.button {
     margin-top: -3px;
     padding: 3px 10px;
     text-decoration: none;
-    width: 200px;
+    width: auto;
 }
 
 .content {
@@ -132,6 +132,7 @@ p {
 }
 
 .back {
+	background-color: #000000;
     color: #FFFFFF;
     padding: 3px;
     margin-top: -15px;
