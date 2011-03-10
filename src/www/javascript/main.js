@@ -3,6 +3,7 @@ $(document).ready(function(){
 });
 
 function init(){
+<<<<<<< HEAD
     // Initalize lawnchair datastore
     initializeLawnchair();
     // Initialize all application events
@@ -61,3 +62,34 @@ function showTripReports(){
     $("#trip_report").show();
     $("#questions_form").hide();
 }
+=======
+    screens.show("loading");
+    // Initialize all application events
+    initializeAll();
+    window.setTimeout(checkLoginStatus, 5000);
+}
+
+function checkLoginStatus(){
+
+    try {
+        navigator.network.isReachable("devtrac.org", function(data){
+            //console.log("Status: " + data == 0 ? "Offline" : "Online");
+        });
+        navigator.store.get(function(response){
+            if (response) {
+                user = JSON.parse(response);
+                fieldTripController.showTripReports();
+            }
+            else {
+				screens.show("login");
+            }
+        }, function(error){
+            screens.show("login");
+        }, "user");
+    } 
+    catch (e) {
+        screens.show("login");
+    }
+    
+}
+>>>>>>> 13c7e271b81153610a4c816ed8bed3ed663c9291

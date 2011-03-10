@@ -63,7 +63,7 @@
             <div class="toolbar">
                 <h1>Login</h1>
             </div>
-			<div class="content">
+<div class="content">
             <p>
                 <label>
                     Username
@@ -79,100 +79,82 @@
             <p class="submit">
                 <input type="button" name="login" id="login" class="button" value="Log In"/>
             </p>
-			</div>
+</div>
         </div><!--Report Items Screen -->
         <div id="trip_report">
             <div class="toolbar">
                 <h1>Field Trip: Visit to Adoo - 4/Mar</h1>
-                <input type="button" name="logout" id="logout" class="back" value="Logout"/>
+                <input type="button" name="logout" id="logout" class="button" value="Logout"/>
             </div>
-			<div class="content">
-			<div class="right"><a href="#" rel="#add_trip" class="tab">Add New Site</a></div>
-			<h2>Sites to Visit</h2>
-			<div id="list_trip" class="tab_contents tab_contents_active">
-				<ul>
-					<li>
-						<a id="location1" href="#">Toro health center</a>
-					</li>
-					<li>
-						<a id="location2" href="#">Acwera water point</a>
-					</li>
-				</ul>
-			</div>
-			<div id="add_trip" class="tab_contents">
-				<p>
-					<label>
-						Site Name
-					</label>
-					<input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
-				</p>
-				<p>
-					<label>
-						Site Type
-					</label>
-					<select id="edit-tid" class="select" name="tid">
-						<option value="All">&lt;Any&gt;</option>
-						<option value="49">Administrative Units</option>
-						<option value="3">-Government Office</option>
-						<option value="47">-NGO</option>
-						<option value="48">-Faith-based Organisation</option>
-						<option value="58">-Office</option>
-						<option value="23">Water Points</option>
-						<option value="192">-Protected Spring</option>
-						<option value="24">-Bore Holes</option>
-						<option value="191">-Deep Borehole</option>
-						<option value="53">-Tap</option>
-						<option value="25">-Well</option>
-						<option value="55">-Unknown Waterpoint</option>
-						<option value="2">Health Facilities</option>
-						<option value="197">-Health Centre</option>
-						<option value="8">-Health Centre II</option>
-						<option value="7">-Health Centre III</option>
-						<option value="50">-Health Centre IV</option>
-						<option value="56">-Health Unit</option>
-						<option value="51">-Hospital</option>
-						<option value="52">-Other Health Centre</option>
-						<option selected="selected" value="1">Schools</option>
-						<option value="195">-Primary School</option>
-						<option value="57">-Primary Community School</option>
-						<option value="4">-Primary Government School</option>
-						<option value="59">-Primary Private School</option>
-						<option value="6">-Secondary Community School</option>
-						<option value="5">-Secondary Government School</option>
-						<option value="60">-Secondary Private School</option>
-						<option value="61">-Other School</option>
-					</select>
-				</p>
-				<p class="submit">
-					<input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
-				</p>
-			</div>
-			</div>
+<div class="content">
+<div class="right"><a href="#" rel="#add_trip" class="tab">Add New Site</a></div>
+<h2>Sites to Visit</h2>
+<div id="list_trip" class="tab_contents tab_contents_active">
+<ul>
+<li>
+<a id="location1" href="#">Toro health center</a>
+</li>
+<li>
+<a id="location2" href="#">Acwera water point</a>
+</li>
+</ul>
+</div>
+<div id="add_trip" class="tab_contents">
+<p>
+<label>
+Site Name
+</label>
+<input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
+</p>
+<p>
+<label>
+Site Type
+</label>
+<select id="edit-tid" class="select" name="tid">
+<option value="All">&lt;Any&gt;</option>
+<option value="49">Administrative Units</option>
+<option value="3">-Government Office</option>
+<option value="47">-NGO</option>
+<option value="48">-Faith-based Organisation</option>
+<option value="58">-Office</option>
+<option value="23">Water Points</option>
+<option value="192">-Protected Spring</option>
+<option value="24">-Bore Holes</option>
+<option value="191">-Deep Borehole</option>
+<option value="53">-Tap</option>
+<option value="25">-Well</option>
+<option value="55">-Unknown Waterpoint</option>
+<option value="2">Health Facilities</option>
+<option value="197">-Health Centre</option>
+<option value="8">-Health Centre II</option>
+<option value="7">-Health Centre III</option>
+<option value="50">-Health Centre IV</option>
+<option value="56">-Health Unit</option>
+<option value="51">-Hospital</option>
+<option value="52">-Other Health Centre</option>
+<option selected="selected" value="1">Schools</option>
+<option value="195">-Primary School</option>
+<option value="57">-Primary Community School</option>
+<option value="4">-Primary Government School</option>
+<option value="59">-Primary Private School</option>
+<option value="6">-Secondary Community School</option>
+<option value="5">-Secondary Government School</option>
+<option value="60">-Secondary Private School</option>
+<option value="61">-Other School</option>
+</select>
+</p>
+<p class="submit">
+<input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
+</p>
+</div>
+</div>
         </div>
-		
-		<!-- Site Details Menu -->
-        <div id="site_details_screen">
-            <div class="toolbar">
-                <h1 id="Report_item">Toro health center</h1>
-            </div>
-            <div class="content">
-                <ul>
-                    <li><a href="#">Narrative</a></li>
-                    <li><a href="#">Contact Info</a></li>
-                    <li><a href="#">Answer Questions</a></li>
-                    <li><a href="#">Photo</a></li>
-                    <li><a href="#">Action Item</a></li>
-                </ul>
-            </div>
-        </div>
-
-		
-		<!-- Questionnaire form Screen -->
+<!-- Questionnaire form Screen -->
         <div id="questions_form">
             <div class="toolbar">
                 <h1 id="Report_item">Site Name</h1>
             </div>
-			<div class="content">
+<div class="content">
             <div class="question">
                 <label id="q1">
                     Is the platform/apron finished?
@@ -206,11 +188,11 @@
             <p class="submit">
                 <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
             </p>
-			</div>
+</div>
         </div>
-		
-		<!-- Site Narrative Screen -->
-		<div id="site_narrative_screen">
+
+<!-- Site Narrative Screen -->
+<div id="site_narrative_screen">
             <div class="toolbar">
                 <h1>Narrative</h1>
                 <a class="back" href="#">Back</a>
@@ -225,8 +207,8 @@
                 </p>
             </div>
         </div>
-		
-		<!-- Contact Info Screen -->
+
+<!-- Contact Info Screen -->
         <div id="contact_info_screen">
             <div class="toolbar">
                 <h1>Contact Information</h1>
@@ -251,7 +233,7 @@
             </div>
         </div>
 
-		<!-- Photo Screen -->
+<!-- Photo Screen -->
         <div id="photo_screen">
             <div class="toolbar">
                 <h1>Photo</h1>
@@ -266,8 +248,8 @@
                 </p>
             </div>
         </div>
-		
-		<!-- Action item Screen -->
+
+<!-- Action item Screen -->
         <div id="add_action_item_screen">
             <div class="toolbar">
                 <h1>Add Action Item</h1>
@@ -290,6 +272,6 @@
                 </p>
             </div>
         </div>
-		
+
     </body>
 </html>

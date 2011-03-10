@@ -22,13 +22,17 @@ function authenticate(userName, password, successCallback, failedCallback){
                 hash: generateHash(DT.USER_LOGIN, timestamp)
             };
             
-            callService(convertHash(params), successCallback, failedCallback);
+            callService(params, successCallback, failedCallback);
         }
     };
+<<<<<<< HEAD
 	alert("Calling connect api");
     callService(convertHash({
+=======
+    callService({
+>>>>>>> 13c7e271b81153610a4c816ed8bed3ed663c9291
         method: DT.SYSTEM_CONNECT
-    }), connectCallback, failedCallback);
+    }, connectCallback, failedCallback);
 }
 
 function userLoggedIn(response){

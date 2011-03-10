@@ -30,7 +30,7 @@ h1 {
 }
 
 h2 {
-	background-color: #EAEAEA;
+    background-color: #EAEAEA;
     font-size: 16px;
     padding: 5px;
 }
@@ -71,7 +71,7 @@ input.button {
 
 p {
     margin-bottom: 16px;
-	padding: 0 10px;
+    padding: 0 10px;
 }
 
 .tip {
@@ -79,13 +79,6 @@ p {
     display: block;
     font-size: 13px;
 }
-
-/*#login .input {
-    background: none repeat scroll 0 0 #FBFBFB;
-    border: 1px solid #E5E5E5;
-    font-size: 24px;
-    margin-bottom: 16px;
-}*/
 #list_trip  ul{
 	padding: 5px;
 	border: 1px solid #EAEAEA;
@@ -100,7 +93,7 @@ p {
 .question {
     margin-bottom: 10px;
     border-bottom: 1px solid #333333;
-	padding: 0 10px 10px 10px;
+    padding: 0 10px 10px 10px;
 }
 
 /***Loading***/
@@ -133,14 +126,12 @@ p {
     font-weight: bold;
     padding: 5px;
     top: 45%;
-	left: 38%;
-	color: white;
-	overflow: auto;
+    left: 38%;
+    color: white;
+    overflow: auto;
 }
 
 .back {
-	background-color: #000000;
-	cursor: pointer;
     color: #FFFFFF;
     padding: 3px;
     margin-top: -15px;

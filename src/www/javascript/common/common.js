@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function callService(dataString, callback, errorCallback){
     try {
 		alert("Datastring: " + dataString);
@@ -7,6 +8,10 @@ function callService(dataString, callback, errorCallback){
         alert("Error occured in network communication: " + JSON.stringify(e));
 		errorCallback(e);
     }
+=======
+function callService(data, callback, errorCallback){
+	navigator.network.XHR(DT.SERVICE_ENDPOINT, convertHash(data), callback);
+>>>>>>> 13c7e271b81153610a4c816ed8bed3ed663c9291
 }
 
 function generateHash(method, timestamp){
