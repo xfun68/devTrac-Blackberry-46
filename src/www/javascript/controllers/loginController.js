@@ -15,7 +15,7 @@ loginController.login = function(){
         else {
 			alert("Offline storage unavailable.");
         }
-        screens.show("trip_report");
+        screens.show("sites_to_visit");
         fieldTripController.showTripReports();
     };
     

@@ -5,11 +5,11 @@ fieldTripController.showTripReports = function(){
     if (user.loggedIn) {
         var renderFieldTrips = function(response){
             fieldTrip.saveFieldTrip(response);
-			screens.show("trip_report");
+			screens.show("sites_to_visit");
         };
         
         var showError = function(response){
-            screens.show("trip_report");
+            screens.show("sites_to_visit");
             fail("Error occured in fetching trip report");
         };
         getFieldTrips(renderFieldTrips, showError)

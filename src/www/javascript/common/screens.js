@@ -3,7 +3,8 @@ var screens = new Object();
 screens.list = {
     "loading": "#spinner",
     "login": "#login_screen",
-    "trip_report": "#trip_report",
+    "sites_to_visit": "#sites_to_visit",
+    "add_new_site": "#add_new_site",
     "site_details": "#site_details_screen",
     "questions_form": "#questions_form",
     "site_narrative": "#site_narrative_screen",
@@ -19,7 +20,6 @@ screens.show = function(name){
             if (element) {
                 element.show();
             }
-            
         }
         else {
             var element = $(screens.list[screen]);

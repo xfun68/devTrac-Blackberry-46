@@ -1,12 +1,23 @@
-$(document).ready(function(){
-    init();
-});
+function onLoad() {
+    // BlackBerry OS 4 browser does not support events.
+    // So, manually wait until PhoneGap is available.
+    //
+    var intervalID = window.setInterval(
+      function() {
+          if (PhoneGap.available) {
+              window.clearInterval(intervalID);
+              init();
+          }
+      },
+      500
+    );
+}
 
 function init(){
-    screens.show("loading");
+    screens.show("login");
     // Initialize all application events
     initializeAll();
-    window.setTimeout(checkLoginStatus, 5000);
+    checkLoginStatus();
 }
 
 function checkLoginStatus(){

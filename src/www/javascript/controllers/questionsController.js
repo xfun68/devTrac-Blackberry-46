@@ -1,7 +1,7 @@
 var questionsController = new Object();
 
 questionsController.create = function() {
-    screens.show("trip_report");
+    screens.show("sites_to_visit");
 };
 
 questionsController.show = function() {
