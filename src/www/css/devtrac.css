@@ -154,3 +154,7 @@ p {
 #site_narrative_screen textarea {
     height: 120px;
 }
+
+#login_screen .content {
+	margin: 0 auto;
+}
