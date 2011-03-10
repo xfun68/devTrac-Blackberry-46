@@ -3,7 +3,6 @@ function authenticate(userName, password, successCallback, failedCallback){
         var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
         
         if (userLoggedIn(data)) {
-            alert("User is logged in already.");
             successCallback(data);
         }
         else {

@@ -1,9 +1,12 @@
 var siteController = new Object();
 
 siteController.add = function() {
-    var renderView = function() {
-        $("#trip_report").hide();
-        $("#questions_form").show();
-    };
-    renderView();
+	screens.show("loading");
+    screens.show("add_new_site");
 };
+
+siteController.list = function() {
+    screens.show("loading");
+	screens.show("sites_to_visit");
+};
+

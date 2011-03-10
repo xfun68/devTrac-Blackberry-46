@@ -54,7 +54,7 @@
         </div>
 		
         <!--Login Screen -->
-        <div id="login_screen">
+        <div id="login_screen" style="display: none">
             <div class="toolbar">
                 <h1>Login</h1>
             </div>
@@ -77,18 +77,18 @@
             </div>
         </div>
 		
-		<!--Report Items Screen -->
-        <div id="trip_report">
+		<!-- Trip Details Screen -->
+        <div id="sites_to_visit" style="display: none">
             <div class="toolbar">
-                <h1>Field Trip: Visit to Adoo - 4/Mar</h1>
+                <h1>Trip Name: Adoo</h1>
                 <input type="button" name="logout" id="logout" class="back" value="Logout"/>
             </div>
             <div class="content">
                 <div class="right">
-                    <a href="#" rel="#add_trip" class="tab">Add New Site</a>
+                    <a id="add_new_site_button" href="#" rel="#add_trip" class="tab">Add New Site</a>
                 </div>
-                <h2>Sites to Visit</h2>
                 <div id="list_trip" class="tab_contents tab_contents_active">
+                    <h2>Sites to Visit</h2>
                     <ul>
                         <li>
                             <a id="location1" href="#">Toro health center</a>
@@ -97,6 +97,20 @@
                             <a id="location2" href="#">Acwera water point</a>
                         </li>
                     </ul>
+                </div>
+                
+            </div>
+        </div>
+		
+		<!-- Trip Details Screen -->
+		<div id="add_new_site" style="display: none">
+            <div class="toolbar">
+                <h1>Trip Name: Adoo</h1>
+                <input type="button" name="logout" id="logout" class="back" value="Logout"/>
+            </div>
+            <div class="content">
+                <div class="right">
+                    <a id="sites_to_visit_button" href="#" rel="#add_trip" class="tab">Sites To Visit</a>
                 </div>
                 <div id="add_trip" class="tab_contents">
                     <p>
@@ -149,8 +163,9 @@
             </div>
         </div>
 		
+		
 		<!-- Questionnaire form Screen -->
-        <div id="questions_form">
+        <div id="questions_form" style="display: none">
             <div class="toolbar">
                 <h1 id="Report_item">Site Name</h1>
             </div>
@@ -189,10 +204,8 @@
                     <input type="submit" name="questions-submit" id="questions-submit" class="button" value="Submit" tabindex="100"/>
                 </p>
             </div>
-        </div>
-		
-		<!-- Site Narrative Screen -->
-        <div id="site_narrative_screen">
+        </div><!-- Site Narrative Screen -->
+        <div id="site_narrative_screen" style="display: none">
             <div class="toolbar">
                 <h1>Narrative</h1>
                 <a class="back" href="#">Back</a>
@@ -209,10 +222,8 @@
                     <input type="submit" name="narrative-save" id="narrative-save" class="button" value="Save"/>
                 </p>
             </div>
-        </div>
-		
-		<!-- Contact Info Screen -->
-        <div id="contact_info_screen">
+        </div><!-- Contact Info Screen -->
+        <div id="contact_info_screen" style="display: none">
             <div class="toolbar">
                 <h1>Contact Information</h1>
             </div>
@@ -243,7 +254,7 @@
                 </p>
             </div>
         </div><!-- Photo Screen -->
-        <div id="photo_screen">
+        <div id="photo_screen" style="display: none">
             <div class="toolbar">
                 <h1>Photo</h1>
             </div>
@@ -259,7 +270,7 @@
                 </p>
             </div>
         </div><!-- Action item Screen -->
-        <div id="add_action_item_screen">
+        <div id="add_action_item_screen" style="display: none">
             <div class="toolbar">
                 <h1>Add Action Item</h1>
             </div>
