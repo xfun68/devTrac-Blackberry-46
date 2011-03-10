@@ -16,7 +16,6 @@ body {
     min-height: 20px;
     padding: 10px;
     position: relative;
-    margin-bottom: 10px;
 }
 
 h1 {
@@ -28,6 +27,12 @@ h1 {
     overflow: hidden;
     text-align: center;
     text-shadow: 0 -1px 1px #000000;
+}
+
+h2 {
+	background-color: #EAEAEA;
+    font-size: 16px;
+    padding: 5px;
 }
 
 .input, .select {
@@ -61,7 +66,7 @@ input.button {
 }
 
 .content {
-    margin: 0;
+    padding: 10px;
 }
 
 p {
@@ -81,6 +86,12 @@ p {
     font-size: 24px;
     margin-bottom: 16px;
 }*/
+#list_trip  ul{
+	padding: 5px;
+	border: 1px solid #EAEAEA;
+
+}
+
 #list_trip ul  li {
     list-style-type: none;
     padding: 10px 0;
@@ -92,6 +103,7 @@ p {
 	padding: 0 10px 10px 10px;
 }
 
+/***Loading***/
 .black_overlay {
     display: none;
     position: absolute;
@@ -124,4 +136,29 @@ p {
 	left: 38%;
 	color: white;
 	overflow: auto;
+}
+
+
+.back {
+    color: #FFFFFF;
+    padding: 3px;
+    max-width: 55px;
+    margin-top: -15px;
+    border-width: 0 8px 0 14px;
+    text-decoration: none;
+    font-size: 90%;
+    float: left;
+    margin-top: -15px;
+    -webkit-border-image: url(images/back_button.png) 0 8 0 14;
+    -moz-border-image: url(images/back_button.png) 0 8 0 14;
+}
+
+.right {
+    font-size: 90%;
+    text-align: right;
+	padding-bottom: 5px;
+}
+
+#site_narrative_screen textarea {
+    height: 120px;
 }
