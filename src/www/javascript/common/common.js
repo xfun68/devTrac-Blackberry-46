@@ -65,3 +65,21 @@ function getErrorMessage(response){
         }
     }
 }
+
+var Questions = function(data){
+	this.data = data;
+    var that = this;
+
+    this.sitetypes = function(){
+      var types = $.map(that.data['#data'], function(q){
+        var name = "";
+        for(var id in q.taxonomy){
+          name = q.taxonomy[id].name;
+        }
+        return name;
+      });
+      return $.unique(types);
+    }
+}
+
+

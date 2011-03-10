@@ -18,6 +18,12 @@ function init(){
     // Initialize all application events
     initializeAll();
     checkLoginStatus();
+    
+    //Move to the correct location
+    var questions = new Questions(questiondata);
+    $(questions.sitetypes()).each(function(i, option){
+      $('#sitetypes').append("<option>" + option + "</option>");
+    });
 }
 
 function checkLoginStatus(){
