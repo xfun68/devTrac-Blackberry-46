@@ -6,7 +6,6 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>DevTrac</title>
         <link rel="stylesheet" href="css/devtrac.css" type="text/css" media="screen" title="no title" charset="utf-8">
-        <link rel="stylesheet" href="css/jquery.ui.tabs.css" type="text/css" media="screen" title="no title" charset="utf-8">
         <script type="text/javascript" src="javascript/lib/ext/phonegap.js">
         </script>
         <script type="text/javascript" src="javascript/lib/ext/json2.js">
@@ -42,8 +41,6 @@
         <script type="text/javascript" src="javascript/controllers/siteController.js">
         </script>
         <script type="text/javascript" src="javascript/main.js">
-        </script>
-        <script type="text/javascript" src="javascript/ui.js">
         </script>
     </head>
     <body id="stage" class="theme" onload="onLoad();">
@@ -85,9 +82,9 @@
             </div>
             <div class="content">
                 <div class="right">
-                    <a id="add_new_site_button" href="#" rel="#add_trip" class="tab">Add New Site</a>
+                    <a id="add_new_site_button" href="#" rel="#add_trip">Add New Site</a>
                 </div>
-                <div id="list_trip" class="tab_contents tab_contents_active">
+                <div id="list_trip">
                     <h2>Sites to Visit</h2>
                     <ul>
                         <li>
@@ -110,9 +107,9 @@
             </div>
             <div class="content">
                 <div class="right">
-                    <a id="sites_to_visit_button" href="#" rel="#add_trip" class="tab">Sites To Visit</a>
+                    <a id="sites_to_visit_button" href="#" rel="#add_trip">Sites To Visit</a>
                 </div>
-                <div id="add_trip" class="tab_contents">
+                <div id="add_trip">
 					<h2>Add New Site</h2>
                     <p>
                         <label>
