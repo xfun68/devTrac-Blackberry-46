@@ -33,6 +33,7 @@ h2 {
     background-color: #EAEAEA;
     font-size: 16px;
     padding: 5px;
+	margin-bottom: 10px;
 }
 
 .input, .select {
@@ -81,12 +82,12 @@ p {
 }
 #list_trip  ul{
 	padding: 5px;
-	border: 1px solid #EAEAEA;
+	*border: 1px solid #EAEAEA;
 
 }
 #list_trip ul  li, #site_details_screen ul li {
     list-style-type: none;
-    padding: 10px 0;
+    padding: 5px 0 10px 0;
     border-bottom: 1px solid #D6D6D6;
 	overflow: hidden;
 }
@@ -165,4 +166,13 @@ p {
 
 #site_narrative_screen textarea {
     height: 120px;
+}
+
+/*login**/
+p.submit {
+	text-align: right;
+}
+#login_screen .content {
+	margin: 0 auto;
+	width: 200px;
 }
