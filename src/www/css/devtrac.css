@@ -91,10 +91,10 @@ p {
 	border: 1px solid #EAEAEA;
 
 }
-
-#list_trip ul  li {
+#list_trip ul  li, #site_details_screen ul li {
     list-style-type: none;
     padding: 10px 0;
+    border-bottom: 1px solid #D6D6D6;
 }
 
 .question {
@@ -138,11 +138,11 @@ p {
 	overflow: auto;
 }
 
-
 .back {
+	background-color: #000000;
+	cursor: pointer;
     color: #FFFFFF;
     padding: 3px;
-    max-width: 55px;
     margin-top: -15px;
     border-width: 0 8px 0 14px;
     text-decoration: none;
