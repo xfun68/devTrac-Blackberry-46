@@ -5,7 +5,7 @@ loginController.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-		try {
+        try {
             navigator.store.put(function(){
                 // Ignore
             }, function(){
@@ -23,23 +23,22 @@ loginController.login = function(){
         showLoginScreen();
     };
     showLoadingScreen();
-	user.authenticate(userName, password, renderView, loginFailed);
+    user.authenticate(userName, password, renderView, loginFailed);
 };
 
 loginController.logout = function(){
     try {
         navigator.store.remove(function(){
-            // Ignore
+            user.loggedIn = false;
+            user.name = "";
+            user.email = "";
+            user.uid = 0;
+            showLoginScreen();
         }, function(){
-            // Ignore
+            console.log("Error occured in deleting user: " + user.name);
         }, "user");
     } 
     catch (e) {
-        // Log to console
+        console.log("Error occured in deleting user: " + user.name);
     }
-    user.loggedIn = false;
-    user.name = "";
-    user.email = "";
-    user.uid = 0;
-	showLoginScreen();
 }
