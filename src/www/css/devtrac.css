@@ -13,7 +13,7 @@ body {
     background: url("images/header_background.jpg") repeat-x scroll 0 0 #000000;
     border-bottom: 1px solid #000000;
     color: #FFFFFF;
-    min-height: 20px;
+    min-height: 25px;
     padding: 10px;
     position: relative;
 }
@@ -139,18 +139,17 @@ p {
 }
 
 .back {
-	/*background: url("images/back_button_common.png") repeat-x scroll left bottom #000000;*/
-	background-color: #000000;
+    background-image: url("images/back_button_common.png");
+    background-repeat: no-repeat;
     color: #FFFFFF;
-    padding: 3px;
+    padding: 6px 3px 3px 3px;
     margin-top: -15px;
-    border-width: 0;
-    text-decoration: none;
     font-size: 90%;
     float: left;
-	width: 80px;
-	text-align: left;
-	text-decoration: underline;
+    text-align: center;
+    text-decoration: none;
+    width: 74px;
+    height: 21px;
     /*-webkit-border-image: url(images/back_button.png) 0 8 0 14;
     -moz-border-image: url(images/back_button.png) 0 8 0 14;*/
 }
