@@ -3,7 +3,6 @@ function RemoteView(){
 }
 
 RemoteView.prototype.call = function(viewName, displayId, viewArgs, successCallback, failedCallback){
-	alert("In remote view get");
 	var connectCallback = function(data){
         var sessionId = data['#data']['sessid'];
         var timestamp = Math.round(new Date().getTime() / 1000);

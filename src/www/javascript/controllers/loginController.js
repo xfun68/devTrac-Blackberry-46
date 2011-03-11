@@ -3,7 +3,6 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
-	alert("In controller#show")
     if (navigator && navigator.store) {
         navigator.store.get(function(response){
             if (response) {
@@ -11,16 +10,13 @@ LoginController.prototype.show = function(){
                 devtrac.dataPull.pull(fieldTripController.showTripReports);
             }
             else {
-				alert("Didn't find user");
                 screens.show("login");
             }
         }, function(error){
-			alert("Got error");
             screens.show("login");
         }, "user");
     }
     else {
-		alert("Something wrong");
         screens.show("login");
     }
 }
@@ -30,7 +26,6 @@ LoginController.prototype.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-        alert("In render view");
 		if (navigator && navigator.store) {
             navigator.store.put(function(){
                 // Ignore
@@ -41,7 +36,6 @@ LoginController.prototype.login = function(){
         else {
             alert("Offline storage unavailable.");
         }
-		alert("Issueing a data pull");
         devtrac.dataPull.pull(fieldTripController.showTripReports);
     };
     
