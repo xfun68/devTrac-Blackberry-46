@@ -6,6 +6,8 @@ function DataPull(){
 
 DataPull.prototype.pull = function(callback){
     navigator.network.isReachable("devtrac.org", function(status){
+		// Bypass downloading
+		status = "0";
         if (status == "0") {
             callback();
         }
@@ -133,68 +135,20 @@ DataPull.prototype.tripDetails = function(callback){
 DataPull.prototype.tripSiteDetails = function(callback){
     var siteSuccess = function(siteResponse){
         devtrac.dataPull.updateStatus("Received sites");
-        if (hasError(siteResponse)) {
+		if (hasError(siteResponse)) {
             alert(getErrorMessage(siteResponse));
             callback();
         }
         else {
-            devtrac.dataPull.updateStatus("Validated sites");
+			devtrac.dataPull.updateStatus("Validated sites");
             var sites = $.map(siteResponse['#data'], function(item){
-                var site = new Site();
+				var site = new Site();
                 site.id = item.nid;
                 site.name = item.title;
-                site.placeId = item.field_ftritem_place[0].nid;
-                var wait = true;
-                var callIssued = false;
-                while (wait) {
-                    if (!callIssued) {
-                        callIssued = true;
-                        devtrac.dataPull.updateStatus("Requesting details for place " + site.id);
-                        //======== SITE CALL BEGIN =========
-                        var placeSuccess = function(placeResponse){
-                            devtrac.dataPull.updateStatus("Got site details response for: " + site.placeName);
-                            if (hasError(placeResponse)) {
-                                alert(getErrorMessage(placeResponse));
-                                callback();
-                                wait = false;
-                            }
-                            else {
-                                site.placeId = placeResponse["#data"][0].nid;
-                                site.placeName = placeResponse["#data"][0].title;
-                                site.placeGeo = placeResponse["#data"][0].field_place_lat_long.openlayers_wkt;
-                                site.placeTaxonomy = $.map(placeResponse['#data'][0].taxonomy, function(item){
-                                    for (var id in item) {
-                                        var placeTaxonomy = new PlaceTaxonomy();
-                                        placeTaxonomy.id = id;
-                                        placeTaxonomy.name = item[id].name;
-                                        var placeType = devtrac.dataPull.getPlaceTypeFor(id);
-                                        site.type = placeType.name;
-                                        if (placeType) {
-                                            return placeTaxonomy;
-                                        }
-                                    }
-                                });
-                                devtrac.dataPull.updateStatus("Retreived site details for: " + site.placeName);
-                                wait = false;
-                            }
-                        };
-                        
-                        var placeFailed = function(){
-                            // Failed. Continue with callback function.
-                            callback()();
-                            wait = false;
-                        };
-                        
-                        screens.show("pull_status");
-                        devtrac.dataPull.updateStatus("Getting your site details for '" + site.name + "'.");
-                        devtrac.remoteView.call('api_fieldtrips', 'page_4', '["' + site.id + '"]', placeSuccess, placeFailed);
-                    }
-                }
-                //======== SITE CALL ENDS ==========
-                
-                return site;
+                site.placeId = item.field_ftritem_place[0].nid;     
+			    return site;
             });
-            devtrac.dataPull.fiedTrip.sites = sites;
+            devtrac.dataPull.fieldTrip.sites = sites;
             if (navigator && navigator.store) {
                 navigator.store.put(function(){
                     devtrac.dataPull.updateStatus("Saved '" + fieldTrip.title + "' trip successfully.");
@@ -218,7 +172,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
     
     screens.show("pull_status");
     devtrac.dataPull.updateStatus("Getting sites for current tripId: " + devtrac.dataPull.fieldTrip.id);
-	alert("Will fetch site details");
+	
     devtrac.remoteView.call('api_fieldtrips', 'page_2', '["' + devtrac.dataPull.fieldTrip.id + '"]', siteSuccess, siteFailed);
 }
 

@@ -1,6 +1,7 @@
 var devtrac = {
     loginController: new LoginController(),
     user: new User(),
+	fieldTrip: new FieldTrip(),
 	network: new Network(),
 	dataPull: new DataPull(),
 	remoteView: new RemoteView()
