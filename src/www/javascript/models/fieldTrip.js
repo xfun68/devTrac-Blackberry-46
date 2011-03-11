@@ -1,8 +1,6 @@
 var fieldTrip = new Object();
 
 fieldTrip.title = "";
-fieldTrip.startDate = "";
-fieldTrip.endDate = "";
 fieldTrip.sitesToVisit = {};
 fieldTrip.nid = 0;
 fieldTrip.status = "";

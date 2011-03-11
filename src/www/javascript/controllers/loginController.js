@@ -3,20 +3,24 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
+	alert("In controller#show")
     if (navigator && navigator.store) {
         navigator.store.get(function(response){
             if (response) {
                 devtrac.user = JSON.parse(response);
-                fieldTripController.showTripReports();
+                devtrac.dataPull.pull(fieldTripController.showTripReports);
             }
             else {
+				alert("Didn't find user");
                 screens.show("login");
             }
         }, function(error){
+			alert("Got error");
             screens.show("login");
         }, "user");
     }
     else {
+		alert("Something wrong");
         screens.show("login");
     }
 }
@@ -26,7 +30,8 @@ LoginController.prototype.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-        if (navigator && navigator.store) {
+        alert("In render view");
+		if (navigator && navigator.store) {
             navigator.store.put(function(){
                 // Ignore
             }, function(){
@@ -36,8 +41,8 @@ LoginController.prototype.login = function(){
         else {
             alert("Offline storage unavailable.");
         }
-        screens.show("sites_to_visit");
-        fieldTripController.showTripReports();
+		alert("Issueing a data pull");
+        devtrac.dataPull.pull(fieldTripController.showTripReports);
     };
     
     var loginFailed = function(){

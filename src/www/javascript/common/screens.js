@@ -10,6 +10,7 @@ screens.list = {
     "site_narrative": "#site_narrative_screen",
     "contact_info": "#contact_info_screen",
     "photo": "#photo_screen",
+    "pull_status": "#pull_status",
     "add_action_item": "#add_action_item_screen"
 };
 

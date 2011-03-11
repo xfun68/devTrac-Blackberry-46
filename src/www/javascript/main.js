@@ -1,6 +1,9 @@
 var devtrac = {
-	loginController: new LoginController(),
-	user: new User()
+    loginController: new LoginController(),
+    user: new User(),
+	network: new Network(),
+	dataPull: new DataPull(),
+	remoteView: new RemoteView()
 }
 function onLoad(){
     // BlackBerry OS 4 browser does not support events.
@@ -18,10 +21,10 @@ function init(){
     screens.show("login");
     initializeApplicationEvents();
     devtrac.loginController.show();
-
+    
     //Move to the correct location
     var questions = new Questions(questiondata);
     $(questions.sitetypes()).each(function(i, option){
-      $('#sitetypes').append("<option>" + option + "</option>");
+        $('#sitetypes').append("<option>" + option + "</option>");
     });
 }

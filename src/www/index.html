@@ -22,13 +22,19 @@
         </script>
         <script type="text/javascript" src="javascript/common/common.js">
         </script>
+		<script type="text/javascript" src="javascript/common/datapull.js">
+        </script>
+		<script type="text/javascript" src="javascript/common/network.js">
+        </script>
         <script type="text/javascript" src="javascript/lib/data.js">
-        </script>        
+        </script>
         <script type="text/javascript" src="javascript/common/screens.js">
         </script>
         <script type="text/javascript" src="javascript/interactions/user.login.js">
         </script>
         <script type="text/javascript" src="javascript/interactions/current.field.trip.js">
+        </script>
+		<script type="text/javascript" src="javascript/interactions/remote.view.js">
         </script>
         <script type="text/javascript" src="javascript/models/user.js">
         </script>
@@ -51,7 +57,12 @@
                 Loading...
             </p>
         </div>
-		
+        <div id="pull_status" style="display: none">
+            <p>
+                <strong>Network Operation Status</strong>
+            </p>
+            <span id="status"></span>
+        </div>
         <!--Login Screen -->
         <div id="login_screen" style="display: none">
             <div class="toolbar">
@@ -74,9 +85,7 @@
                     <input type="button" name="login" id="login" class="button" value="Log In"/>
                 </p>
             </div>
-        </div>
-		
-		<!-- Trip Details Screen -->
+        </div><!-- Trip Details Screen -->
         <div id="sites_to_visit" style="display: none">
             <div class="toolbar">
                 <h1>Trip Name: Adoo</h1>
@@ -90,19 +99,20 @@
                     <h2>Sites to Visit</h2>
                     <ul>
                         <li>
-                            <span id="location1">Toro health center</span> <span class="done"><img src="css/images/icon_tick.gif"/></span>
+                            <span id="location1">Toro health center</span>
+                            <span class="done"><img src="css/images/icon_tick.gif"/></span>
                         </li>
                         <li>
                             <span id="location2">Acwera water point</span>
                         </li>
                     </ul>
                 </div>
-                <div class="tip">Sites visited are marked <img src="css/images/icon_tick.gif"/></div>
+                <div class="tip">
+                    Sites visited are marked <img src="css/images/icon_tick.gif"/>
+                </div>
             </div>
-        </div>
-		
-		<!-- Trip Details Screen -->
-		<div id="add_new_site" style="display: none">
+        </div><!-- Trip Details Screen -->
+        <div id="add_new_site" style="display: none">
             <div class="toolbar">
                 <h1>Trip Name: Adoo</h1>
                 <a href="#" id="logout" name="logout" class="back">Logout</a>
@@ -112,7 +122,7 @@
                     <a id="sites_to_visit_button" href="#" rel="#add_trip">Sites To Visit</a>
                 </div>
                 <div id="add_trip">
-					<h2>Add New Site</h2>
+                    <h2>Add New Site</h2>
                     <p>
                         <label>
                             Site Name
@@ -123,17 +133,15 @@
                         <label>
                             Site Type
                         </label>
-						<select id="sitetypes" class="select" name="sitetypes">
-						</select>
+                        <select id="sitetypes" class="select" name="sitetypes">
+                        </select>
                     </p>
                     <p class="submit">
                         <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
                     </p>
                 </div>
             </div>
-        </div>
-		
-		<!-- Questionnaire form Screen -->
+        </div><!-- Questionnaire form Screen -->
         <div id="questions_form" style="display: none">
             <div class="toolbar">
                 <h1 id="Report_item">Site Name</h1>
@@ -174,9 +182,7 @@
                     <input type="button" name="questions-submit" id="questions-submit" class="button" value="Save" tabindex="100"/>
                 </p>
             </div>
-        </div>
-		
-		<!-- Site Details screen -->
+        </div><!-- Site Details screen -->
         <div id="site_details_screen" style="display: none">
             <div class="toolbar">
                 <h1 id="Report_item">Toro health center</h1>
@@ -184,16 +190,25 @@
             </div>
             <div class="content">
                 <ul>
-                    <li><a href="#">Narrative</a></li>
-                    <li><a href="#">Contact Info</a></li>
-                    <li><a href="#">Answer Questions</a></li>
-                    <li><a href="#">Photo</a></li>
-                    <li><a href="#">Action Item</a></li>
+                    <li>
+                        <a href="#">Narrative</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact Info</a>
+                    </li>
+                    <li>
+                        <a href="#">Answer Questions</a>
+                    </li>
+                    <li>
+                        <a href="#">Photo</a>
+                    </li>
+                    <li>
+                        <a href="#">Action Item</a>
+                    </li>
                 </ul>
             </div>
         </div>
-		
-		<!-- Site Narrative Screen -->
+        <!-- Site Narrative Screen -->
         <div id="site_narrative_screen" style="display: none">
             <div class="toolbar">
                 <h1>Narrative</h1>
@@ -267,26 +282,41 @@
                 <a class="back" href="#">Back</a>
             </div>
             <div class="content">
-				<div class="right">
+                <div class="right">
                     <a id="add_action_item_button" href="#" rel="add_action_item_screen">Add New Action Item</a>
                 </div>
-                <div class="tip" style="display: none">No action items </div>
-				<div class="grid">
-					<div class="grid_heading">
-						<div class="col1">Action Item</div>
-						<div class="col2">Assigned To</div>
-					</div>
-					<div class="grid_row">
-						<div class="col1">Follow up on Water Committee</div>
-						<div class="col2">Emmie</div>
-					</div>
-					<div class="grid_row">
-						<div class="col1">Check Teacher's attendance</div>
-						<div class="col2">Jean</div>
-					</div>
-				</div>
+                <div class="tip" style="display: none">
+                    No action items 
+                </div>
+                <div class="grid">
+                    <div class="grid_heading">
+                        <div class="col1">
+                            Action Item
+                        </div>
+                        <div class="col2">
+                            Assigned To
+                        </div>
+                    </div>
+                    <div class="grid_row">
+                        <div class="col1">
+                            Follow up on Water Committee
+                        </div>
+                        <div class="col2">
+                            Emmie
+                        </div>
+                    </div>
+                    <div class="grid_row">
+                        <div class="col1">
+                            Check Teacher's attendance
+                        </div>
+                        <div class="col2">
+                            Jean
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div><!-- Action item Screen -->
+        </div>
+        <!-- Action item Screen -->
         <div id="add_action_item_screen" style="display: none">
             <div class="toolbar">
                 <h1>Add New Action Item</h1>
