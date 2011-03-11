@@ -60,6 +60,7 @@ label {
 a, .link {
     color: #DC0000;
 	text-decoration: underline;
+	cursor: pointer;
 }
 input.button {
     background: url("images/header_background.jpg") repeat-x scroll left bottom #21759B;
@@ -161,6 +162,7 @@ p {
     text-decoration: none;
     width: 74px;
     height: 21px;
+	cursor: pointer;
     /*-webkit-border-image: url(images/back_button.png) 0 8 0 14;
     -moz-border-image: url(images/back_button.png) 0 8 0 14;*/
 }
