@@ -21,7 +21,6 @@ function onLoad(){
 }
 
 function init(){
-    screens.show("login");
     initializeApplicationEvents();
     devtrac.loginController.show();
     
