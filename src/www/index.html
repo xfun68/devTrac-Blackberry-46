@@ -50,6 +50,10 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/siteController.js">
         </script>
+		<script type="text/javascript" src="javascript/controllers/siteDetailController.js">
+        </script>
+		<script type="text/javascript" src="javascript/helpers/site_list_helper.js">
+        </script>
         <script type="text/javascript" src="javascript/main.js">
         </script>
     </head>
@@ -95,18 +99,12 @@
             </div>
             <div class="content">
                 <div class="right">
-                    <a id="add_new_site_button" href="#" rel="#add_trip">Add New Site</a>
+                    <span id="add_new_site_button" class="link">Add New Site</span>
                 </div>
                 <div id="list_trip">
                     <h2>Sites to Visit</h2>
                     <ul id="site_list">
-                        <li>
-                            <span id="location1">Toro health center</span>
-                            <span class="done"><img src="css/images/icon_tick.gif"/></span>
-                        </li>
-                        <li>
-                            <span id="location2">Acwera water point</span>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="tip">
@@ -117,11 +115,11 @@
         <div id="add_new_site" style="display: none">
             <div class="toolbar">
                 <h1>Trip Name: Adoo</h1>
-                <a href="#" id="logout" name="logout" class="back">Logout</a>
+                <span id="logout" name="logout" class="back">Logout</span>
             </div>
             <div class="content">
                 <div class="right">
-                    <a id="sites_to_visit_button" href="#" rel="#add_trip">Sites To Visit</a>
+                    <span id="sites_to_visit_button" class="link">Sites To Visit</span>
                 </div>
                 <div id="add_trip">
                     <h2>Add New Site</h2>
@@ -129,7 +127,7 @@
                         <label>
                             Site Name
                         </label>
-                        <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
+                        <input type="text" name="site_title" id="site_title" class="input" value="" size="20" tabindex="10"/><span class="tip">(example: Toro health center, Acwera water point)</span>
                     </p>
                     <p>
                         <label>
@@ -139,7 +137,7 @@
                         </select>
                     </p>
                     <p class="submit">
-                        <input type="submit" name="type-submit" id="type-submit" class="button" value="Add" tabindex="100"/>
+                        <input type="submit" name="type-submit" id="add_site_button" class="button" value="Add" tabindex="100"/>
                     </p>
                 </div>
             </div>
@@ -187,8 +185,8 @@
         </div><!-- Site Details screen -->
         <div id="site_details_screen" style="display: none">
             <div class="toolbar">
-                <h1 id="Report_item">Toro health center</h1>
-                <a class="back" href="#">Back</a>
+                <h1><span id="site_details_title"></span></h1>
+                <span class="back" id="site_details_back_button">Back</span>
             </div>
             <div class="content">
                 <ul>

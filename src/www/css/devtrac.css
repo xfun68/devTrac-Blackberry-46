@@ -57,8 +57,9 @@ label {
     display: block;
 }
 
-a {
+a, .link {
     color: #DC0000;
+	text-decoration: underline;
 }
 input.button {
     background: url("images/header_background.jpg") repeat-x scroll left bottom #21759B;
