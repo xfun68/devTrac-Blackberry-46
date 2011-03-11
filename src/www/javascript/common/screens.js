@@ -11,6 +11,7 @@ screens.list = {
     "contact_info": "#contact_info_screen",
     "photo": "#photo_screen",
     "pull_status": "#pull_status",
+    "list_action_items": "#list_action_item_screen",
     "add_action_item": "#add_action_item_screen"
 };
 

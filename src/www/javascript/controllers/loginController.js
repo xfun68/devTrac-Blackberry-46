@@ -7,17 +7,17 @@ LoginController.prototype.show = function(){
         navigator.store.get(function(response){
             if (response) {
                 devtrac.user = JSON.parse(response);
-                devtrac.dataPull.pull(fieldTripController.showTripReports);
+				devtrac.dataPull.pull(fieldTripController.showTripReports);
             }
             else {
-                screens.show("login");
+				screens.show("login");
             }
         }, function(error){
-            screens.show("login");
+			screens.show("login");
         }, "user");
     }
     else {
-        screens.show("login");
+		screens.show("login");
     }
 }
 

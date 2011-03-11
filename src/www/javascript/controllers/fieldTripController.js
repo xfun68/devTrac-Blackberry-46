@@ -11,7 +11,7 @@ fieldTripController.showTripReports = function(){
                     $("#site_list").html("");
                     for (var id in devtrac.fieldTrip.sites) {
                         var site = devtrac.fieldTrip.sites[id];
-                        var siteId = site.id ? site.id : site.name;
+						var siteId = site.id ? site.id : site.name;
                         var siteName = site.type ? site.name + ", " + site.type : site.name;
                         var html = "<li id=\"" + siteId + "\" class=\"link site_item\"><span>" + siteName + "</span>";
                         if (site.complete) {

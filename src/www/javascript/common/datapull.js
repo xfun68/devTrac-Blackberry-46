@@ -6,8 +6,8 @@ function DataPull(){
 
 DataPull.prototype.pull = function(callback){
     navigator.network.isReachable("devtrac.org", function(status){
-		// Bypass downloading
-		status = "0";
+        // Bypass downloading
+        status = "0";
         if (status == "0") {
             callback();
         }
@@ -135,18 +135,18 @@ DataPull.prototype.tripDetails = function(callback){
 DataPull.prototype.tripSiteDetails = function(callback){
     var siteSuccess = function(siteResponse){
         devtrac.dataPull.updateStatus("Received sites");
-		if (hasError(siteResponse)) {
+        if (hasError(siteResponse)) {
             alert(getErrorMessage(siteResponse));
             callback();
         }
         else {
-			devtrac.dataPull.updateStatus("Validated sites");
+            devtrac.dataPull.updateStatus("Validated sites");
             var sites = $.map(siteResponse['#data'], function(item){
-				var site = new Site();
+                var site = new Site();
                 site.id = item.nid;
                 site.name = item.title;
-                site.placeId = item.field_ftritem_place[0].nid;     
-			    return site;
+                site.placeId = item.field_ftritem_place[0].nid;
+                return site;
             });
             devtrac.dataPull.fieldTrip.sites = sites;
             if (navigator && navigator.store) {
@@ -172,7 +172,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
     
     screens.show("pull_status");
     devtrac.dataPull.updateStatus("Getting sites for current tripId: " + devtrac.dataPull.fieldTrip.id);
-	
+    
     devtrac.remoteView.call('api_fieldtrips', 'page_2', '["' + devtrac.dataPull.fieldTrip.id + '"]', siteSuccess, siteFailed);
 }
 
