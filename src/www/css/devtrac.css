@@ -13,7 +13,7 @@ body {
     background: url("images/header_background.jpg") repeat-x scroll 0 0 #000000;
     border-bottom: 1px solid #000000;
     color: #FFFFFF;
-    min-height: 25px;
+    min-height: 30px;
     padding: 10px;
     position: relative;
 }
@@ -42,9 +42,13 @@ h2 {
     font-size: 15px;
     padding: 3px;
     margin-top: 5px;
-	width: 170px;
+    width: 170px;
 }
 
+textarea {
+    width: 250px;
+    border: 1px solid #E5E5E5;
+}
 .select {
     width: 200px
 }
@@ -113,18 +117,16 @@ p {
 
 /***Loading***/
 .black_overlay {
-    display: none;
     position: absolute;
     top: 0%;
     left: 0%;
     width: 100%;
     height: 100%;
     z-index: 1001;
-    background: url(images/overlay.png);
+    background-image: url("images/overlay.png");
 }
 
 .white_content {
-    display: none;
     position: absolute;
     font-weight: bold;
     padding: 5px;
