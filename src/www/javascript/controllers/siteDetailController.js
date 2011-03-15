@@ -8,6 +8,7 @@ SiteDetailController.prototype.show = function(){
 };
 
 SiteDetailController.prototype.narrative = function(){
+	$(".site_narrative_notes").val(devtrac.currentSite.narrative);
 	screens.show('site_narrative');
 };
 

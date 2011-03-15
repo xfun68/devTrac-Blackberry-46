@@ -8,7 +8,7 @@ function DataPull(){
 DataPull.prototype.pull = function(callback){
     navigator.network.isReachable("devtrac.org", function(status){
         // Bypass downloading
-        // status = "0";
+        status = "0";
         if (status == "0") {
             callback();
         }
@@ -145,6 +145,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
                 site.id = item.nid;
                 site.name = item.title;
                 site.placeId = item.field_ftritem_place[0].nid;
+                site.narrative = item.field_ftritem_narrative[0].value;
                 devtrac.dataPull.sites.push(site);
                 return site;
             });
@@ -171,7 +172,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
     };
     
     screens.show("pull_status");
-    devtrac.dataPull.updateStatus("Retrieving sites for " + devtrac.dataPull.fieldTrip.title + ".");
+    devtrac.dataPull.updateStatus("Retrieving sites for '" + devtrac.dataPull.fieldTrip.title + "'.");
     
     devtrac.remoteView.call('api_fieldtrips', 'page_2', '["' + devtrac.dataPull.fieldTrip.id + '"]', siteSuccess, siteFailed);
 }
@@ -201,6 +202,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
                     break;
                 }
             }
+			
             $.each(devtrac.dataPull.fieldTrip.sites, function(index, siteFromCollection){
                 if (siteFromCollection.id == site.id) {
                     devtrac.dataPull.fieldTrip.sites[index] = site;
