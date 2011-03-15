@@ -2,12 +2,13 @@ function DataPull(){
     this.fieldTrip = new FieldTrip();
     this.questions;
     this.placeTypes;
+    this.sites = [];
 }
 
 DataPull.prototype.pull = function(callback){
     navigator.network.isReachable("devtrac.org", function(status){
         // Bypass downloading
-        status = "0";
+        // status = "0";
         if (status == "0") {
             callback();
         }
@@ -62,7 +63,7 @@ DataPull.prototype.questions = function(callback){
     };
     
     screens.show("pull_status");
-    devtrac.dataPull.updateStatus("Getting all questions.");
+    devtrac.dataPull.updateStatus("Retrieving questions from devtrac.");
     devtrac.remoteView.call('api_questions', 'page_1', '', questionSuccess, questionFailed);
 }
 
@@ -105,7 +106,7 @@ DataPull.prototype.placeTypes = function(callback){
     };
     
     screens.show("pull_status");
-    devtrac.dataPull.updateStatus("Getting all place types.");
+    devtrac.dataPull.updateStatus("Retrieving location types.");
     devtrac.remoteView.call('api_placetypes', 'page_1', '', placesSuccess, placesFailed);
 }
 
@@ -113,7 +114,7 @@ DataPull.prototype.tripDetails = function(callback){
     var tripSuccess = function(tripResponse){
         if (hasError(tripResponse)) {
             alert(getErrorMessage(tripResponse));
-            callback()();
+            callback();
         }
         else {
             devtrac.dataPull.fieldTrip.id = tripResponse["#data"][0]["nid"];
@@ -128,31 +129,30 @@ DataPull.prototype.tripDetails = function(callback){
     };
     
     screens.show("pull_status");
-    devtrac.dataPull.updateStatus("Getting your field trip.");
+    devtrac.dataPull.updateStatus("Retrieving field trip information.");
     devtrac.remoteView.call('api_fieldtrips', 'page_1', '["' + devtrac.user.uid + '"]', tripSuccess, tripFailed);
 }
 
 DataPull.prototype.tripSiteDetails = function(callback){
     var siteSuccess = function(siteResponse){
-        devtrac.dataPull.updateStatus("Received sites");
         if (hasError(siteResponse)) {
             alert(getErrorMessage(siteResponse));
             callback();
         }
         else {
-            devtrac.dataPull.updateStatus("Validated sites");
             var sites = $.map(siteResponse['#data'], function(item){
                 var site = new Site();
                 site.id = item.nid;
                 site.name = item.title;
                 site.placeId = item.field_ftritem_place[0].nid;
+                devtrac.dataPull.sites.push(site);
                 return site;
             });
             devtrac.dataPull.fieldTrip.sites = sites;
             if (navigator && navigator.store) {
                 navigator.store.put(function(){
-                    devtrac.dataPull.updateStatus("Saved '" + fieldTrip.title + "' trip successfully.");
-                    callback();
+                    devtrac.dataPull.updateStatus("Saved '" + devtrac.dataPull.fieldTrip.title + "' successfully.");
+                    devtrac.dataPull.placeDetailsForSite(callback);
                 }, function(){
                     devtrac.dataPull.updateStatus("Error in saving field trip.");
                     callback();
@@ -171,9 +171,71 @@ DataPull.prototype.tripSiteDetails = function(callback){
     };
     
     screens.show("pull_status");
-    devtrac.dataPull.updateStatus("Getting sites for current tripId: " + devtrac.dataPull.fieldTrip.id);
+    devtrac.dataPull.updateStatus("Retrieving sites for " + devtrac.dataPull.fieldTrip.title + ".");
     
     devtrac.remoteView.call('api_fieldtrips', 'page_2', '["' + devtrac.dataPull.fieldTrip.id + '"]', siteSuccess, siteFailed);
+}
+
+DataPull.prototype.placeDetailsForSite = function(callback){
+    var site = devtrac.dataPull.sites.pop();
+    var placeSuccess = function(placeResponse){
+        if (hasError(placeResponse)) {
+            alert(getErrorMessage(placeResponse));
+            callback();
+        }
+        else {
+            placeDetails = placeResponse["#data"][0];
+            site.placeId = placeDetails.nid;
+            site.placeName = placeDetails.title;
+            site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
+            site.placeTaxonomy = [];
+            for (var index in placeDetails.taxonomy) {
+                var item = placeDetails.taxonomy[index];
+                var placeType = devtrac.dataPull.getPlaceTypeFor(item.tid);
+                if (placeType) {
+                    var placeTaxonomy = new PlaceTaxonomy();
+                    placeTaxonomy.id = item.tid;
+                    placeTaxonomy.name = item.name;
+                    site.type = placeType.name;
+                    site.placeTaxonomy.push(placeTaxonomy);
+                    break;
+                }
+            }
+            $.each(devtrac.dataPull.fieldTrip.sites, function(index, siteFromCollection){
+                if (siteFromCollection.id == site.id) {
+                    devtrac.dataPull.fieldTrip.sites[index] = site;
+                    if (devtrac.dataPull.sites.length > 0) {
+                        devtrac.dataPull.placeDetailsForSite(callback);
+                    }
+                    else {
+                        if (navigator && navigator.store) {
+                            navigator.store.put(function(){
+                                devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with sites successfully.");
+                                callback();
+                            }, function(){
+                                devtrac.dataPull.updateStatus("Error in saving field trip.");
+                                callback();
+                            }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
+                        }
+                        else {
+                            alert("Offline storage unavailable.");
+                            callback();
+                        }
+                        callback();
+                    }
+                }
+            });
+        }
+    };
+    
+    var placeFailed = function(){
+        // Failed. Continue with callback function.
+        callback();
+    };
+    
+    screens.show("pull_status");
+    devtrac.dataPull.updateStatus("Retrieving site details for '" + site.name + "'.");
+    devtrac.remoteView.call('api_fieldtrips', 'page_4', '["' + site.id + '"]', placeSuccess, placeFailed);
 }
 
 DataPull.prototype.updateStatus = function(message){
@@ -183,7 +245,8 @@ DataPull.prototype.updateStatus = function(message){
 }
 
 DataPull.prototype.getPlaceTypeFor = function(id){
-    for (var place in devtrac.dataPull.placeTypes) {
+    for (var index in devtrac.dataPull.placeTypes) {
+        var place = devtrac.dataPull.placeTypes[index];
         if (id == place.id) {
             return place;
         }
