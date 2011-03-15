@@ -66,19 +66,16 @@ function getErrorMessage(response){
     }
 }
 
-var Questions = function(data){
-	this.data = data;
+var QuestionTypes = function(questions){
+	alert("In question types...");
+    this.questions = questions;
     var that = this;
-
-    this.sitetypes = function(){
-      var types = $.map(that.data['#data'], function(q){
-        var name = "";
-        for(var id in q.taxonomy){
-          name = q.taxonomy[id].name;
-        }
-        return name;
-      });
-      return $.unique(types);
+    
+    this.locationTypes = function(){
+        var types = $.map(that.questions, function(q){
+            return q.taxonomy[0].name;
+        });
+        return $.unique(types);
     }
 }
 

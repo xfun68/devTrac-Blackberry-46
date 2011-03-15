@@ -12,7 +12,7 @@ function Site(){
 	this.placeGeo = "";
 	this.placeTaxonomy = [];
     this.type = "";
-    this.complete = false;
+    this.offline = false;
     this.narrative = "";
     this.contactInfo = {
         name: "",

@@ -25,11 +25,5 @@ function onLoad(){
 
 function init(){
     initializeApplicationEvents();
-    devtrac.loginController.show();
-    
-    //Move to the correct location
-    var questions = new Questions(questiondata);
-    $(questions.sitetypes()).each(function(i, option){
-        $('#sitetypes').append("<option>" + option + "</option>");
-    });
+	devtrac.dataStore.init(devtrac.loginController.show);
 }

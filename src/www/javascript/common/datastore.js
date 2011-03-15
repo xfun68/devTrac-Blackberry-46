@@ -2,73 +2,62 @@ function DataStore(){
 
 }
 
+DataStore.prototype.init = function(callback){
+    devtrac.dataStore.getQuestions(function(){
+        devtrac.dataStore.getPlaces(callback);
+    });
+}
+
 DataStore.prototype.retrieveFieldTrip = function(){
-    if (navigator && navigator.store) {
-        navigator.store.get(function(response){
-            if (response) {
-                devtrac.fieldTrip = JSON.parse(response);
-            }
-            else {
-                alert("You don't have active field trips.");
-            }
-        }, function(error){
-            alert("Offline storage error");
-        }, "fieldTrip");
-    }
-    else {
-        alert("Offline storage not available");
-    }
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.fieldTrip = JSON.parse(response);
+        }
+    }, function(error){
+        alert("Offline storage error");
+    }, "fieldTrip");
 }
 
 DataStore.prototype.saveFieldTrip = function(callback){
-    if (navigator && navigator.store) {
-		navigator.store.put(function(){
-            callback();
-        }, function(){
-            alert("Could not update field trip.");
-            callback();
-        }, "fieldTrip", JSON.stringify(devtrac.fieldTrip));
-    }
-    else {
-        alert("Offline storage unavailable.");
+    navigator.store.put(function(){
         callback();
-    }
+    }, function(){
+        alert("Could not update field trip.");
+        callback();
+    }, "fieldTrip", JSON.stringify(devtrac.fieldTrip));
 }
 
-DataStore.prototype.getQuestions = function(){
-    if (navigator && navigator.store) {
-        navigator.store.get(function(response){
-            if (response) {
-                devtrac.questions = JSON.parse(response);
+DataStore.prototype.getQuestions = function(callback){
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.questions = JSON.parse(response);
+            if (callback) {
+                callback();
             }
-            else {
-                alert("No questions stored. Please sync your device.");
-            }
-        }, function(error){
-            alert("Offline storage error");
-        }, "questions");
-    }
-    else {
-        alert("Offline storage not available");
-    }
+        }
+    }, function(error){
+        alert("Offline storage error");
+        if (callback) {
+            callback();
+        }
+    }, "questions");
 }
 
-DataStore.prototype.getPlaces = function(){
-    if (navigator && navigator.store) {
-        navigator.store.get(function(response){
-            if (response) {
-                devtrac.places = JSON.parse(response);
+DataStore.prototype.getPlaces = function(callback){
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.places = JSON.parse(response);
+            if (callback) {
+                callback();
             }
-            else {
-                alert("No places stored. Please sync your device.");
-            }
-        }, function(error){
-            alert("Offline storage error");
-        }, "places");
-    }
-    else {
-        alert("Offline storage not available");
-    }
+        }
+    }, function(error){
+        alert("Offline storage error");
+        if (callback) {
+            callback();
+        }
+    }, "placeTypes");
+    
 }
 
 
