@@ -7,7 +7,7 @@ LoginController.prototype.show = function(){
         navigator.store.get(function(response){
             if (response) {
                 devtrac.user = JSON.parse(response);
-				devtrac.dataPull.pull(fieldTripController.showTripReports);
+				fieldTripController.showTripReports();
             }
             else {
 				screens.show("login");
@@ -28,7 +28,7 @@ LoginController.prototype.login = function(){
     var renderView = function(){
 		if (navigator && navigator.store) {
             navigator.store.put(function(){
-                // Ignore
+                devtrac.dataPull.pull(fieldTripController.showTripReports);
             }, function(){
                 alert("Error in saving: " + devtrac.user.name);
             }, "user", JSON.stringify(devtrac.user));
@@ -36,7 +36,7 @@ LoginController.prototype.login = function(){
         else {
             alert("Offline storage unavailable.");
         }
-        devtrac.dataPull.pull(fieldTripController.showTripReports);
+        
     };
     
     var loginFailed = function(){

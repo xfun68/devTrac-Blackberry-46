@@ -7,16 +7,17 @@ function DataPull(){
 }
 
 DataPull.prototype.pull = function(callback){
-    navigator.network.isReachable("devtrac.org", function(status){
-        // Bypass downloading
-        status = "0";
-        if (status == "0") {
-            callback();
-        }
-        else {
-            devtrac.dataPull.questions(callback);
-        }
-    });
+    //    navigator.network.isReachable("devtrac.org", function(status){
+    //        if (status == "0") {
+    //            callback();
+    //        }
+    //        else {
+    //            devtrac.dataPull.questions(callback);
+    //        }
+    //    });
+ 	
+	// For now don't check for reachability. If user is logged in, download all the data.   
+    devtrac.dataPull.questions(callback);
 };
 
 DataPull.prototype.questions = function(callback){
@@ -248,7 +249,7 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
     var site = devtrac.dataPull.sitesForActionItems.pop();
     var actionItemSuccess = function(actionItemResponse){
         // For test only
-		// actionItemResponse = actionItemData;
+        // actionItemResponse = actionItemData;
         if (hasError(actionItemResponse)) {
             alert(getErrorMessage(actionItemResponse));
             callback();
