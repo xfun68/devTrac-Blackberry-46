@@ -8,7 +8,7 @@ function DataPull(){
 DataPull.prototype.pull = function(callback){
     navigator.network.isReachable("devtrac.org", function(status){
         // Bypass downloading
-        status = "0";
+        status = "2";
         if (status == "0") {
             callback();
         }
