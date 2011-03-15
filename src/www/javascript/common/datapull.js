@@ -3,6 +3,7 @@ function DataPull(){
     this.questions;
     this.placeTypes;
     this.sites = [];
+    this.sitesForActionItems = [];
 }
 
 DataPull.prototype.pull = function(callback){
@@ -178,6 +179,10 @@ DataPull.prototype.tripSiteDetails = function(callback){
 }
 
 DataPull.prototype.placeDetailsForSite = function(callback){
+    if (devtrac.dataPull.sites.length == 0) {
+        callback();
+        return;
+    }
     var site = devtrac.dataPull.sites.pop();
     var placeSuccess = function(placeResponse){
         if (hasError(placeResponse)) {
@@ -185,7 +190,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
             callback();
         }
         else {
-            placeDetails = placeResponse["#data"][0];
+            var placeDetails = placeResponse["#data"][0];
             site.placeId = placeDetails.nid;
             site.placeName = placeDetails.title;
             site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
@@ -202,28 +207,22 @@ DataPull.prototype.placeDetailsForSite = function(callback){
                     break;
                 }
             }
-			
+            
             $.each(devtrac.dataPull.fieldTrip.sites, function(index, siteFromCollection){
                 if (siteFromCollection.id == site.id) {
                     devtrac.dataPull.fieldTrip.sites[index] = site;
+                    devtrac.dataPull.sitesForActionItems.push(site);
                     if (devtrac.dataPull.sites.length > 0) {
                         devtrac.dataPull.placeDetailsForSite(callback);
                     }
                     else {
-                        if (navigator && navigator.store) {
-                            navigator.store.put(function(){
-                                devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with sites successfully.");
-                                callback();
-                            }, function(){
-                                devtrac.dataPull.updateStatus("Error in saving field trip.");
-                                callback();
-                            }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
-                        }
-                        else {
-                            alert("Offline storage unavailable.");
+                        navigator.store.put(function(){
+                            devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with sites successfully.");
+                            devtrac.dataPull.actionItemDetailsForSite(callback);
+                        }, function(){
+                            alert("Error in saving field trip.");
                             callback();
-                        }
-                        callback();
+                        }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
                     }
                 }
             });
@@ -240,6 +239,64 @@ DataPull.prototype.placeDetailsForSite = function(callback){
     devtrac.remoteView.call('api_fieldtrips', 'page_4', '["' + site.id + '"]', placeSuccess, placeFailed);
 }
 
+
+DataPull.prototype.actionItemDetailsForSite = function(callback){
+    if (devtrac.dataPull.sitesForActionItems.length == 0) {
+        callback();
+        return;
+    }
+    var site = devtrac.dataPull.sitesForActionItems.pop();
+    var actionItemSuccess = function(actionItemResponse){
+        actionItemResponse = actionItemData;
+        if (hasError(actionItemResponse)) {
+            alert(getErrorMessage(actionItemResponse));
+            callback();
+        }
+        else {
+            if (actionItemResponse['#data'].length == 0) {
+                callback();
+                return;
+            }
+            var actionItems = $.map(actionItemResponse['#data'], function(item){
+                var actionItem = new ActionItem();
+                actionItem.title = item.title;
+                actionItem.task = item.field_actionitem_followuptask[0].value;
+                actionItem.assignedTo = $.map(item.field_actionitem_responsible, function(user){
+                    return user.uid;
+                }).join(", ");
+                return actionItem;
+            });
+            site.actionItems = actionItems;
+            $.each(devtrac.dataPull.fieldTrip.sites, function(index, siteFromCollection){
+                if (siteFromCollection.id == site.id) {
+                    devtrac.dataPull.fieldTrip.sites[index] = site;
+                    if (devtrac.dataPull.sitesForActionItems.length > 0) {
+                        devtrac.dataPull.actionItemDetailsForSite(callback);
+                    }
+                    else {
+                        navigator.store.put(function(){
+                            devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with action items successfully.");
+                            callback();
+                        }, function(){
+                            devtrac.dataPull.updateStatus("Error in saving field trip.");
+                            callback();
+                        }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
+                    }
+                }
+            });
+        }
+    };
+    
+    var actionItemFailed = function(){
+        // Failed. Continue with callback function.
+        callback();
+    };
+    
+    screens.show("pull_status");
+    devtrac.dataPull.updateStatus("Retrieving action item details for '" + site.name + "'.");
+    devtrac.remoteView.call('api_fieldtrips', 'page_5', '["' + site.id + '"]', actionItemSuccess, actionItemFailed);
+}
+
 DataPull.prototype.updateStatus = function(message){
     var status = $("#status");
     status.append(message);
@@ -254,3 +311,5 @@ DataPull.prototype.getPlaceTypeFor = function(id){
         }
     }
 }
+
+

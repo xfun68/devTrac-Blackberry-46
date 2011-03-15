@@ -67,8 +67,7 @@ function getErrorMessage(response){
 }
 
 var QuestionTypes = function(questions){
-	alert("In question types...");
-    this.questions = questions;
+	this.questions = questions;
     var that = this;
     
     this.locationTypes = function(){

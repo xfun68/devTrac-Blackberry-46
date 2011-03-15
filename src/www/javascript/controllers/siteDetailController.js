@@ -35,6 +35,7 @@ SiteDetailController.prototype.photo = function(){
 };
 
 SiteDetailController.prototype.actionItem = function(){
+	alert("Action items: " + JSON.stringify(devtrac.currentSite.actionItems));
 	screens.show('list_action_items');
 };
 
