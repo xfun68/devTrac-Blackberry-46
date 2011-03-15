@@ -4,9 +4,12 @@ var devtrac = {
 	fieldTrip: new FieldTrip(),
 	network: new Network(),
 	dataPull: new DataPull(),
+	dataStore: new DataStore(),
 	siteDetailController: new SiteDetailController(),
 	remoteView: new RemoteView(),
-	currentSite: ""
+	currentSite: "",
+	places: "",
+	questions: ""
 }
 function onLoad(){
     // BlackBerry OS 4 browser does not support events.

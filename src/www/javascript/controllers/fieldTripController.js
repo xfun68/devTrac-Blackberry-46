@@ -7,7 +7,7 @@ fieldTripController.showTripReports = function(){
             navigator.store.get(function(response){
                 if (response) {
                     devtrac.fieldTrip = JSON.parse(response);
-                    $("#trip_title").html(devtrac.fieldTrip.title);
+					$("#trip_title").html(devtrac.fieldTrip.title);
                     $("#site_list").html("");
                     for (var id in devtrac.fieldTrip.sites) {
                         var site = devtrac.fieldTrip.sites[id];

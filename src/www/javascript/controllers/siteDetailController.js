@@ -19,8 +19,7 @@ SiteDetailController.prototype.updateNarrative = function(){
 			devtrac.fieldTrip.sites[index] = devtrac.currentSite;
 		}
 	});
-	
-	screens.show('site_narrative');
+	devtrac.dataStore.saveFieldTrip(devtrac.siteDetailController.show);
 };
 
 SiteDetailController.prototype.contactInfo = function(){
