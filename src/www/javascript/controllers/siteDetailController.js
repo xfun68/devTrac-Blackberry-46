@@ -12,6 +12,17 @@ SiteDetailController.prototype.narrative = function(){
 	screens.show('site_narrative');
 };
 
+SiteDetailController.prototype.updateNarrative = function(){
+	devtrac.currentSite.narrative = $(".site_narrative_notes").val();
+	$.each(devtrac.fieldTrip.sites, function(index, site){
+		if(devtrac.currentSite.id == site.id){
+			devtrac.fieldTrip.sites[index] = devtrac.currentSite;
+		}
+	});
+	
+	screens.show('site_narrative');
+};
+
 SiteDetailController.prototype.contactInfo = function(){
 	screens.show('contact_info');
 };
