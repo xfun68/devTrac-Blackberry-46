@@ -6,7 +6,6 @@
 body {
     font-family: Helvetica;
     background: white;
-    height: 100%;
 }
 
 .toolbar {
@@ -45,9 +44,9 @@ h2 {
     width: 170px;
 }
 
-textarea {
-    width: 250px;
+.site_narrative_notes {
     border: 1px solid #E5E5E5;
+    word-wrap: break-word;
 }
 .select {
     width: 200px
