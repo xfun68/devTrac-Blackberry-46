@@ -50,8 +50,7 @@ QuestionsController.prototype.objectiveQuestion = function(q){
         html += "<input type='radio' name='" + q.id + "' value='" + item + "' class='question_item'>" + item + "</input>";
     });
     html += "</div>";
-	alert("Objective html: " + html);
-    return html;
+	return html;
 }
 
 QuestionsController.prototype.numericQuestion = function(q){
