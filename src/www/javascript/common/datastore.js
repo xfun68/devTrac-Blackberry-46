@@ -3,18 +3,26 @@ function DataStore(){
 }
 
 DataStore.prototype.init = function(callback){
-	devtrac.dataStore.getQuestions(function(){
-        devtrac.dataStore.getPlaces(callback);
+    devtrac.dataStore.getQuestions(function(){
+        devtrac.dataStore.getPlaces(function(){
+            devtrac.dataStore.retrieveFieldTrip(callback);
+        });
     });
 }
 
-DataStore.prototype.retrieveFieldTrip = function(){
+DataStore.prototype.retrieveFieldTrip = function(callback){
     navigator.store.get(function(response){
         if (response) {
             devtrac.fieldTrip = JSON.parse(response);
-        } 
+            if (callback) {
+                callback();
+            }
+        }
     }, function(error){
         alert("Offline storage error");
+        if (callback) {
+            callback();
+        }
     }, "fieldTrip");
 }
 
@@ -28,15 +36,16 @@ DataStore.prototype.saveFieldTrip = function(callback){
 }
 
 DataStore.prototype.getQuestions = function(callback){
-	navigator.store.get(function(response){
-		if (response) {
+    navigator.store.get(function(response){
+        if (response) {
             devtrac.questions = JSON.parse(response);
             if (callback) {
                 callback();
             }
-        } else {
-			callback();
-		}
+        }
+        else {
+            callback();
+        }
     }, function(error){
         alert("Offline storage error");
         if (callback) {
@@ -46,15 +55,16 @@ DataStore.prototype.getQuestions = function(callback){
 }
 
 DataStore.prototype.getPlaces = function(callback){
-	navigator.store.get(function(response){
-		if (response) {
+    navigator.store.get(function(response){
+        if (response) {
             devtrac.places = JSON.parse(response);
             if (callback) {
                 callback();
             }
-        } else {
-			callback();
-		}
+        }
+        else {
+            callback();
+        }
     }, function(error){
         alert("Offline storage error");
         if (callback) {

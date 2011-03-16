@@ -59,3 +59,7 @@ QuestionsController.prototype.numericQuestion = function(q){
     html += "</div>";
     return html;
 }
+
+QuestionsController.prototype.save = function(){
+    
+}

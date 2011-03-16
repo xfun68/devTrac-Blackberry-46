@@ -3,22 +3,17 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
-	if (navigator && navigator.store) {
-        navigator.store.get(function(response){
-            if (response) {
-                devtrac.user = JSON.parse(response);
-				fieldTripController.showTripReports();
-            }
-            else {
-				screens.show("login");
-            }
-        }, function(error){
-			screens.show("login");
-        }, "user");
-    }
-    else {
-		screens.show("login");
-    }
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.user = JSON.parse(response);
+            fieldTripController.showTripReports();
+        }
+        else {
+            screens.show("login");
+        }
+    }, function(error){
+        screens.show("login");
+    }, "user");
 }
 
 LoginController.prototype.login = function(){
@@ -26,17 +21,11 @@ LoginController.prototype.login = function(){
     var password = $("#password").val();
     
     var renderView = function(){
-		if (navigator && navigator.store) {
-            navigator.store.put(function(){
-                devtrac.dataPull.pull(fieldTripController.showTripReports);
-            }, function(){
-                alert("Error in saving: " + devtrac.user.name);
-            }, "user", JSON.stringify(devtrac.user));
-        }
-        else {
-            alert("Offline storage unavailable.");
-        }
-        
+        navigator.store.put(function(){
+            devtrac.dataPull.pull(fieldTripController.showTripReports);
+        }, function(){
+            alert("Error in saving: " + devtrac.user.name);
+        }, "user", JSON.stringify(devtrac.user));
     };
     
     var loginFailed = function(){
@@ -47,7 +36,7 @@ LoginController.prototype.login = function(){
 };
 
 LoginController.prototype.logout = function(){
-    if (navigator && navigator.store) {
+    logout(function(){
         navigator.store.remove(function(){
             devtrac.user.loggedIn = false;
             devtrac.user.name = "";
@@ -55,10 +44,10 @@ LoginController.prototype.logout = function(){
             devtrac.user.uid = 0;
             screens.show("login");
         }, function(){
-            console.log("Error occured in deleting user: " + devtrac.user.name);
+            alert("Error occured in deleting user: " + devtrac.user.name);
+            screens.show("login");
         }, "user");
-    }
-    else {
-        alert("Error occured in deleting user: " + devtrac.user.name);
-    }
+    }, function(){
+        screens.show("login");
+    })
 };

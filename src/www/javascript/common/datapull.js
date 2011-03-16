@@ -1,26 +1,23 @@
 function DataPull(){
     this.fieldTrip = new FieldTrip();
-    this.questions;
-    this.placeTypes;
     this.sites = [];
     this.sitesForActionItems = [];
 }
 
 DataPull.prototype.pull = function(callback){
-    //    navigator.network.isReachable("devtrac.org", function(status){
-    //        if (status == "0") {
-    //            callback();
-    //        }
-    //        else {
-    //            devtrac.dataPull.questions(callback);
-    //        }
-    //    });
-    
     // For now don't check for reachability. If user is logged in, download all the data.   
-    devtrac.dataPull.questions(callback);
+    if (devtrac.fieldTrip) {
+        alert("You have existing fieldtrip. Skipping download from internet.");
+        callback();
+    }
+    else {
+        devtrac.dataPull.questions(callback);
+    }
+    
 };
 
 DataPull.prototype.questions = function(callback){
+    $("#status").html("");
     var questionSuccess = function(questionResponse){
         if (hasError(questionResponse)) {
             alert(getErrorMessage(questionResponse));
@@ -45,7 +42,6 @@ DataPull.prototype.questions = function(callback){
             if (navigator && navigator.store) {
                 navigator.store.put(function(){
                     devtrac.dataPull.updateStatus("Saved " + questions.length + " questions successfully.");
-                    devtrac.dataPull.questions = questions;
                     devtrac.questions = questions;
                     devtrac.dataPull.placeTypes(callback);
                 }, function(){
@@ -88,7 +84,6 @@ DataPull.prototype.placeTypes = function(callback){
             if (navigator && navigator.store) {
                 navigator.store.put(function(){
                     devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
-                    devtrac.dataPull.placeTypes = places;
                     devtrac.places = places;
                     devtrac.dataPull.tripDetails(callback);
                 }, function(){
@@ -308,8 +303,8 @@ DataPull.prototype.updateStatus = function(message){
 }
 
 DataPull.prototype.getPlaceTypeFor = function(id){
-    for (var index in devtrac.dataPull.placeTypes) {
-        var place = devtrac.dataPull.placeTypes[index];
+    for (var index in devtrac.places) {
+        var place = devtrac.places[index];
         if (id == place.id) {
             return place;
         }

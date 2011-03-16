@@ -22,9 +22,25 @@ function authenticate(userName, password, successCallback, failedCallback){
             callService(params, successCallback, failedCallback);
         }
     };
-    callService({
+	callService({
         method: DT.SYSTEM_CONNECT
     }, connectCallback, failedCallback);
+}
+
+function logout(successCallback, failedCallback){
+    var sessionId = devtrac.user.session.id;
+    
+    var timestamp = Math.round(new Date().getTime() / 1000);
+    var params = {
+        method: DT.USER_LOGOUT,
+        sessid: sessionId,
+        domain_name: DT.DOMAIN,
+        domain_time_stamp: timestamp,
+        api_key: DT.API_KEY,
+        nonce: timestamp,
+        hash: generateHash(DT.USER_LOGIN, timestamp)
+    };
+    callService(params, successCallback, failedCallback);
 }
 
 function userLoggedIn(response){

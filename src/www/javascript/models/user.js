@@ -21,7 +21,7 @@ User.prototype.authenticate = function(userName, password, successCallback, fail
     var failed = function(response, textStatus){
         alert("Error occured in authenticating. Details: [" + textStatus + "], " + JSON.stringify(response));
     };
-    authenticate(userName, password, success, failed);
+	authenticate(userName, password, success, failed);
 };
 
 User.prototype.parseUserData = function(response){

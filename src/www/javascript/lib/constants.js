@@ -9,6 +9,7 @@ DT = {
     PASSWORD_REF: 'pass',
     SYSTEM_CONNECT: 'system.connect',
     USER_LOGIN: 'user.login',
+    USER_LOGOUT: 'user.logout',
     VIEWS_GET: 'views.get',
 	PULL_INTERVAL: 86400000
 }
