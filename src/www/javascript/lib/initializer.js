@@ -9,7 +9,7 @@ function initializeApplicationEvents(){
     $("#site_detail_narrative").click(devtrac.siteDetailController.narrative);
     $("#narrative-save").click(devtrac.siteDetailController.updateNarrative);
     $("#site_detail_contact_info").click(devtrac.siteDetailController.contactInfo);
-    $("#site_detail_questions").click(devtrac.siteDetailController.questions);
+    $("#site_detail_questions").click(devtrac.questionsController.show);
     $("#site_detail_photo").click(devtrac.siteDetailController.photo);
     $("#site_detail_action_item").click(devtrac.siteDetailController.actionItem);
 }

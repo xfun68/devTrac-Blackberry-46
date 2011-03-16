@@ -3,7 +3,7 @@ function DataStore(){
 }
 
 DataStore.prototype.init = function(callback){
-    devtrac.dataStore.getQuestions(function(){
+	devtrac.dataStore.getQuestions(function(){
         devtrac.dataStore.getPlaces(callback);
     });
 }
@@ -12,7 +12,7 @@ DataStore.prototype.retrieveFieldTrip = function(){
     navigator.store.get(function(response){
         if (response) {
             devtrac.fieldTrip = JSON.parse(response);
-        }
+        } 
     }, function(error){
         alert("Offline storage error");
     }, "fieldTrip");
@@ -28,13 +28,15 @@ DataStore.prototype.saveFieldTrip = function(callback){
 }
 
 DataStore.prototype.getQuestions = function(callback){
-    navigator.store.get(function(response){
-        if (response) {
+	navigator.store.get(function(response){
+		if (response) {
             devtrac.questions = JSON.parse(response);
             if (callback) {
                 callback();
             }
-        }
+        } else {
+			callback();
+		}
     }, function(error){
         alert("Offline storage error");
         if (callback) {
@@ -44,20 +46,21 @@ DataStore.prototype.getQuestions = function(callback){
 }
 
 DataStore.prototype.getPlaces = function(callback){
-    navigator.store.get(function(response){
-        if (response) {
+	navigator.store.get(function(response){
+		if (response) {
             devtrac.places = JSON.parse(response);
             if (callback) {
                 callback();
             }
-        }
+        } else {
+			callback();
+		}
     }, function(error){
         alert("Offline storage error");
         if (callback) {
             callback();
         }
     }, "placeTypes");
-    
 }
 
 

@@ -6,6 +6,7 @@ var devtrac = {
 	dataPull: new DataPull(),
 	dataStore: new DataStore(),
 	siteDetailController: new SiteDetailController(),
+	questionsController: new QuestionsController(),
 	remoteView: new RemoteView(),
 	currentSite: "",
 	places: "",
@@ -24,6 +25,6 @@ function onLoad(){
 }
 
 function init(){
-    initializeApplicationEvents();
+	initializeApplicationEvents();
 	devtrac.dataStore.init(devtrac.loginController.show);
 }

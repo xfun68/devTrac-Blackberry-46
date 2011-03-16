@@ -15,8 +15,8 @@ DataPull.prototype.pull = function(callback){
     //            devtrac.dataPull.questions(callback);
     //        }
     //    });
- 	
-	// For now don't check for reachability. If user is logged in, download all the data.   
+    
+    // For now don't check for reachability. If user is logged in, download all the data.   
     devtrac.dataPull.questions(callback);
 };
 
@@ -30,9 +30,9 @@ DataPull.prototype.questions = function(callback){
             var questions = $.map(questionResponse['#data'], function(item){
                 var question = new Question();
                 question.id = item.nid;
-                question.title = item.nid;
-                question.type = item.nid;
-                question.options = item.nid;
+                question.title = item.title;
+                question.type = item.questiontype;
+                question.options = item.questionoptions;
                 for (var id in item.taxonomy) {
                     var questionTaxonomy = new QuestionTaxonomy();
                     questionTaxonomy.id = id;
@@ -46,6 +46,7 @@ DataPull.prototype.questions = function(callback){
                 navigator.store.put(function(){
                     devtrac.dataPull.updateStatus("Saved " + questions.length + " questions successfully.");
                     devtrac.dataPull.questions = questions;
+                    devtrac.questions = questions;
                     devtrac.dataPull.placeTypes(callback);
                 }, function(){
                     devtrac.dataPull.updateStatus("Error in saving questions");
@@ -88,6 +89,7 @@ DataPull.prototype.placeTypes = function(callback){
                 navigator.store.put(function(){
                     devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
                     devtrac.dataPull.placeTypes = places;
+                    devtrac.places = places;
                     devtrac.dataPull.tripDetails(callback);
                 }, function(){
                     devtrac.dataPull.updateStatus("Error in saving place types");

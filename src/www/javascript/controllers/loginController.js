@@ -3,7 +3,7 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
-    if (navigator && navigator.store) {
+	if (navigator && navigator.store) {
         navigator.store.get(function(response){
             if (response) {
                 devtrac.user = JSON.parse(response);
