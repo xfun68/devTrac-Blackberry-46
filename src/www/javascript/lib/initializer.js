@@ -5,14 +5,18 @@ function initializeApplicationEvents(){
     $("#sites_to_visit_button").click(fieldTripController.showTripReports);
     $("#add_site_button").click(siteController.create);
     $("#site_details_back_button").click(fieldTripController.showTripReports);
+    $("#back_to_site_list").click(fieldTripController.showTripReports);
     $(".site_details_sub_screen").click(devtrac.siteDetailController.show);
     $("#site_detail_narrative").click(devtrac.siteDetailController.narrative);
     $("#narrative-save").click(devtrac.siteDetailController.updateNarrative);
     $("#site_detail_contact_info").click(devtrac.contactInfoController.show);
+    $(".back_to_contact_info").click(devtrac.contactInfoController.show);
     $("#edit_contact").click(devtrac.contactInfoController.edit);
     $("#contact_save").click(devtrac.contactInfoController.save);
     $("#site_detail_questions").click(devtrac.questionsController.show);
     $("#questions-submit").click(devtrac.questionsController.save);
     $("#site_detail_photo").click(devtrac.siteDetailController.photo);
-    $("#site_detail_action_item").click(devtrac.siteDetailController.actionItem);
+    $("#site_detail_action_item").click(devtrac.actionItemController.show);
+    $("#add_action_item_button").click(devtrac.actionItemController.add);
+    $("#save_action_item").click(devtrac.actionItemController.save);
 }
