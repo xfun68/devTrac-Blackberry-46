@@ -35,7 +35,7 @@ QuestionsController.prototype.show = function(){
 }
 
 QuestionsController.prototype.listQuestion = function(q){
-    var html = "<div class='question'><label id='" + q.id + "'>" + q.title + "</label><select name='" + q.id + "' class='" + q.id + "'>";
+    var html = "<div class='question'><label id='" + q.id + "'>" + q.title + "</label><select name='" + q.id + "' class='" + q.id + " select'>";
     var options = q.options.split("\r\n");
     $.each(options, function(index){
         var item = options[index];
@@ -58,7 +58,7 @@ QuestionsController.prototype.objectiveQuestion = function(q){
 
 QuestionsController.prototype.numericQuestion = function(q){
     var html = "<div class='question'><label id='" + q.id + "'>" + q.title + "</label>";
-    html += "<input type='text' name='" + q.id + "' value='' class='" + q.id + "'></input>";
+    html += "<input type='text' name='" + q.id + "' value='' class='" + q.id + " input'></input>";
     html += "</div>";
     return html;
 }
