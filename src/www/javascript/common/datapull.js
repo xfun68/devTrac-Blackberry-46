@@ -6,7 +6,7 @@ function DataPull(){
 
 DataPull.prototype.pull = function(callback){
     // For now don't check for reachability. If user is logged in, download all the data.   
-    if (devtrac.fieldTrip) {
+    if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
         callback();
     }
     else {
@@ -38,20 +38,14 @@ DataPull.prototype.questions = function(callback){
                 return question;
             });
             
-            if (navigator && navigator.store) {
-                navigator.store.put(function(){
-                    devtrac.dataPull.updateStatus("Saved " + questions.length + " questions successfully.");
-                    devtrac.questions = questions;
-                    devtrac.dataPull.placeTypes(callback);
-                }, function(){
-                    devtrac.dataPull.updateStatus("Error in saving questions");
-                    callback();
-                }, "questions", JSON.stringify(questions));
-            }
-            else {
-                alert("Offline storage unavailable.");
+            navigator.store.put(function(){
+                devtrac.dataPull.updateStatus("Saved " + questions.length + " questions successfully.");
+                devtrac.questions = questions;
+                devtrac.dataPull.placeTypes(callback);
+            }, function(){
+                devtrac.dataPull.updateStatus("Error in saving questions");
                 callback();
-            }
+            }, "questions", JSON.stringify(questions));
         }
     };
     
@@ -80,20 +74,15 @@ DataPull.prototype.placeTypes = function(callback){
                 return placeType;
             });
             
-            if (navigator && navigator.store) {
-                navigator.store.put(function(){
-                    devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
-                    devtrac.places = places;
-                    devtrac.dataPull.tripDetails(callback);
-                }, function(){
-                    devtrac.dataPull.updateStatus("Error in saving place types");
-                    callback();
-                }, "placeTypes", JSON.stringify(places));
-            }
-            else {
-                alert("Offline storage unavailable.");
+            navigator.store.put(function(){
+                devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
+                devtrac.places = places;
+                devtrac.dataPull.tripDetails(callback);
+            }, function(){
+                devtrac.dataPull.updateStatus("Error in saving place types");
                 callback();
-            }
+            }, "placeTypes", JSON.stringify(places));
+            
         }
     };
     
@@ -148,19 +137,14 @@ DataPull.prototype.tripSiteDetails = function(callback){
                 return site;
             });
             devtrac.dataPull.fieldTrip.sites = sites;
-            if (navigator && navigator.store) {
-                navigator.store.put(function(){
-                    devtrac.dataPull.updateStatus("Saved '" + devtrac.dataPull.fieldTrip.title + "' successfully.");
-                    devtrac.dataPull.placeDetailsForSite(callback);
-                }, function(){
-                    devtrac.dataPull.updateStatus("Error in saving field trip.");
-                    callback();
-                }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
-            }
-            else {
-                alert("Offline storage unavailable.");
+            navigator.store.put(function(){
+                devtrac.dataPull.updateStatus("Saved '" + devtrac.dataPull.fieldTrip.title + "' successfully.");
+                devtrac.dataPull.placeDetailsForSite(callback);
+            }, function(){
+                devtrac.dataPull.updateStatus("Error in saving field trip.");
                 callback();
-            }
+            }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
+            
         }
     };
     

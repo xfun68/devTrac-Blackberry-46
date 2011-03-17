@@ -1,6 +1,6 @@
 function FieldTrip(){
-    this.id = "";
-    this.title = "";
+    this.id;
+    this.title;
     this.sites = [];
 }
 
@@ -13,7 +13,8 @@ function Site(){
 	this.placeTaxonomy = [];
     this.type = "";
     this.offline = false;
-    this.narrative = "";
+    this.complete = false;
+	this.narrative = "";
     this.contactInfo = {
         name: "",
         phone: "",

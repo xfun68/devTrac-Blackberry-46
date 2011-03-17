@@ -68,7 +68,15 @@ QuestionsController.prototype.save = function(){
     devtrac.questionsController.collectRadioAnswers();
     devtrac.questionsController.collectTextAnswers();
     devtrac.currentSite.submission = devtrac.questionsController.answers;
+    devtrac.questionsController.markProgress();
     devtrac.dataStore.saveCurrentSite(devtrac.siteDetailController.show);
+}
+QuestionsController.prototype.markProgress = function(){
+	if (devtrac.questionsController.questions.length == devtrac.questionsController.answers.length) {
+        devtrac.currentSite.complete = true;
+        return;
+    }
+    devtrac.currentSite.complete = false;
 }
 
 QuestionsController.prototype.collectListAnswers = function(){

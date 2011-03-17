@@ -17,7 +17,9 @@ DataStore.prototype.retrieveFieldTrip = function(callback){
             if (callback) {
                 callback();
             }
-        }
+        } else {
+			callback();
+		}
     }, function(error){
         alert("Offline storage error");
         if (callback) {
