@@ -19,7 +19,7 @@ fieldTripController.display = function(response){
         $("#site_list").html("");
         for (var id in devtrac.fieldTrip.sites) {
             var site = devtrac.fieldTrip.sites[id];
-        	var siteId = site.id ? site.id : site.name;
+            var siteId = site.id ? site.id : site.name;
             var siteName = site.type ? site.name + ", " + site.type : site.name;
             var html = "<li id=\"" + siteId + "\" class=\"link site_item\"><span>" + siteName + "</span>";
             if (site.complete) {
@@ -33,6 +33,6 @@ fieldTripController.display = function(response){
     }
     else {
         alert("You don't have active field trips.");
-        screens.show("login");
+        devtrac.loginController.logout();
     }
 }

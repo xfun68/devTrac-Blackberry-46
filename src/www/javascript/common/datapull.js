@@ -228,8 +228,6 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
     }
     var site = devtrac.dataPull.sitesForActionItems.pop();
     var actionItemSuccess = function(actionItemResponse){
-        // For test only
-        // actionItemResponse = actionItemData;
         if (hasError(actionItemResponse)) {
             alert(getErrorMessage(actionItemResponse));
             callback();
