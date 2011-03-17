@@ -7,6 +7,7 @@ var devtrac = {
 	dataStore: new DataStore(),
 	siteDetailController: new SiteDetailController(),
 	questionsController: new QuestionsController(),
+	contactInfoController: new ContactInfoController(),
 	remoteView: new RemoteView(),
 	currentSite: "",
 	places: "",

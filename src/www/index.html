@@ -50,6 +50,8 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/siteDetailController.js">
         </script>
+		<script type="text/javascript" src="javascript/controllers/contactInfoController.js">
+        </script>
         <script type="text/javascript" src="javascript/helpers/site_list_helper.js">
         </script>
         <script type="text/javascript" src="javascript/main.js">
@@ -204,29 +206,59 @@
                 <span class="back site_details_sub_screen">Back</span>
             </div>
             <div class="content">
-                <div class="right" id="edit_contact">
-                    <a href="">Edit</a>
+                <div class="right">
+                    <span id="edit_contact" class="link">Edit</span>
                 </div>
+                <p>
+                    <label id="contact_name_label">
+                        Name
+                    </label>
+                    <label id="contact_name_value">
+                    </label>
+                </p>
+                <p>
+                    <label id="contact_number_label">
+                        Phone Number
+                    </label>
+                    <label id="contact_phone_number_value">
+                    </label>
+                </p>
+                <p>
+                    <label id="contact_email_label">
+                        Email
+                    </label>
+                    <label id="contact_email_value">
+                    </label>
+                </p>
+            </div>
+        </div>
+        <!-- Contact Info Screen -->
+        <div id="contact_info_edit_screen" style="display: none">
+            <div class="toolbar">
+                <h1>Contact Information</h1>
+                <span class="back site_details_sub_screen">Back</span>
+            </div>
+            <div class="content">
                 <p>
                     <label id="contact_name">
                         Name
                     </label>
-                    <input type="text" name="contact_name_" id="contact_name_" class="input" value=""/>
+                    <input type="text" id="contact_name_input" class="input" value=""/>
                 </p>
                 <p>
                     <label id="contact_number">
                         Phone Number
                     </label>
-                    <input type="text" name="contact_number_" id="contact_number_" class="input" value=""/>
+                    <input type="text" id="contact_phone_number_input" class="input" value=""/>
                 </p>
                 <p>
                     <label id="contact_email">
                         Email
                     </label>
-                    <input type="text" name="contact_email_" id="contact_email_" class="input" value=""/>
+                    <input type="text" id="contact_email_input" class="input" value=""/>
                 </p>
                 <p class="submit">
-                    <input type="submit" name="contact_save" id="contact_save" class="button" value="Save"/>
+                    <input type="submit" id="contact_save" class="button" value="Save"/>
                 </p>
             </div>
         </div><!-- Photo Screen -->

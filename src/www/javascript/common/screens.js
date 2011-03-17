@@ -9,6 +9,7 @@ screens.list = {
     "questions_form": "#questions_form",
     "site_narrative": "#site_narrative_screen",
     "contact_info": "#contact_info_screen",
+    "contact_info_edit": "#contact_info_edit_screen",
     "photo": "#photo_screen",
     "pull_status": "#pull_status",
     "list_action_items": "#list_action_item_screen",

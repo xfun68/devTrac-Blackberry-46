@@ -175,6 +175,9 @@ DataPull.prototype.placeDetailsForSite = function(callback){
             site.placeId = placeDetails.nid;
             site.placeName = placeDetails.title;
             site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
+            site.contactInfo.name = placeDetails.field_place_responsible_person[0].value;
+            site.contactInfo.phone = placeDetails.field_place_phone[0].value;
+            site.contactInfo.email = placeDetails.field_place_email[0].value;
             site.placeTaxonomy = [];
             for (var index in placeDetails.taxonomy) {
                 var item = placeDetails.taxonomy[index];
