@@ -23,7 +23,10 @@ ActionItemController.prototype.show = function(){
 }
 
 ActionItemController.prototype.add = function(){
-    screens.show("add_action_item");
+    $("#action_item_title").val("");
+    $("#action_item_task").val("");
+    $("#action_item_assigned_to").val("");
+	screens.show("add_action_item");
 }
 
 ActionItemController.prototype.save = function(){
