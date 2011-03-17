@@ -35,6 +35,16 @@ DataStore.prototype.saveFieldTrip = function(callback){
     }, "fieldTrip", JSON.stringify(devtrac.fieldTrip));
 }
 
+
+DataStore.prototype.saveCurrentSite = function(callback){
+    $.each(devtrac.fieldTrip.sites, function(index, site){
+        if (site.id == devtrac.currentSite.id) {
+			devtrac.fieldTrip.sites[index] = devtrac.currentSite;
+            devtrac.dataStore.saveFieldTrip(callback);
+        }
+    });
+}
+
 DataStore.prototype.getQuestions = function(callback){
     navigator.store.get(function(response){
         if (response) {

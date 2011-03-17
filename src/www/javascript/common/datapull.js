@@ -7,7 +7,6 @@ function DataPull(){
 DataPull.prototype.pull = function(callback){
     // For now don't check for reachability. If user is logged in, download all the data.   
     if (devtrac.fieldTrip) {
-        alert("You have existing fieldtrip. Skipping download from internet.");
         callback();
     }
     else {
