@@ -50,7 +50,9 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/siteDetailController.js">
         </script>
-		<script type="text/javascript" src="javascript/controllers/contactInfoController.js">
+        <script type="text/javascript" src="javascript/controllers/contactInfoController.js">
+        </script>
+        <script type="text/javascript" src="javascript/controllers/actionItemController.js">
         </script>
         <script type="text/javascript" src="javascript/helpers/site_list_helper.js">
         </script>
@@ -114,7 +116,7 @@
         <div id="add_new_site" style="display: none">
             <div class="toolbar">
                 <h1>Trip Name: Adoo</h1>
-                <span id="logout" name="logout" class="back">Logout</span>
+                <span id="back_to_site_list" class="back">Back</span>
             </div>
             <div class="content">
                 <div class="right">
@@ -236,7 +238,7 @@
         <div id="contact_info_edit_screen" style="display: none">
             <div class="toolbar">
                 <h1>Contact Information</h1>
-                <span class="back site_details_sub_screen">Back</span>
+                <span class="back back_to_contact_info">Back</span>
             </div>
             <div class="content">
                 <p>
@@ -286,12 +288,12 @@
             </div>
             <div class="content">
                 <div class="right">
-                    <a id="add_action_item_button" href="#" rel="add_action_item_screen">Add New Action Item</a>
+                    <span id="add_action_item_button" class="link">Add New Action Item</span>
                 </div>
-                <div class="tip" style="display: none">
+                <div id="no_action_items" style="display: none">
                     No action items 
                 </div>
-                <div class="grid">
+                <div class="grid action_item_grid" style="display: none">
                     <div class="grid_heading">
                         <div class="col1">
                             Action Item
@@ -300,21 +302,8 @@
                             Assigned To
                         </div>
                     </div>
-                    <div class="grid_row">
-                        <div class="col1">
-                            Follow up on Water Committee
-                        </div>
-                        <div class="col2">
-                            Emmie
-                        </div>
-                    </div>
-                    <div class="grid_row">
-                        <div class="col1">
-                            Check Teacher's attendance
-                        </div>
-                        <div class="col2">
-                            Jean
-                        </div>
+                    <div id="action_items_list">
+                        
                     </div>
                 </div>
             </div>
@@ -323,30 +312,29 @@
         <div id="add_action_item_screen" style="display: none">
             <div class="toolbar">
                 <h1>Add New Action Item</h1>
-                <a class="back" href="#">Back</a>
+                <span class="back back_to_action_item_list">Back</span>
             </div>
             <div class="content">
                 <p>
                     <label id="action_title">
                         Title
                     </label>
-                    <input type="text" name="action_title_" id="action_title_" class="input" value=""/>
+                    <input type="text" id="action_item_title" class="input" value=""/>
                 </p>
                 <p>
                     <label id="action_task">
                         Task
                     </label>
-                    <textarea cols="10" rows="4" name="action_task_" id="action_task_" class="input">
-                    </textarea>
+                    <input type="text" id="action_item_task" class="input" value=""/>
                 </p>
                 <p>
                     <label id="action_assign">
                         Assign To
                     </label>
-                    <input type="text" name="action_assign_" id="action_assign_" class="input" value=""/>
+                    <input type="text" id="action_item_assigned_to" class="input" value=""/>
                 </p>
                 <p class="submit">
-                    <input type="submit" name="add_action" id="add_action" class="button" value="Add"/>
+                    <input type="submit" id="save_action_item" class="button" value="Add"/>
                 </p>
             </div>
         </div>

@@ -8,6 +8,7 @@ var devtrac = {
 	siteDetailController: new SiteDetailController(),
 	questionsController: new QuestionsController(),
 	contactInfoController: new ContactInfoController(),
+	actionItemController: new ActionItemController(),
 	remoteView: new RemoteView(),
 	currentSite: "",
 	places: "",

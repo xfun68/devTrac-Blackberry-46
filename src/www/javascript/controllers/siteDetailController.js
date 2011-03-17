@@ -14,28 +14,10 @@ SiteDetailController.prototype.narrative = function(){
 
 SiteDetailController.prototype.updateNarrative = function(){
 	devtrac.currentSite.narrative = $(".site_narrative_notes").val();
-	$.each(devtrac.fieldTrip.sites, function(index, site){
-		if(devtrac.currentSite.id == site.id){
-			devtrac.fieldTrip.sites[index] = devtrac.currentSite;
-		}
-	});
-	devtrac.dataStore.saveFieldTrip(devtrac.siteDetailController.show);
-};
-
-SiteDetailController.prototype.contactInfo = function(){
-	screens.show('contact_info');
-};
-
-SiteDetailController.prototype.questions = function(){
-	screens.show('questions_form');
+	devtrac.dataStore.saveCurrentSite(devtrac.siteDetailController.show);
 };
 
 SiteDetailController.prototype.photo = function(){
 	screens.show('photo');
-};
-
-SiteDetailController.prototype.actionItem = function(){
-	alert("Action items: " + JSON.stringify(devtrac.currentSite.actionItems));
-	screens.show('list_action_items');
 };
 

@@ -20,6 +20,11 @@ LoginController.prototype.login = function(){
     var userName = $("#username").val();
     var password = $("#password").val();
     
+    if (!userName || !password) {
+        alert("Please enter username and password.");
+        return;
+    }
+    
     var renderView = function(){
         navigator.store.put(function(){
             devtrac.dataPull.pull(fieldTripController.showTripReports);
