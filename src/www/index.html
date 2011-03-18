@@ -103,10 +103,26 @@
                 <div class="right">
                     <span id="add_new_site_button" class="link">Add New Site</span>
                 </div>
-                <div id="list_trip">
+               <!-- <div id="list_trip">
                     <h2>Sites to Visit</h2>
                     <ul id="site_list">
                     </ul>
+                </div>-->
+                <div class="grid" id="list_trip">
+                    <div class="grid_heading">
+                        <div class="col1">
+                            Sites to Visit
+                        </div>
+                        <div class="col2">
+                            Site Type
+                        </div>
+                        <div class="col3">
+                            
+                        </div>
+                    </div>
+                    <div id="site_list">
+
+                    </div>
                 </div>
                 <div class="tip">
                     Sites visited are marked <img src="css/images/icon_tick.gif"/>
@@ -115,7 +131,7 @@
         </div><!-- Trip Details Screen -->
         <div id="add_new_site" style="display: none">
             <div class="toolbar">
-                <h1>Trip Name: Adoo</h1>
+                <h1>Trip Name: <span id="trip_title"></span></h1>
                 <span id="back_to_site_list" class="back">Back</span>
             </div>
             <div class="content">

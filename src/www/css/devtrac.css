@@ -203,6 +203,9 @@ p.submit {
 	padding: 5px;
     width: 40%;
 }
+.grid .col3 {
+        float: left;
+}
 .grid_row {
 	border-bottom: 1px solid #D6D6D6;
 	overflow: hidden;
