@@ -30,6 +30,7 @@ QuestionsController.prototype.show = function(){
         }
         container.append(questionHtml);
     });
+    devtrac.questionsController.attachValidations();
     devtrac.questionsController.populateResponse();
     screens.show("questions_form");
 }
@@ -58,7 +59,7 @@ QuestionsController.prototype.objectiveQuestion = function(q){
 
 QuestionsController.prototype.numericQuestion = function(q){
     var html = "<div class='question'><label id='" + q.id + "'>" + q.title + "</label>";
-    html += "<input type='text' name='" + q.id + "' value='' class='" + q.id + " input'></input>";
+    html += "<input type='text' name='" + q.id + "' value='' class='" + q.id + " input numeric'></input>";
     html += "</div>";
     return html;
 }
@@ -72,7 +73,7 @@ QuestionsController.prototype.save = function(){
     devtrac.dataStore.saveCurrentSite(devtrac.siteDetailController.show);
 }
 QuestionsController.prototype.markProgress = function(){
-	if (devtrac.questionsController.questions.length == devtrac.questionsController.answers.length) {
+    if (devtrac.questionsController.questions.length == devtrac.questionsController.answers.length) {
         devtrac.currentSite.complete = true;
         return;
     }
@@ -136,4 +137,16 @@ QuestionsController.prototype.populateResponse = function(){
         }
         
     }
+}
+
+QuestionsController.prototype.attachValidations = function(){
+    $(".numeric").change(function(){
+        var numbers = /^\d*$/;
+        var element = $(this);
+        if (numbers.test(element.val())) {
+            return;
+        }
+        alert("Only numeric values are accepted.");
+        element.val("");
+    });
 }
