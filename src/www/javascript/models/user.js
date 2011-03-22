@@ -8,7 +8,7 @@ function User(){
 
 User.prototype.authenticate = function(userName, password, successCallback, failedCallback){
     var success = function(response){
-        if (hasError(response)) {
+		if (hasError(response)) {
             alert(getErrorMessage(response));
             failedCallback();
         }

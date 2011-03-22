@@ -1,6 +1,6 @@
 function authenticate(userName, password, successCallback, failedCallback){
     var connectCallback = function(data){
-        var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
+		var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
         if (userLoggedIn(data)) {
 			successCallback(data);
         }

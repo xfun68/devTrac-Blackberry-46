@@ -4,14 +4,10 @@ function DataPull(){
     this.sitesForActionItems = [];
 }
 
-DataPull.prototype.pull = function(callback){
-    alert("I should be never called: Pull");
-};
-
 DataPull.prototype.questions = function(callback){
     $("#status").html("");
     var questionSuccess = function(questionResponse){
-        if (hasError(questionResponse)) {
+		if (hasError(questionResponse)) {
             alert(getErrorMessage(questionResponse));
             callback();
         }
@@ -54,7 +50,7 @@ DataPull.prototype.questions = function(callback){
 
 DataPull.prototype.placeTypes = function(callback){
     var placesSuccess = function(placesResponse){
-        if (hasError(placesResponse)) {
+		if (hasError(placesResponse)) {
             alert(getErrorMessage(placesResponse));
             callback();
         }
@@ -92,7 +88,7 @@ DataPull.prototype.placeTypes = function(callback){
 DataPull.prototype.tripDetails = function(callback){
 	$("#status").html("");
     var tripSuccess = function(tripResponse){
-        if (hasError(tripResponse)) {
+		if (hasError(tripResponse)) {
             alert(getErrorMessage(tripResponse));
             callback();
         }
@@ -115,7 +111,7 @@ DataPull.prototype.tripDetails = function(callback){
 
 DataPull.prototype.tripSiteDetails = function(callback){
     var siteSuccess = function(siteResponse){
-        if (hasError(siteResponse)) {
+		if (hasError(siteResponse)) {
             alert(getErrorMessage(siteResponse));
             callback();
         }
@@ -152,7 +148,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
     }
     var site = devtrac.dataPull.sites.pop();
     var placeSuccess = function(placeResponse){
-        if (hasError(placeResponse)) {
+		if (hasError(placeResponse)) {
             alert(getErrorMessage(placeResponse));
             callback();
         }
@@ -211,7 +207,7 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
     }
     var site = devtrac.dataPull.sitesForActionItems.pop();
     var actionItemSuccess = function(actionItemResponse){
-        if (hasError(actionItemResponse)) {
+		if (hasError(actionItemResponse)) {
             alert(getErrorMessage(actionItemResponse));
             callback();
         }

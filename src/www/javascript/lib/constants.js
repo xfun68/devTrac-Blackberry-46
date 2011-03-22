@@ -1,7 +1,7 @@
 DT = {
-    DOMAIN: 'devtrac.org',
-    SERVICE_ENDPOINT: 'http://test.devtrac.org/services/json',
-    API_KEY: 'ed189296f0507fde20b1b9863c6fc21a',
+    DOMAIN: 'devtrac.ug',
+    SERVICE_ENDPOINT: 'http://www.devtrac.ug/services/json',
+    API_KEY: '6825f0e79c87f6c930d8b252694ef1cf',
     DATA_REF: '#data',
     SESSION_ID_REF: 'sessid',
     USER_REF: 'user',
@@ -13,3 +13,8 @@ DT = {
     VIEWS_GET: 'views.get',
 	PULL_INTERVAL: 86400000
 }
+
+/*
+ * Devtrac test api key: ed189296f0507fde20b1b9863c6fc21a
+ * DevTrac production api key: 6825f0e79c87f6c930d8b252694ef1cf
+ */

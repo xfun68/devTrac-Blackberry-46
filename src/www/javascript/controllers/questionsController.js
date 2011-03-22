@@ -8,16 +8,19 @@ QuestionsController.prototype.show = function(){
     container.html("");
     devtrac.questionsController.answers = [];
     devtrac.questionsController.questions = $.map(devtrac.questions, function(q){
-        if (devtrac.currentSite.type == q.taxonomy[0].name) {
+        var taxonomyName = q.taxonomy[0].name;
+        if (devtrac.currentSite.type == taxonomyName) {
             return q;
         }
     });
-    $.each(devtrac.questionsController.questions, function(index){
+    $.each(devtrac.questionsController.questions, function(index, q){
         var questionHtml = "";
-        var q = devtrac.questionsController.questions[index];
         switch (q.type) {
-            case "1":
+            case "0":
                 questionHtml = devtrac.questionsController.listQuestion(q);
+                break;
+            case "1":
+                questionHtml = devtrac.questionsController.checkboxQuestion(q);
                 break;
             case "2":
                 questionHtml = devtrac.questionsController.objectiveQuestion(q);
@@ -26,7 +29,7 @@ QuestionsController.prototype.show = function(){
                 questionHtml = devtrac.questionsController.numericQuestion(q);
                 break;
             default:
-                questionHtml = "Unknown question type.";
+                alert("Unknown Question Type: " + q.type);
         }
         container.append(questionHtml);
     });
@@ -43,6 +46,16 @@ QuestionsController.prototype.listQuestion = function(q){
         html += "<option value='" + item + "'>" + item + "</option>";
     });
     html += "</select></div>";
+    return html;
+}
+
+QuestionsController.prototype.checkboxQuestion = function(q){
+    var html = "<div class='question'><label>" + q.title + "</label>";
+    var options = q.options.split("\r\n");
+    $.each(options, function(index, item){
+        html += "<input type='checkbox' id=" + q.id + "_" + index + " name=" + q.id + " value='" + escape(item) + "'/><label>" + item + "</label>";
+    });
+    html += "</div>";
     return html;
 }
 
@@ -66,14 +79,15 @@ QuestionsController.prototype.numericQuestion = function(q){
 
 QuestionsController.prototype.save = function(){
     devtrac.questionsController.collectListAnswers();
+    devtrac.questionsController.collectCheckboxAnswers();
     devtrac.questionsController.collectRadioAnswers();
     devtrac.questionsController.collectTextAnswers();
     devtrac.currentSite.submission = devtrac.questionsController.answers;
     devtrac.questionsController.markProgress();
     devtrac.dataStore.saveCurrentSite(function(){
-		alert("Your response is saved.");
-		devtrac.siteDetailController.show();
-	});
+        alert("Your response is saved.");
+        devtrac.siteDetailController.show();
+    });
 }
 QuestionsController.prototype.markProgress = function(){
     if (devtrac.questionsController.questions.length == devtrac.questionsController.answers.length) {
@@ -92,12 +106,37 @@ QuestionsController.prototype.collectListAnswers = function(){
     });
 }
 
+QuestionsController.prototype.collectCheckboxAnswers = function(){
+    var items = {};
+    $("form input:checkbox").each(function(){
+        var itemId = $(this).attr("name");
+        var itemCollection = items[itemId];
+        if (!itemCollection) {
+            itemCollection = [];
+        }
+        if ($(this).attr("checked")) {
+            itemCollection.push($(this).val());
+            items[itemId] = itemCollection;
+        }
+        
+    });
+    $.each(items, function(index, item){
+        var answer = new SubmissionItem();
+        answer.id = index;
+        answer.response = item.join(",");
+        devtrac.questionsController.answers.push(answer);
+    });
+}
+
+
 QuestionsController.prototype.collectRadioAnswers = function(){
-    $("form :checked").each(function(){
+    $("form :radio").each(function(){
         var answer = new SubmissionItem();
         answer.id = $(this).attr("name");
         answer.response = $(this).val();
-        devtrac.questionsController.answers.push(answer);
+        if ($(this).attr("checked")) {
+            devtrac.questionsController.answers.push(answer);
+        }
     });
 }
 
@@ -116,7 +155,6 @@ QuestionsController.prototype.responseFor = function(id){
     for (var index in devtrac.currentSite.submission) {
         var answer = devtrac.currentSite.submission[index];
         if (answer.id == id) {
-            alert("Matched response: " + id);
             return answer.response;
         }
     }
@@ -126,8 +164,18 @@ QuestionsController.prototype.responseFor = function(id){
 QuestionsController.prototype.populateResponse = function(){
     for (var index in devtrac.currentSite.submission) {
         var answer = devtrac.currentSite.submission[index];
-        $(":text[name='" + answer.id + "']").val(answer.response);
-        $(":radio[name='" + answer.id + "']").val([answer.response]);
+        var textboxes = $(":text[name='" + answer.id + "']");
+        if (textboxes.length > 0) {
+            textboxes.val(answer.response);
+        }
+        var radios = $(":radio[name='" + answer.id + "']");
+        if (radios.length > 0) {
+            radios.val([answer.response]);
+        }
+        var checkboxes = $(":checkbox[name='" + answer.id + "']");
+        if (checkboxes.length > 0) {
+            checkboxes.val(answer.response.split(","));
+        }
         var elements = $("select[name='" + answer.id + "']");
         if (elements.length == 1) {
             var options = elements.children();
@@ -138,7 +186,6 @@ QuestionsController.prototype.populateResponse = function(){
                 }
             });
         }
-        
     }
 }
 
