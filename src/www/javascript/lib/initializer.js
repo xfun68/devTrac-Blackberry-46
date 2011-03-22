@@ -14,7 +14,8 @@ function initializeApplicationEvents(){
     $("#contact_save").click(devtrac.contactInfoController.save);
     $("#site_detail_questions").click(devtrac.questionsController.show);
     $("#questions-submit").click(devtrac.questionsController.save);
-    $("#site_detail_photo").click(devtrac.siteDetailController.photo);
+    $("#site_detail_photo").click(devtrac.photoController.show);
+    $("#attach_photo").click(devtrac.photoController.attach);
     $("#site_detail_action_item").click(devtrac.actionItemController.show);
     $(".back_to_action_item_list").click(devtrac.actionItemController.show);
     $("#add_action_item_button").click(devtrac.actionItemController.add);

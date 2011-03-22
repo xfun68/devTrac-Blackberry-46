@@ -19,8 +19,3 @@ SiteDetailController.prototype.updateNarrative = function(){
         devtrac.siteDetailController.show();
     });
 };
-
-SiteDetailController.prototype.photo = function(){
-    screens.show('photo');
-};
-

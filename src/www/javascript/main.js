@@ -10,6 +10,7 @@ var devtrac = {
     contactInfoController: new ContactInfoController(),
     actionItemController: new ActionItemController(),
     settingsController: new SettingsController(),
+	photoController: new PhotoController(),
     remoteView: new RemoteView(),
     currentSite: "",
     places: "",

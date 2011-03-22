@@ -56,6 +56,8 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/settingsController.js">
         </script>
+		<script type="text/javascript" src="javascript/controllers/photoController.js">
+        </script>
         <script type="text/javascript" src="javascript/helpers/site_list_helper.js">
         </script>
         <script type="text/javascript" src="javascript/main.js">
@@ -284,11 +286,15 @@
                     <label id="photo">
                         Browse photo
                     </label>
-                    <input type="file"/>
+                    <input id="photo_path" type="file"/>
                 </p>
-                <p class="submit">
-                    <input type="submit" name="upload_photo" id="upload_photo" class="button" value="Attach"/>
+				<p class="submit">
+                    <input type="button" id="attach_photo" class="button" value="Attach"/>
                 </p>
+				<ul id="photo_list">
+					
+				</ul>
+                
             </div>
         </div><!-- List Action item Screen -->
         <div id="list_action_item_screen" style="display: none">

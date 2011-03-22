@@ -210,3 +210,11 @@ p.submit {
 	border-bottom: 1px solid #D6D6D6;
 	overflow: hidden;
 }
+
+.thumbnail {
+	width: 35px;
+	height: 35px;
+	display: inline;
+	float: left;
+	margin: 2px;
+}

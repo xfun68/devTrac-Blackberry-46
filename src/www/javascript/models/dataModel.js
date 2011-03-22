@@ -21,7 +21,7 @@ function Site(){
         email: ""
     };
     this.submission = [];
-    this.photo = "";
+    this.photos = [];
     this.actionItems = [];
 }
 
