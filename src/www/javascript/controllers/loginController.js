@@ -3,17 +3,11 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
-    navigator.store.get(function(response){
-        if (response) {
-            devtrac.user = JSON.parse(response);
-            fieldTripController.showTripReports();
-        }
-        else {
-            screens.show("login");
-        }
-    }, function(error){
-        screens.show("login");
-    }, "user");
+    if (devtrac.user) {
+        fieldTripController.showTripReports();
+        return;
+    }
+    screens.show("login");
 }
 
 LoginController.prototype.login = function(){
@@ -27,7 +21,9 @@ LoginController.prototype.login = function(){
     
     var renderView = function(){
         navigator.store.put(function(){
-            devtrac.dataPull.pull(fieldTripController.showTripReports);
+            devtrac.dataPull.pull(function(){
+                devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
+            });
         }, function(){
             alert("Error in saving: " + devtrac.user.name);
         }, "user", JSON.stringify(devtrac.user));
@@ -47,6 +43,7 @@ LoginController.prototype.logout = function(){
             devtrac.user.name = "";
             devtrac.user.email = "";
             devtrac.user.uid = 0;
+			devtrac.fieldTrip = new FieldTrip();
             screens.show("login");
         }, function(){
             alert("Error occured in deleting user: " + devtrac.user.name);

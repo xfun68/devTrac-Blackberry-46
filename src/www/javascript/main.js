@@ -1,18 +1,19 @@
 var devtrac = {
     loginController: new LoginController(),
     user: new User(),
-	fieldTrip: new FieldTrip(),
-	network: new Network(),
-	dataPull: new DataPull(),
-	dataStore: new DataStore(),
-	siteDetailController: new SiteDetailController(),
-	questionsController: new QuestionsController(),
-	contactInfoController: new ContactInfoController(),
-	actionItemController: new ActionItemController(),
-	remoteView: new RemoteView(),
-	currentSite: "",
-	places: "",
-	questions: ""
+    fieldTrip: new FieldTrip(),
+    network: new Network(),
+    dataPull: new DataPull(),
+    dataStore: new DataStore(),
+    siteDetailController: new SiteDetailController(),
+    questionsController: new QuestionsController(),
+    contactInfoController: new ContactInfoController(),
+    actionItemController: new ActionItemController(),
+    settingsController: new SettingsController(),
+    remoteView: new RemoteView(),
+    currentSite: "",
+    places: "",
+    questions: ""
 }
 function onLoad(){
     // BlackBerry OS 4 browser does not support events.
@@ -27,6 +28,6 @@ function onLoad(){
 }
 
 function init(){
-	initializeApplicationEvents();
-	devtrac.dataStore.init(devtrac.loginController.show);
+    initializeApplicationEvents();
+    devtrac.dataStore.init(devtrac.loginController.show);
 }

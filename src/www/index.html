@@ -54,6 +54,8 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/actionItemController.js">
         </script>
+        <script type="text/javascript" src="javascript/controllers/settingsController.js">
+        </script>
         <script type="text/javascript" src="javascript/helpers/site_list_helper.js">
         </script>
         <script type="text/javascript" src="javascript/main.js">
@@ -103,36 +105,24 @@
                 <div class="right">
                     <span id="add_new_site_button" class="link">Add New Site</span>
                 </div>
-               <!-- <div id="list_trip">
+                <div id="list_trip">
                     <h2>Sites to Visit</h2>
                     <ul id="site_list">
                     </ul>
-                </div>-->
-                <div class="grid" id="list_trip">
-                    <div class="grid_heading">
-                        <div class="col1">
-                            Sites to Visit
-                        </div>
-                        <div class="col2">
-                            Site Type
-                        </div>
-                        <div class="col3">
-                            
-                        </div>
-                    </div>
-                    <div id="site_list">
-
-                    </div>
                 </div>
                 <div class="tip">
                     Sites visited are marked <img src="css/images/icon_tick.gif"/>
                 </div>
+                <div class="right">
+                    <span id="settings_button" class="link">Settings</span>
+                </div>
             </div>
-        </div><!-- Trip Details Screen -->
+        </div>
+        <!-- Add Site Screen -->
         <div id="add_new_site" style="display: none">
             <div class="toolbar">
                 <h1>Trip Name: <span id="trip_title"></span></h1>
-                <span id="back_to_site_list" class="back">Back</span>
+                <span class="back back_to_site_list">Back</span>
             </div>
             <div class="content">
                 <div class="right">
@@ -158,6 +148,43 @@
                     </p>
                 </div>
             </div>
+        </div><!-- Settings Screen -->
+        <div id="settings" style="display: none">
+            <div class="toolbar">
+                <h1>Settings</h1>
+                <span class="back back_to_site_list">Back</span>
+            </div>
+            <div class="content">
+                <div>
+                    <div align="center">
+                        <p>
+                            <input type="button" id="update_question_places" class="button" value="Update Questions and Places"/>
+                        </p>
+                        <p>
+                            <input type="button" id="wipe_out_data" class="button" value="DELETE Data"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Delete Confirm Screen -->
+        <div id="delete_confirm" style="display: none">
+            <div class="toolbar">
+                <h1>Delete Confirm</h1>
+            </div>
+            <div class="content">
+                <div>
+                    <p>
+                        Do you really want to delete all the application data? 
+                        This will erase any unsynced changes. This operation is not reversible.
+                    </p>
+                    <div align="left">
+                        <input type="button" id="delete_proceed" class="button" value="Proceed"/>
+                    </div>
+                    <div alight="right">
+                        <input type="button" id="delete_cancel" class="button" value="Cancel"/>
+                    </div>
+                </div>
+            </div>
         </div><!-- Questionnaire form Screen -->
         <div id="questions_form" style="display: none">
             <div class="toolbar">
@@ -165,10 +192,10 @@
                 <span class="back site_details_sub_screen">Back</span>
             </div>
             <div class="content">
-            	<form>
-                	<div class="question-content">
-                	</div>
-            	</form>
+                <form>
+                    <div class="question-content">
+                    </div>
+                </form>
             </div>
             <div id="questionnaire_actions">
                 <p class="submit">
@@ -233,21 +260,24 @@
                     <label id="contact_name_label">
                         Name
                     </label>
-                    <label id="contact_name_value" class="label_value">No value
+                    <label id="contact_name_value" class="label_value">
+                        No value
                     </label>
                 </p>
                 <p>
                     <label id="contact_number_label">
                         Phone Number
                     </label>
-                    <label id="contact_phone_number_value" class="label_value">No Value
+                    <label id="contact_phone_number_value" class="label_value">
+                        No Value
                     </label>
                 </p>
                 <p>
                     <label id="contact_email_label">
                         Email
                     </label>
-                    <label id="contact_email_value" class="label_value">No value
+                    <label id="contact_email_value" class="label_value">
+                        No value
                     </label>
                 </p>
             </div>
@@ -321,7 +351,6 @@
                         </div>
                     </div>
                     <div id="action_items_list">
-                        
                     </div>
                 </div>
             </div>

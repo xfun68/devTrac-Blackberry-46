@@ -77,7 +77,7 @@ DataPull.prototype.placeTypes = function(callback){
             navigator.store.put(function(){
                 devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
                 devtrac.places = places;
-                devtrac.dataPull.tripDetails(callback);
+                callback();
             }, function(){
                 devtrac.dataPull.updateStatus("Error in saving place types");
                 callback();
@@ -87,7 +87,6 @@ DataPull.prototype.placeTypes = function(callback){
     };
     
     var placesFailed = function(){
-        alert("In question failed");
         // Failed. Continue with callback function.
         callback();
     };
@@ -137,14 +136,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
                 return site;
             });
             devtrac.dataPull.fieldTrip.sites = sites;
-            navigator.store.put(function(){
-                devtrac.dataPull.updateStatus("Saved '" + devtrac.dataPull.fieldTrip.title + "' successfully.");
-                devtrac.dataPull.placeDetailsForSite(callback);
-            }, function(){
-                devtrac.dataPull.updateStatus("Error in saving field trip.");
-                callback();
-            }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
-            
+            DataPull.prototype.placeDetailsForSite(callback);
         }
     };
     
@@ -200,13 +192,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
                         devtrac.dataPull.placeDetailsForSite(callback);
                     }
                     else {
-                        navigator.store.put(function(){
-                            devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with sites successfully.");
-                            devtrac.dataPull.actionItemDetailsForSite(callback);
-                        }, function(){
-                            alert("Error in saving field trip.");
-                            callback();
-                        }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
+                        devtrac.dataPull.actionItemDetailsForSite(callback);
                     }
                 }
             });
@@ -236,10 +222,6 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
             callback();
         }
         else {
-            if (actionItemResponse['#data'].length == 0) {
-                callback();
-                return;
-            }
             var actionItems = $.map(actionItemResponse['#data'], function(item){
                 var actionItem = new ActionItem();
                 actionItem.title = item.title;
@@ -258,12 +240,12 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
                     }
                     else {
                         navigator.store.put(function(){
-                            devtrac.dataPull.updateStatus("Updated '" + devtrac.dataPull.fieldTrip.title + "' with action items successfully.");
+                            devtrac.dataPull.updateStatus("Saved '" + devtrac.dataPull.fieldTrip.title + "' with action items successfully.");
                             callback();
                         }, function(){
                             devtrac.dataPull.updateStatus("Error in saving field trip.");
                             callback();
-                        }, "fieldTrip", JSON.stringify(devtrac.dataPull.fieldTrip));
+                        }, devtrac.user.name, JSON.stringify(devtrac.dataPull.fieldTrip));
                     }
                 }
             });
