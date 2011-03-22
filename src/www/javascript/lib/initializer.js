@@ -5,7 +5,7 @@ function initializeApplicationEvents(){
     $("#sites_to_visit_button").click(fieldTripController.showTripReports);
     $("#add_site_button").click(siteController.create);
     $("#site_details_back_button").click(fieldTripController.showTripReports);
-    $("#back_to_site_list").click(fieldTripController.showTripReports);
+    $(".back_to_site_list").click(fieldTripController.showTripReports);
     $(".site_details_sub_screen").click(devtrac.siteDetailController.show);
     $("#site_detail_narrative").click(devtrac.siteDetailController.narrative);
     $("#narrative-save").click(devtrac.siteDetailController.updateNarrative);
@@ -20,4 +20,9 @@ function initializeApplicationEvents(){
     $(".back_to_action_item_list").click(devtrac.actionItemController.show);
     $("#add_action_item_button").click(devtrac.actionItemController.add);
     $("#save_action_item").click(devtrac.actionItemController.save);
+	$("#settings_button").click(devtrac.settingsController.show);
+	$("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
+	$("#wipe_out_data").click(devtrac.settingsController.wipeout);
+	$("#delete_proceed").click(devtrac.settingsController.performWipeout);
+	$("#delete_cancel").click(devtrac.settingsController.show);
 }

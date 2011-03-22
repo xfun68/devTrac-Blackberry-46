@@ -19,18 +19,11 @@ siteController.create = function(){
     site.name = $("#site_title").val();
     site.type = $("#sitetypes").val();
     devtrac.fieldTrip.sites.push(site);
-    if (navigator && navigator.store) {
-        navigator.store.put(function(){
-            fieldTripController.showTripReports();
-        }, function(){
-            alert("Error in creating trip.");
-            screens.show("sites_to_visit");
-        }, "fieldTrip", JSON.stringify(devtrac.fieldTrip));
-    }
-    else {
-        alert("Offline storage unavailable.");
+    navigator.store.put(function(){
+        fieldTripController.showTripReports();
+    }, function(){
+        alert("Error in creating trip.");
         screens.show("sites_to_visit");
-    }
-    
+    }, devtrac.user.name, JSON.stringify(devtrac.fieldTrip));
 }
 

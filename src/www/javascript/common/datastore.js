@@ -3,11 +3,21 @@ function DataStore(){
 }
 
 DataStore.prototype.init = function(callback){
-    devtrac.dataStore.getQuestions(function(){
-        devtrac.dataStore.getPlaces(function(){
-            devtrac.dataStore.retrieveFieldTrip(callback);
-        });
-    });
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.user = JSON.parse(response);
+            devtrac.dataStore.getQuestions(function(){
+                devtrac.dataStore.getPlaces(function(){
+                    devtrac.dataStore.retrieveFieldTrip(callback);
+                });
+            });
+        }
+        else {
+            screens.show("login");
+        }
+    }, function(error){
+        screens.show("login");
+    }, "user");
 }
 
 DataStore.prototype.retrieveFieldTrip = function(callback){
@@ -17,15 +27,16 @@ DataStore.prototype.retrieveFieldTrip = function(callback){
             if (callback) {
                 callback();
             }
-        } else {
-			callback();
-		}
+        }
+        else {
+            callback();
+        }
     }, function(error){
         alert("Offline storage error");
         if (callback) {
             callback();
         }
-    }, "fieldTrip");
+    }, devtrac.user.name);
 }
 
 DataStore.prototype.saveFieldTrip = function(callback){
@@ -34,14 +45,14 @@ DataStore.prototype.saveFieldTrip = function(callback){
     }, function(){
         alert("Could not update field trip.");
         callback();
-    }, "fieldTrip", JSON.stringify(devtrac.fieldTrip));
+    }, devtrac.user.name, JSON.stringify(devtrac.fieldTrip));
 }
 
 
 DataStore.prototype.saveCurrentSite = function(callback){
     $.each(devtrac.fieldTrip.sites, function(index, site){
         if (site.id == devtrac.currentSite.id) {
-			devtrac.fieldTrip.sites[index] = devtrac.currentSite;
+            devtrac.fieldTrip.sites[index] = devtrac.currentSite;
             devtrac.dataStore.saveFieldTrip(callback);
         }
     });

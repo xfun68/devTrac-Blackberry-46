@@ -13,7 +13,9 @@ screens.list = {
     "photo": "#photo_screen",
     "pull_status": "#pull_status",
     "list_action_items": "#list_action_item_screen",
-    "add_action_item": "#add_action_item_screen"
+    "add_action_item": "#add_action_item_screen",
+    "settings": "#settings",
+    "delete_confirm": "#delete_confirm"
 };
 
 screens.show = function(name){

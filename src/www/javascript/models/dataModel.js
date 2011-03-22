@@ -1,5 +1,5 @@
 function FieldTrip(){
-    this.id;
+	this.id;
     this.title;
     this.sites = [];
 }

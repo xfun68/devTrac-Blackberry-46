@@ -1,9 +1,8 @@
 function authenticate(userName, password, successCallback, failedCallback){
     var connectCallback = function(data){
         var sessionId = data[DT.DATA_REF][DT.SESSION_ID_REF];
-        
         if (userLoggedIn(data)) {
-            successCallback(data);
+			successCallback(data);
         }
         else {
             var timestamp = Math.round(new Date().getTime() / 1000);
@@ -18,7 +17,6 @@ function authenticate(userName, password, successCallback, failedCallback){
                 nonce: timestamp,
                 hash: generateHash(DT.USER_LOGIN, timestamp)
             };
-            
             callService(params, successCallback, failedCallback);
         }
     };
