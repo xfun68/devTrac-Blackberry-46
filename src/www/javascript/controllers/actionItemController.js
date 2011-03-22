@@ -44,5 +44,8 @@ ActionItemController.prototype.save = function(){
     actionItem.task = task;
     actionItem.assignedTo = assignedTo;
     devtrac.currentSite.actionItems.push(actionItem);
-    devtrac.dataStore.saveCurrentSite(devtrac.actionItemController.show);
+    devtrac.dataStore.saveCurrentSite(function(){
+		alert("Added action item.");
+		devtrac.actionItemController.show();
+	});
 }

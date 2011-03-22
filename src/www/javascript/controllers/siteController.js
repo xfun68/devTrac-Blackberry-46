@@ -20,6 +20,7 @@ siteController.create = function(){
     site.type = $("#sitetypes").val();
     devtrac.fieldTrip.sites.push(site);
     navigator.store.put(function(){
+        alert(site.name + " added successfuly.");
         fieldTripController.showTripReports();
     }, function(){
         alert("Error in creating trip.");

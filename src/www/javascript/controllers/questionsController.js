@@ -70,7 +70,10 @@ QuestionsController.prototype.save = function(){
     devtrac.questionsController.collectTextAnswers();
     devtrac.currentSite.submission = devtrac.questionsController.answers;
     devtrac.questionsController.markProgress();
-    devtrac.dataStore.saveCurrentSite(devtrac.siteDetailController.show);
+    devtrac.dataStore.saveCurrentSite(function(){
+		alert("Your response is saved.");
+		devtrac.siteDetailController.show();
+	});
 }
 QuestionsController.prototype.markProgress = function(){
     if (devtrac.questionsController.questions.length == devtrac.questionsController.answers.length) {
