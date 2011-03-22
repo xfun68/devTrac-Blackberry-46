@@ -3,7 +3,7 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
-    if (devtrac.user) {
+    if (devtrac.user && devtrac.fieldTrip) {
         fieldTripController.showTripReports();
         return;
     }
@@ -21,9 +21,36 @@ LoginController.prototype.login = function(){
     
     var renderView = function(){
         navigator.store.put(function(){
-            devtrac.dataPull.pull(function(){
-                devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
+            devtrac.dataStore.getQuestions(function(){
+                devtrac.dataStore.getPlaces(function(){
+                    if (devtrac.questions && devtrac.places) {
+                        // Check if fieldtrip is locally available for current user
+                        devtrac.dataStore.retrieveFieldTrip(function(){
+                            if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
+                                fieldTripController.showTripReports();
+                                return;
+                            }
+                            // No fieldtrip exist for user. Download the details.
+                            devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
+                        });
+                    }
+                    else {
+                        devtrac.dataPull.questions(function(){
+                            // Check if fieldtrip is locally available for current user
+                            devtrac.dataStore.retrieveFieldTrip(function(){
+                                if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
+                                    fieldTripController.showTripReports();
+                                    return;
+                                }
+                                // No fieldtrip exist for user. Download the details.
+                                devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
+                            });
+                        });
+                    }
+                    
+                });
             });
+            
         }, function(){
             alert("Error in saving: " + devtrac.user.name);
         }, "user", JSON.stringify(devtrac.user));
@@ -43,7 +70,7 @@ LoginController.prototype.logout = function(){
             devtrac.user.name = "";
             devtrac.user.email = "";
             devtrac.user.uid = 0;
-			devtrac.fieldTrip = new FieldTrip();
+            devtrac.fieldTrip = new FieldTrip();
             screens.show("login");
         }, function(){
             alert("Error occured in deleting user: " + devtrac.user.name);
