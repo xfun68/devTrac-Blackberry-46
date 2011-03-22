@@ -15,24 +15,44 @@ fieldTripController.showTripReports = function(){
 fieldTripController.display = function(response){
     if (response) {
         devtrac.fieldTrip = JSON.parse(response);
-        $("#trip_title").html(devtrac.fieldTrip.title);
-        $("#site_list").html("");
-        for (var id in devtrac.fieldTrip.sites) {
-            var site = devtrac.fieldTrip.sites[id];
-            var siteId = site.id ? site.id : site.name;
-            var siteName = site.type ? site.name + ", " + site.type : site.name;
-            var html = "<li id=\"" + siteId + "\" class=\"link site_item\"><span>" + siteName + "</span>";
-            if (site.complete) {
-                html += "<span class=\"done\"><img src=\"css/images/icon_tick.gif\"/></span>";
-            }
-            html += "</li>";
-            $("#site_list").append(html);
+        $("#trip_title").html(fieldTripController.siteTitle(devtrac.fieldTrip.title));
+        var sitesContainer = $("#site_list");
+        var noSitesTip = $("#no_sites_in_trip");
+        sitesContainer.html("");
+        if (devtrac.fieldTrip.sites.length == 0) {
+            noSitesTip.show();
+            $(".sites_list").hide();
+            screens.show("sites_to_visit");
+            return;
         }
-        screens.show("sites_to_visit");
-        attachClickEvents("site_item", showSiteDetailScreen);
+        fieldTripController.paintSites();
     }
     else {
         alert("You don't have active field trips.");
         devtrac.loginController.logout();
     }
+}
+
+fieldTripController.siteTitle = function(actualTitle){
+    return actualTitle.length > 22 ? actualTitle.substring(0, 22) + "..." : actualTitle;
+}
+
+fieldTripController.paintSites = function(){
+    var sitesContainer = $("#site_list");
+    var noSitesTip = $("#no_sites_in_trip");
+    for (var id in devtrac.fieldTrip.sites) {
+        var site = devtrac.fieldTrip.sites[id];
+        var siteId = site.id ? site.id : site.name;
+        var siteName = site.type ? site.name + ", " + site.type : site.name;
+        var html = "<li id=\"" + siteId + "\" class=\"link site_item\"><span>" + siteName + "</span>";
+        if (site.complete) {
+            html += "<span class=\"done\"><img src=\"css/images/icon_tick.gif\"/></span>";
+        }
+        html += "</li>";
+        sitesContainer.append(html);
+    }
+    noSitesTip.hide();
+    $(".sites_list").show();
+    screens.show("sites_to_visit");
+    attachClickEvents("site_item", showSiteDetailScreen);
 }

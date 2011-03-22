@@ -56,7 +56,7 @@
         </script>
         <script type="text/javascript" src="javascript/controllers/settingsController.js">
         </script>
-		<script type="text/javascript" src="javascript/controllers/photoController.js">
+        <script type="text/javascript" src="javascript/controllers/photoController.js">
         </script>
         <script type="text/javascript" src="javascript/helpers/site_list_helper.js">
         </script>
@@ -100,20 +100,25 @@
         </div><!-- Trip Details Screen -->
         <div id="sites_to_visit" style="display: none">
             <div class="toolbar">
-                <h1>Trip Name: <span id="trip_title"></span></h1>
+                <h1><span id="trip_title"></span></h1>
                 <span id="logout" name="logout" class="back">Logout</span>
             </div>
             <div class="content">
                 <div class="right">
                     <span id="add_new_site_button" class="link">Add New Site</span>
                 </div>
-                <div id="list_trip">
-                    <h2>Sites to Visit</h2>
-                    <ul id="site_list">
-                    </ul>
+                <div class="tip largebox" id="no_sites_in_trip">
+                    You don't have any sites to visit yet. Why not add one?
                 </div>
-                <div class="tip">
-                    Sites visited are marked <img src="css/images/icon_tick.gif"/>
+                <div class="sites_list">
+                    <div id="list_trip">
+                        <h2>Sites to Visit</h2>
+                        <ul id="site_list">
+                        </ul>
+                    </div>
+                    <div class="tip">
+                        Sites visited are marked <img src="css/images/icon_tick.gif"/>
+                    </div>
                 </div>
                 <div class="right">
                     <span id="settings_button" class="link">Settings</span>
@@ -123,7 +128,7 @@
         <!-- Add Site Screen -->
         <div id="add_new_site" style="display: none">
             <div class="toolbar">
-                <h1>Trip Name: <span id="trip_title"></span></h1>
+                <h1>New Site</h1>
                 <span class="back back_to_site_list">Back</span>
             </div>
             <div class="content">
@@ -179,9 +184,7 @@
                     This will erase any unsynced changes. This operation is not reversible.
                 </p>
                 <p class="submit">
-                    <input type="button" id="delete_proceed" class="button" value="Proceed"/>
-                
-                    <input type="button" id="delete_cancel" class="button" value="Cancel"/>
+                    <input type="button" id="delete_proceed" class="button" value="Proceed"/><input type="button" id="delete_cancel" class="button" value="Cancel"/>
                 </p>
             </div>
         </div><!-- Questionnaire form Screen -->
@@ -245,8 +248,7 @@
                     <input type="button" name="narrative-save" id="narrative-save" class="button" value="Save"/>
                 </p>
             </div>
-        </div>
-        <!-- Contact Info Screen -->
+        </div><!-- Contact Info Screen -->
         <div id="contact_info_edit_screen" style="display: none">
             <div class="toolbar">
                 <h1>Contact Information</h1>
@@ -288,15 +290,14 @@
                     </label>
                     <input id="photo_path" type="file"/>
                 </p>
-				<p class="submit">
+                <p class="submit">
                     <input type="button" id="attach_photo" class="button" value="Attach"/>
                 </p>
-				<ul id="photo_list">
-					
-				</ul>
-                
+                <ul id="photo_list">
+                </ul>
             </div>
-        </div><!-- List Action item Screen -->
+        </div>
+        <!-- List Action item Screen -->
         <div id="list_action_item_screen" style="display: none">
             <div class="toolbar">
                 <h1>Action Item</h1>

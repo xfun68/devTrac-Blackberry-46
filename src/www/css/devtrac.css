@@ -218,3 +218,8 @@ p.submit {
 	float: left;
 	margin: 2px;
 }
+
+.largebox {
+	margin-top: 10px;
+	margin-bottom: 40px;
+}

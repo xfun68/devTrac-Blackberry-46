@@ -4,7 +4,8 @@ function QuestionsController(){
 }
 
 QuestionsController.prototype.show = function(){
-    var container = $('.question-content');
+    screens.show("loading");
+	var container = $('.question-content');
     container.html("");
     devtrac.questionsController.answers = [];
     devtrac.questionsController.questions = $.map(devtrac.questions, function(q){

@@ -7,7 +7,10 @@ SettingsController.prototype.show = function(){
 }
 
 SettingsController.prototype.updateQuestionsPlaces = function(){
-    devtrac.dataPull.questions(devtrac.settingsController.show);
+    devtrac.dataPull.questions(function(){
+        alert("Questions and places updated successfully.");
+        devtrac.settingsController.show();
+    });
 }
 
 SettingsController.prototype.wipeout = function(){
