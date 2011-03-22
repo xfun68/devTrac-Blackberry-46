@@ -172,18 +172,15 @@
                 <h1>Delete Confirm</h1>
             </div>
             <div class="content">
-                <div>
-                    <p>
-                        Do you really want to delete all the application data? 
-                        This will erase any unsynced changes. This operation is not reversible.
-                    </p>
-                    <div align="left">
-                        <input type="button" id="delete_proceed" class="button" value="Proceed"/>
-                    </div>
-                    <div alight="right">
-                        <input type="button" id="delete_cancel" class="button" value="Cancel"/>
-                    </div>
-                </div>
+                <p>
+                    Do you really want to delete all the application data? 
+                    This will erase any unsynced changes. This operation is not reversible.
+                </p>
+                <p class="submit">
+                    <input type="button" id="delete_proceed" class="button" value="Proceed"/>
+                
+                    <input type="button" id="delete_cancel" class="button" value="Cancel"/>
+                </p>
             </div>
         </div><!-- Questionnaire form Screen -->
         <div id="questions_form" style="display: none">
@@ -325,7 +322,7 @@
                     <input type="file"/>
                 </p>
                 <p class="submit">
-                    <input type="submit" name="upload_photo" id="upload_photo" class="button" value="Upload"/>
+                    <input type="submit" name="upload_photo" id="upload_photo" class="button" value="Attach"/>
                 </p>
             </div>
         </div><!-- List Action item Screen -->
