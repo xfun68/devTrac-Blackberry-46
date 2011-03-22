@@ -5,14 +5,7 @@ function DataPull(){
 }
 
 DataPull.prototype.pull = function(callback){
-    // For now don't check for reachability. If user is logged in, download all the data.   
-    if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
-        callback();
-    }
-    else {
-        devtrac.dataPull.questions(callback);
-    }
-    
+    alert("I should be never called: Pull");
 };
 
 DataPull.prototype.questions = function(callback){
@@ -97,6 +90,7 @@ DataPull.prototype.placeTypes = function(callback){
 }
 
 DataPull.prototype.tripDetails = function(callback){
+	$("#status").html("");
     var tripSuccess = function(tripResponse){
         if (hasError(tripResponse)) {
             alert(getErrorMessage(tripResponse));
