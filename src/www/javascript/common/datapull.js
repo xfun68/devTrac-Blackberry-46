@@ -93,9 +93,14 @@ DataPull.prototype.tripDetails = function(callback){
             callback();
         }
         else {
-            devtrac.dataPull.fieldTrip.id = tripResponse["#data"][0]["nid"];
-            devtrac.dataPull.fieldTrip.title = tripResponse["#data"][0]["title"];
-            devtrac.dataPull.tripSiteDetails(callback);
+			if (tripResponse["#data"].length > 0) {
+				devtrac.dataPull.fieldTrip.id = tripResponse["#data"][0]["nid"];
+				devtrac.dataPull.fieldTrip.title = tripResponse["#data"][0]["title"];
+				devtrac.dataPull.tripSiteDetails(callback);
+				return;
+			}
+			alert("You don't have any active field trip. Please create a field trip.");
+			devtrac.loginController.logout();
         }
     };
     
