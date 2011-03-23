@@ -124,7 +124,7 @@ QuestionsController.prototype.collectCheckboxAnswers = function(){
     $.each(items, function(index, item){
         var answer = new SubmissionItem();
         answer.id = index;
-        answer.response = item.join(",");
+        answer.response = item.join("~");
         devtrac.questionsController.answers.push(answer);
     });
 }
@@ -175,7 +175,7 @@ QuestionsController.prototype.populateResponse = function(){
         }
         var checkboxes = $(":checkbox[name='" + answer.id + "']");
         if (checkboxes.length > 0) {
-            checkboxes.val(answer.response.split(","));
+			checkboxes.val(answer.response.split("~"));
         }
         var elements = $("select[name='" + answer.id + "']");
         if (elements.length == 1) {
