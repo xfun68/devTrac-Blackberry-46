@@ -43,12 +43,14 @@ fieldTripController.paintSites = function(){
     for (var id in devtrac.fieldTrip.sites) {
         var site = devtrac.fieldTrip.sites[id];
         var siteId = site.id ? site.id : site.name;
-        var siteName = site.type ? site.name + ", " + site.type : site.name;
-        var html = "<li id=\"" + siteId + "\" class=\"link site_item\"><span>" + siteName + "</span>";
-        if (site.complete) {
-            html += "<span class=\"done\"><img src=\"css/images/icon_tick.gif\"/></span>";
+		var siteType = site.type ? site.type : "";
+		var html = "<div class='grid_row'><div id='" + siteId + "' class='link site_item col1'>" + site.name + "</div>";
+		html += "<div class='col2'>" + siteType + "</div><div class='col3'>";
+		if (site.complete) {
+            html += "<span class='done'><img src='css/images/icon_tick.gif'/></span>";
         }
-        html += "</li>";
+		html += "</div></div>";
+
         sitesContainer.append(html);
     }
     noSitesTip.hide();

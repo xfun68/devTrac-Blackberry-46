@@ -198,10 +198,15 @@ p.submit {
     padding: 5px;
 	overflow: hidden;
 }
-.grid .col1, .grid .col2{
+.grid .col1{
 	float: left;
 	padding: 5px;
-    width: 40%;
+    width: 55%;
+}
+.grid .col2{
+	float: left;
+	padding: 5px;
+    width: 25%;
 }
 .grid .col3 {
         float: left;
