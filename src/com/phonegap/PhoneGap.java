@@ -467,14 +467,20 @@ public class PhoneGap extends UiApplication implements RenderingApplication {
     	}
     
     	public boolean keyChar(char arg0, int arg1, int arg2) {
+    		// Catch BlackBerry's back key and ignore it.
+    		if(arg0==Characters.ESCAPE){
+    			return true;
+    		}
+    		
     		// Catch BlackBerry's back key, pop history URL stack and initiate HTTP request to it.
+    		/*
     		if (ConnectionManager.history.size() > 1 && arg0 == Characters.ESCAPE) {
     			phoneGap.showLoadingScreen();
     			ConnectionManager.history.pop();
     			PrimaryResourceFetchThread thread = new PrimaryResourceFetchThread((String)ConnectionManager.history.pop(), null, null, null, this.phoneGap);
     			thread.start();
     			return true;
-    		}
+    		}*/
     		return false;
     	}
 
