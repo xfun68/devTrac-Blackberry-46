@@ -1,7 +1,8 @@
 var devtrac = {
     loginController: new LoginController(),
     user: new User(),
-    fieldTrip: new FieldTrip(),
+    common: new Common(),
+	fieldTrip: new FieldTrip(),
     dataPull: new DataPull(),
     dataStore: new DataStore(),
     siteDetailController: new SiteDetailController(),

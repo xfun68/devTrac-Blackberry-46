@@ -12,12 +12,12 @@ RemoteView.prototype.call = function(viewName, displayId, viewArgs, successCallb
         domain_time_stamp: timestamp,
         api_key: DT.API_KEY,
         nonce: timestamp,
-        hash: generateHash(DT.VIEWS_GET, timestamp),
+        hash: devtrac.common.generateHash(DT.VIEWS_GET, timestamp),
         view_name: viewName,
         display_id: displayId,
         args: viewArgs
     };
     
-    callService(params, successCallback, failedCallback);
+    devtrac.common.callService(params, successCallback, failedCallback);
 }
 

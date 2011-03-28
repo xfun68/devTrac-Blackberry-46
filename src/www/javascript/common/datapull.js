@@ -7,8 +7,8 @@ function DataPull(){
 DataPull.prototype.questions = function(callback){
     $("#status").html("");
     var questionSuccess = function(questionResponse){
-        if (hasError(questionResponse)) {
-            alert(getErrorMessage(questionResponse));
+        if (devtrac.common.hasError(questionResponse)) {
+            alert(devtrac.common.getErrorMessage(questionResponse));
             callback();
         }
         else {
@@ -50,8 +50,8 @@ DataPull.prototype.questions = function(callback){
 
 DataPull.prototype.placeTypes = function(callback){
     var placesSuccess = function(placesResponse){
-        if (hasError(placesResponse)) {
-            alert(getErrorMessage(placesResponse));
+        if (devtrac.common.hasError(placesResponse)) {
+            alert(devtrac.common.getErrorMessage(placesResponse));
             callback();
         }
         else {
@@ -88,19 +88,19 @@ DataPull.prototype.placeTypes = function(callback){
 DataPull.prototype.tripDetails = function(callback){
     $("#status").html("");
     var tripSuccess = function(tripResponse){
-        if (hasError(tripResponse)) {
-            alert(getErrorMessage(tripResponse));
+        if (devtrac.common.hasError(tripResponse)) {
+            alert(devtrac.common.getErrorMessage(tripResponse));
             callback();
         }
         else {
-			if (tripResponse["#data"].length > 0) {
-				devtrac.dataPull.fieldTrip.id = tripResponse["#data"][0]["nid"];
-				devtrac.dataPull.fieldTrip.title = tripResponse["#data"][0]["title"];
-				devtrac.dataPull.tripSiteDetails(callback);
-				return;
-			}
-			alert("You don't have any active field trip. Please create a field trip.");
-			devtrac.loginController.logout();
+            if (tripResponse["#data"].length > 0) {
+                devtrac.dataPull.fieldTrip.id = tripResponse["#data"][0]["nid"];
+                devtrac.dataPull.fieldTrip.title = tripResponse["#data"][0]["title"];
+                devtrac.dataPull.tripSiteDetails(callback);
+                return;
+            }
+            alert("You don't have any active field trip. Please create a field trip.");
+            devtrac.loginController.logout();
         }
     };
     
@@ -116,8 +116,8 @@ DataPull.prototype.tripDetails = function(callback){
 
 DataPull.prototype.tripSiteDetails = function(callback){
     var siteSuccess = function(siteResponse){
-        if (hasError(siteResponse)) {
-            alert(getErrorMessage(siteResponse));
+        if (devtrac.common.hasError(siteResponse)) {
+            alert(devtrac.common.getErrorMessage(siteResponse));
             callback();
         }
         else {
@@ -132,7 +132,7 @@ DataPull.prototype.tripSiteDetails = function(callback){
             });
             devtrac.dataPull.fieldTrip.sites = sites;
             if (sites.length == 0) {
-            	devtrac.dataPull.saveFieldtrip(callback);
+                devtrac.dataPull.saveFieldtrip(callback);
             }
             devtrac.dataPull.placeDetailsForSite(callback);
         }
@@ -156,8 +156,8 @@ DataPull.prototype.placeDetailsForSite = function(callback){
     }
     var site = devtrac.dataPull.sites.pop();
     var placeSuccess = function(placeResponse){
-        if (hasError(placeResponse)) {
-            alert(getErrorMessage(placeResponse));
+        if (devtrac.common.hasError(placeResponse)) {
+            alert(devtrac.common.getErrorMessage(placeResponse));
             callback();
         }
         else {
@@ -215,8 +215,8 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
     }
     var site = devtrac.dataPull.sitesForActionItems.pop();
     var actionItemSuccess = function(actionItemResponse){
-        if (hasError(actionItemResponse)) {
-            alert(getErrorMessage(actionItemResponse));
+        if (devtrac.common.hasError(actionItemResponse)) {
+            alert(devtrac.common.getErrorMessage(actionItemResponse));
             callback();
         }
         else {
@@ -277,4 +277,16 @@ DataPull.prototype.saveFieldtrip = function(callback){
         devtrac.dataPull.updateStatus("Error in saving field trip.");
         callback();
     }, devtrac.user.name, JSON.stringify(devtrac.dataPull.fieldTrip));
+}
+
+var QuestionTypes = function(questions){
+    this.questions = questions;
+    var that = this;
+    
+    this.locationTypes = function(){
+        var types = $.map(that.questions, function(q){
+            return q.taxonomy[0].name;
+        });
+        return $.unique(types);
+    }
 }

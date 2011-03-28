@@ -15,12 +15,12 @@ function authenticate(userName, password, successCallback, failedCallback){
                 domain_time_stamp: timestamp,
                 api_key: DT.API_KEY,
                 nonce: timestamp,
-                hash: generateHash(DT.USER_LOGIN, timestamp)
+                hash: devtrac.common.generateHash(DT.USER_LOGIN, timestamp)
             };
-            callService(params, successCallback, failedCallback);
+            devtrac.common.callService(params, successCallback, failedCallback);
         }
     };
-	callService({
+	devtrac.common.callService({
         method: DT.SYSTEM_CONNECT
     }, connectCallback, failedCallback);
 }
@@ -36,9 +36,9 @@ function logout(successCallback, failedCallback){
         domain_time_stamp: timestamp,
         api_key: DT.API_KEY,
         nonce: timestamp,
-        hash: generateHash(DT.USER_LOGIN, timestamp)
+        hash: devtrac.common.generateHash(DT.USER_LOGIN, timestamp)
     };
-    callService(params, successCallback, failedCallback);
+    devtrac.common.callService(params, successCallback, failedCallback);
 }
 
 function userLoggedIn(response){
