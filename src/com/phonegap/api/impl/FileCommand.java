@@ -24,7 +24,7 @@ public class FileCommand implements Command {
 			case READ_COMMAND: 
 				try {
 					String filePath = instruction.substring(CODE.length() + 6);
-					return ";if (navigator.file.read_success != null) { navigator.file.read_success("+escapeString(filePath)+"); };";
+					return ";if (navigator.file.read_success != null) { navigator.file.read_success('"+escapeString(filePath)+"'); };";
 				} catch (Exception e) {
 					return ";if (navigator.file.read_error != null) { navigator.file.read_error('Exception: " + e.getMessage().replace('\'', '`') + "'); };";
 				}

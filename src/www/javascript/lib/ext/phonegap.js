@@ -578,8 +578,8 @@ if (typeof navigator.file === "undefined") { navigator.file = new File(); }
 
 File.prototype.read = function(fileName, successCallback, errorCallback) {
 	this.read_success = successCallback;
-	this.loadAll_error = errorCallback;
-	PhoneGap.exec("file",["read",encodeURIComponent(fileToRead)]);
+	this.read_error = errorCallback;
+	PhoneGap.exec("file",["read", fileName]);
 };
 
 File.prototype.m_readReady = function() {
