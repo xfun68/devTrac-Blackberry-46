@@ -1,7 +1,18 @@
 package com.phonegap.api.impl;
 
+import javax.microedition.pim.PIM;
+
 import com.phonegap.PhoneGap;
 import com.phonegap.api.Command;
+
+import javax.microedition.io.Connection;
+import javax.microedition.io.Connector;
+import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import javax.microedition.io.file.FileConnection;
+import net.rim.device.api.io.Base64OutputStream;
+import net.rim.device.api.xml.jaxp.RIMExtendedAttributes;
+
 
 public class FileCommand implements Command {
 	private static final String CODE = "PhoneGap=file";
@@ -24,7 +35,24 @@ public class FileCommand implements Command {
 			case READ_COMMAND: 
 				try {
 					String filePath = instruction.substring(CODE.length() + 6);
-					return ";if (navigator.file.read_success != null) { navigator.file.read_success('"+escapeString(filePath)+"'); };";
+					Connector.open(filePath);
+					FileConnection fileConnection= (FileConnection)Connector.open(filePath,Connector.READ);
+					long fileSize = fileConnection.fileSize();
+					long lastModified = fileConnection.lastModified();					
+					String fileName = fileConnection.getName();
+					InputStream fileStream =  fileConnection.openInputStream();
+					ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+					Base64OutputStream base64OutStream = new Base64OutputStream(outStream);
+					int byteRead=0;
+					while((byteRead=fileStream.read()) != -1){
+						base64OutStream.write(byteRead);
+					}
+					return ";if (navigator.file.read_success != null) { navigator.file.read_success({"
+					+"name:'"+escapeString(fileName)
+					+"',size:"+fileSize
+					+",lastModified:"+lastModified
+					+",mimeType:'"+escapeString(getMimeType(fileName))
+					+"',data:'"+escapeString(outStream.toString())+"'}); };";
 				} catch (Exception e) {
 					return ";if (navigator.file.read_error != null) { navigator.file.read_error('Exception: " + e.getMessage().replace('\'', '`') + "'); };";
 				}
@@ -48,5 +76,11 @@ public class FileCommand implements Command {
 		value = PhoneGap.replace(value, "'", "\\'");
 		
 		return value;
+	}
+	
+	private String getMimeType(String fileName){
+		int dotPos = fileName.lastIndexOf('.');
+		if(dotPos == -1) return "image/unknown";
+		return "image/"+ fileName.toLowerCase().substring(dotPos+1);
 	}
 }
