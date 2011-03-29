@@ -69,7 +69,8 @@ PhoneGap.exec = function() {
  * the async task.
  * @param {String} clazz The fully qualified class name of the class to call.
  * @param {String} action The the method to call on the class.
- * @param {Object} args The arguments to pass to the method.
+ * @param {Object} args The arguments to pass to
+ *  the method.
  */
 PhoneGap.execAsync = function(success, fail, clazz, action, args) {
     var callbackId = clazz + PhoneGap.callbackId++;
@@ -569,24 +570,16 @@ window.device.init();/**
  * This class provides generic read and write access to the mobile device file system.
  */
 function File() {
-	/**
-	 * The data of a file.
-	 */
-	this.data = "";
-	/**
-	 * The name of the file.
-	 */
-	this.name = "";
+	this.read_success = null;
+	this.read_error = null;
 }
 
 if (typeof navigator.file === "undefined") { navigator.file = new File(); }
 
 File.prototype.read = function(fileName, successCallback, errorCallback) {
-	alert('File I/O not implemented in PhoneGap BlackBerry - yet.');
-	/*document.cookie = 'bb_command={command:8,args:{name:"'+fileName+'"}}';
-	navigator.file.successCallback = successCallback;
-	navigator.file.errorCallback = errorCallback;
-	navigator.file.readTimeout = window.setInterval('navigator.file.m_readReady()', 1000);*/
+	this.read_success = successCallback;
+	this.read_error = errorCallback;
+	PhoneGap.exec("file",["read", fileName]);
 };
 
 File.prototype.m_readReady = function() {
@@ -1436,7 +1429,9 @@ Store.prototype.nuke = function(successCallback, errorCallback) {
 	PhoneGap.exec("store", ["nuke"]);
 };
 
-if (typeof navigator.store === "undefined") { navigator.store = new Store(); }/**
+if (typeof navigator.store === "undefined") { navigator.store = new Store(); }
+
+/**
  * This class provides access to the telephony features of the device.
  * @constructor
  */
