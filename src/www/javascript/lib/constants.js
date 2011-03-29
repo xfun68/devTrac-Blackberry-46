@@ -12,6 +12,7 @@ DT = {
 	USER_LOGIN: 'user.login',
 	USER_LOGOUT: 'user.logout',
 	VIEWS_GET: 'views.get',
+    FILE_SAVE: 'file.save',
 	PULL_INTERVAL: 86400000
 }
 */
@@ -29,5 +30,7 @@ DT = {
     USER_LOGIN: 'user.login',
     USER_LOGOUT: 'user.logout',
     VIEWS_GET: 'views.get',
-	PULL_INTERVAL: 86400000
-}
+    FILE_SAVE: 'file.save',
+	PULL_INTERVAL: 86400000,
+	FILE_UPLOAD_PATH: 'sites/default/files/blackberry/<UID>/<FILE>'
+};

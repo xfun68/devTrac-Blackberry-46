@@ -12,6 +12,7 @@ var devtrac = {
     settingsController: new SettingsController(),
 	photoController: new PhotoController(),
     remoteView: new RemoteView(),
+    photoUpload: new PhotoUpload(),
     currentSite: "",
     places: "",
     questions: ""
