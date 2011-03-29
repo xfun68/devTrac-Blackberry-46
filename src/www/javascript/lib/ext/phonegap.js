@@ -1155,6 +1155,22 @@ Network.prototype.XHR = function(URL, POSTdata, successCallback) {
 	this.XHR_success = successCallback;
 	PhoneGap.exec("network",["xhr",req]);
 };
+
+Network.prototype.XHRUpload = function(URL, data, filepath, loggedinUser, targetPath, successCallback) {
+	var req = URL;
+	if (data !== null) {
+		req += "|" + data;
+	}
+	if (filepath !== null) {
+		req += "~" + JSON.stringify({
+			'filePath': filepath,
+			'user': loggedinUser,
+			'targetPath': targetPath
+		});
+	}
+	this.XHR_success = successCallback;
+	PhoneGap.exec("network",["xhrupload",req]);
+};
 /**
  * This class provides access to notifications on the device.
  */

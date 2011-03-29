@@ -1,17 +1,17 @@
 function Common(){
     this.callService = function(data, callback, errorCallback){
-        navigator.network.XHR(DT.SERVICE_ENDPOINT, convertHash(data), callback);
-        
-        function convertHash(hash){
-            var paramStr = "";
-            for (param in hash) {
-                paramStr += param;
-                paramStr += '=';
-                paramStr += hash[param];
-                paramStr += "&";
-            }
-            return paramStr;
+        navigator.network.XHR(DT.SERVICE_ENDPOINT, devtrac.common.convertHash(data), callback);
+    }
+    
+    this.convertHash = function(hash){
+        var paramStr = "";
+        for (param in hash) {
+            paramStr += param;
+            paramStr += '=';
+            paramStr += hash[param];
+            paramStr += "&";
         }
+        return paramStr;
     }
     
     this.generateHash = function(method, timestamp){
