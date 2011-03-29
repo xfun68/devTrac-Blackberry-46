@@ -23,7 +23,7 @@ h1 {
     font-weight: bold;
     line-height: 1em;
     margin: 1px 0 0 10px;
-    overflow: auto;
+    overflow: hidden;
     text-align: center;
     text-shadow: 0 -1px 1px #000000;
 }
@@ -106,7 +106,7 @@ p {
     list-style-type: none;
     padding: 5px 0 10px 0;
     border-bottom: 1px solid #D6D6D6;
-    overflow: auto;
+    overflow: hidden;
 }
 
 #list_trip ul  li span {
@@ -196,7 +196,7 @@ p.submit {
 	background-color: #EAEAEA;
     font-size: 16px;
     padding: 5px;
-	overflow: auto;
+	overflow: hidden;
 }
 .grid .col1{
 	float: left;
@@ -213,7 +213,7 @@ p.submit {
 }
 .grid_row {
 	border-bottom: 1px solid #D6D6D6;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .thumbnail {

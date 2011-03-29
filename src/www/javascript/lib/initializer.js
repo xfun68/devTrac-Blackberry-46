@@ -7,6 +7,7 @@ function initializeApplicationEvents(){
     attachQuestionsButtons();
     attachPhotoButtons();
     attachActionItemButtons();
+	attachSettingsButton();
     
     function attachCommonEvents(){
         $(".back_to_site_list").click(fieldTripController.showTripReports);

@@ -1,17 +1,15 @@
 package com.phonegap.api.impl;
 
-import javax.microedition.pim.PIM;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+import javax.microedition.io.Connector;
+import javax.microedition.io.file.FileConnection;
+
+import net.rim.device.api.io.Base64OutputStream;
 
 import com.phonegap.PhoneGap;
 import com.phonegap.api.Command;
-
-import javax.microedition.io.Connection;
-import javax.microedition.io.Connector;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import javax.microedition.io.file.FileConnection;
-import net.rim.device.api.io.Base64OutputStream;
-import net.rim.device.api.xml.jaxp.RIMExtendedAttributes;
 
 
 public class FileCommand implements Command {
