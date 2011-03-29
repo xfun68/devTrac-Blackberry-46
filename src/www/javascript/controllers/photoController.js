@@ -24,7 +24,8 @@ PhotoController.prototype.attach = function(){
                 filesize: data.size,
                 timestamp: data.lastModified,
                 uid: devtrac.user.loggedIn,
-                filemime: data.mimeType
+                filemime: data.mimeType,
+                filepath: 'sites/default/files/blackberry/' + devtrac.user.uid + '/' + data.Name
             };
             
             var sessionId = devtrac.user.session.id;
@@ -37,7 +38,7 @@ PhotoController.prototype.attach = function(){
                 api_key: DT.API_KEY,
                 nonce: timestamp,
                 hash: devtrac.common.generateHash('file.save', timestamp),
-                file: dataToPost
+                file: JSON.stringify(dataToPost)
             };
             
             
