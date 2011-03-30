@@ -78,6 +78,7 @@ public class NetworkCommand implements Command {
 
 	public String execute(String instruction) {
 		JSONObject fileData = null;
+		String reqURL = null;
 		switch (getCommand(instruction)) {
 		case REACHABLE_COMMAND:
 			// Determine the active Wireless Access Families
@@ -97,6 +98,7 @@ public class NetworkCommand implements Command {
 					+ ";if (navigator.network.isReachable_success) navigator.network.isReachable_success("
 					+ reachability + ");";
 		case XHR_UPLOAD_COMMAND:
+			reqURL = instruction.substring(CODE.length() + 11);
 			int tildaIndex = instruction.lastIndexOf('~');
 			try {
 				JSONObject fileDetails = new JSONObject(instruction.substring(tildaIndex + 1));
@@ -111,7 +113,7 @@ public class NetworkCommand implements Command {
 				return "alert('Error occured while uploading content')";
 			}
 		case XHR_COMMAND:
-			String reqURL = instruction.substring(CODE.length() + 5);
+			reqURL = reqURL == null ? instruction.substring(CODE.length() + 5) : reqURL;
 			String POSTdata = null;
 			int pipeIndex = reqURL.indexOf("|");
 			if (pipeIndex > -1) {

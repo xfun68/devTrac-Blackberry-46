@@ -1,6 +1,7 @@
 function Common(){
     this.callService = function(data, callback, errorCallback){
         navigator.network.XHR(DT.SERVICE_ENDPOINT, devtrac.common.convertHash(data), callback);
+		
     }
     
     this.convertHash = function(hash){
