@@ -18,7 +18,7 @@ ActionItemController.prototype.show = function(){
         var profiles = $.grep(devtrac.profiles, function(profile){
             return item.assignedTo == profile.uid;
         });
-		var name = profiles.length > 0? profiles[0].name : "N/A";
+        var name = profiles.length > 0 ? profiles[0].name : "N/A";
         var html = "<div class='grid_row'><div class='col1'>" + item.title + "</div><div class='col2'>" + name + "</div></div>";
         container.append(html);
     });
@@ -54,7 +54,6 @@ ActionItemController.prototype.save = function(){
     devtrac.currentSite.actionItems.push(actionItem);
     devtrac.dataStore.saveCurrentSite(function(){
         alert("Added action item.");
-        alert("Value: " + JSON.stringify(actionItem));
         devtrac.actionItemController.show();
     });
 }

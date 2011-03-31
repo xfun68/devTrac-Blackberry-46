@@ -105,8 +105,7 @@ DataPull.prototype.userProfiles = function(callback){
             navigator.store.put(function(){
                 devtrac.dataPull.updateStatus("Saved " + profiles.length + " user profiles successfully.");
                 devtrac.profiles = profiles;
-				alert("Profiles: " + JSON.stringify(profiles));
-                callback();
+				callback();
             }, function(){
                 devtrac.dataPull.updateStatus("Error in saving user profiles");
                 callback();
