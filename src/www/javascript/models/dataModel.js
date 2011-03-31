@@ -59,3 +59,10 @@ function ActionItem(){
 	this.task = "";
     this.assignedTo = "";
 }
+
+function UserProfile(){
+	this.nid = "";
+	this.uid = "";
+	this.username = "";
+	this.name = "";
+}

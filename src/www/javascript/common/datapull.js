@@ -66,7 +66,7 @@ DataPull.prototype.placeTypes = function(callback){
             navigator.store.put(function(){
                 devtrac.dataPull.updateStatus("Saved " + places.length + " place types successfully.");
                 devtrac.places = places;
-                callback();
+                devtrac.dataPull.userProfiles(callback);
             }, function(){
                 devtrac.dataPull.updateStatus("Error in saving place types");
                 callback();
@@ -83,6 +83,46 @@ DataPull.prototype.placeTypes = function(callback){
     screens.show("pull_status");
     devtrac.dataPull.updateStatus("Retrieving location types.");
     devtrac.remoteView.call('api_placetypes', 'page_1', '', placesSuccess, placesFailed);
+}
+
+
+DataPull.prototype.userProfiles = function(callback){
+    var profilesSuccess = function(profilesResponse){
+        if (devtrac.common.hasError(profilesResponse)) {
+            alert(devtrac.common.getErrorMessage(profilesResponse));
+            callback();
+        }
+        else {
+            var profiles = $.map(profilesResponse['#data'], function(item){
+                var profile = new UserProfile();
+				profile.nid = item.nid;
+				profile.uid = item.uid;
+				profile.name = item.title;
+				profile.username = item.name;
+                return profile;
+            });
+            
+            navigator.store.put(function(){
+                devtrac.dataPull.updateStatus("Saved " + profiles.length + " user profiles successfully.");
+                devtrac.profiles = profiles;
+				alert("Profiles: " + JSON.stringify(profiles));
+                callback();
+            }, function(){
+                devtrac.dataPull.updateStatus("Error in saving user profiles");
+                callback();
+            }, "profiles", JSON.stringify(profiles));
+            
+        }
+    };
+    
+    var profilesFailed = function(){
+        // Failed. Continue with callback function.
+        callback();
+    };
+    
+    screens.show("pull_status");
+    devtrac.dataPull.updateStatus("Retrieving user profiles types.");
+    devtrac.remoteView.call('api_users', 'page_1', '', profilesSuccess, profilesFailed);
 }
 
 DataPull.prototype.tripDetails = function(callback){

@@ -2,7 +2,7 @@ var devtrac = {
     loginController: new LoginController(),
     user: new User(),
     common: new Common(),
-	fieldTrip: new FieldTrip(),
+    fieldTrip: new FieldTrip(),
     dataPull: new DataPull(),
     dataStore: new DataStore(),
     siteDetailController: new SiteDetailController(),
@@ -10,12 +10,13 @@ var devtrac = {
     contactInfoController: new ContactInfoController(),
     actionItemController: new ActionItemController(),
     settingsController: new SettingsController(),
-	photoController: new PhotoController(),
+    photoController: new PhotoController(),
     remoteView: new RemoteView(),
     photoUpload: new PhotoUpload(),
     currentSite: "",
     places: "",
-    questions: ""
+    questions: "",
+    profiles: ""
 }
 
 function onLoad(){

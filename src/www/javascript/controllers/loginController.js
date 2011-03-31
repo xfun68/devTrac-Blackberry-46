@@ -23,19 +23,8 @@ LoginController.prototype.login = function(){
         navigator.store.put(function(){
             devtrac.dataStore.getQuestions(function(){
                 devtrac.dataStore.getPlaces(function(){
-                    if (devtrac.questions && devtrac.places) {
-                        // Check if fieldtrip is locally available for current user
-                        devtrac.dataStore.retrieveFieldTrip(function(){
-                            if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
-                                fieldTripController.showTripReports();
-                                return;
-                            }
-                            // No fieldtrip exist for user. Download the details.
-                            devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
-                        });
-                    }
-                    else {
-                        devtrac.dataPull.questions(function(){
+                    devtrac.dataStore.getProfiles(function(){
+                        if (devtrac.questions && devtrac.places && devtrac.profiles) {
                             // Check if fieldtrip is locally available for current user
                             devtrac.dataStore.retrieveFieldTrip(function(){
                                 if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
@@ -45,9 +34,21 @@ LoginController.prototype.login = function(){
                                 // No fieldtrip exist for user. Download the details.
                                 devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
                             });
-                        });
-                    }
-                    
+                        }
+                        else {
+                            devtrac.dataPull.questions(function(){
+                                // Check if fieldtrip is locally available for current user
+                                devtrac.dataStore.retrieveFieldTrip(function(){
+                                    if (devtrac.fieldTrip && devtrac.fieldTrip.id) {
+                                        fieldTripController.showTripReports();
+                                        return;
+                                    }
+                                    // No fieldtrip exist for user. Download the details.
+                                    devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
+                                });
+                            });
+                        }
+                    })
                 });
             });
             

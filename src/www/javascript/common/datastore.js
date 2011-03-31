@@ -8,7 +8,9 @@ DataStore.prototype.init = function(callback){
             devtrac.user = JSON.parse(response);
             devtrac.dataStore.getQuestions(function(){
                 devtrac.dataStore.getPlaces(function(){
-                    devtrac.dataStore.retrieveFieldTrip(callback);
+                    devtrac.dataStore.getProfiles(function(){
+                        devtrac.dataStore.retrieveFieldTrip(callback);
+                    });
                 });
             });
         }
@@ -94,6 +96,25 @@ DataStore.prototype.getPlaces = function(callback){
             callback();
         }
     }, "placeTypes");
+}
+
+DataStore.prototype.getProfiles = function(callback){
+    navigator.store.get(function(response){
+        if (response) {
+            devtrac.profiles = JSON.parse(response);
+            if (callback) {
+                callback();
+            }
+        }
+        else {
+            callback();
+        }
+    }, function(error){
+        alert("Offline storage error");
+        if (callback) {
+            callback();
+        }
+    }, "profiles");
 }
 
 
