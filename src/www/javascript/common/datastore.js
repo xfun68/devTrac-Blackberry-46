@@ -50,6 +50,30 @@ DataStore.prototype.saveFieldTrip = function(callback){
     }, devtrac.user.name, JSON.stringify(devtrac.fieldTrip));
 }
 
+DataStore.prototype.updateTripImageFid = function(imagePath, fid, callback){
+    var imageFound = false;
+    $.each(devtrac.fieldTrip.sites, function(index, site){
+        for (var filePath in site.photos) {
+            if (imagePath == filePath) {
+                devtrac.fieldTrip.sites[index].photos[imagePath] = fid;
+                imageFound = true;
+            }
+        }
+    });
+    
+    if (imageFound) {
+        devtrac.dataStore.saveFieldTrip(function(){
+            if (callback) {
+                callback('Images updated and saved');
+            }
+        });
+    }
+    else {
+		if (callback) {
+			callback('No image found to update');
+		}
+    }
+}
 
 DataStore.prototype.saveCurrentSite = function(callback){
     $.each(devtrac.fieldTrip.sites, function(index, site){

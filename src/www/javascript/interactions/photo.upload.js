@@ -31,7 +31,7 @@ PhotoUpload.prototype._uploadInternal = function(filePaths, uploadedFiles, succe
 		devtrac.photoUpload.upload(fileToUpload,function(fid){
 			uploadedFiles[fileToUpload] = fid;
 			if(progressCallback)
-				progressCallback(uploadedFiles,fileToUpload);
+				progressCallback(uploadedFiles,fileToUpload, fid);
 			devtrac.photoUpload._uploadInternal(filePaths, uploadedFiles, successCallback, progressCallback);
 		});
 	} else {

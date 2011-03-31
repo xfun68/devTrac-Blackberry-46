@@ -4,6 +4,7 @@ var devtrac = {
     common: new Common(),
     fieldTrip: new FieldTrip(),
     dataPull: new DataPull(),
+    dataPush: new DataPush(),
     dataStore: new DataStore(),
     siteDetailController: new SiteDetailController(),
     questionsController: new QuestionsController(),
