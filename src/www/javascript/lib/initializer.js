@@ -39,8 +39,9 @@ function initializeApplicationEvents(){
     
     function attachSettingsButton(){
         $("#settings_button").click(devtrac.settingsController.show);
-        $("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
-        $("#wipe_out_data").click(devtrac.settingsController.wipeout);
+        $("#upload_images").click(devtrac.settingsController.uploadTripImages);
+		$("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
+		$("#wipe_out_data").click(devtrac.settingsController.wipeout);
         $("#delete_proceed").click(devtrac.settingsController.performWipeout);
         $("#delete_cancel").click(devtrac.settingsController.show);
         
