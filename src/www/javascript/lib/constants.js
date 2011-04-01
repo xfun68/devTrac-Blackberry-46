@@ -31,6 +31,7 @@ DT = {
     USER_LOGOUT: 'user.logout',
     VIEWS_GET: 'views.get',
     FILE_SAVE: 'file.save',
+    NODE_SAVE: 'node.save',
 	PULL_INTERVAL: 86400000,
 	FILE_UPLOAD_PATH: 'sites/default/files/blackberry/<UID>/'
 };

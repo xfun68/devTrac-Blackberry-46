@@ -95,17 +95,17 @@ DataPull.prototype.userProfiles = function(callback){
         else {
             var profiles = $.map(profilesResponse['#data'], function(item){
                 var profile = new UserProfile();
-				profile.nid = item.nid;
-				profile.uid = item.uid;
-				profile.name = item.title;
-				profile.username = item.name;
+                profile.nid = item.nid;
+                profile.uid = item.uid;
+                profile.name = item.title;
+                profile.username = item.name;
                 return profile;
             });
             
             navigator.store.put(function(){
                 devtrac.dataPull.updateStatus("Saved " + profiles.length + " user profiles successfully.");
                 devtrac.profiles = profiles;
-				callback();
+                callback();
             }, function(){
                 devtrac.dataPull.updateStatus("Error in saving user profiles");
                 callback();
@@ -164,14 +164,19 @@ DataPull.prototype.tripSiteDetails = function(callback){
                 var site = new Site();
                 site.id = item.nid;
                 site.name = item.title;
-                site.placeId = item.field_ftritem_place[0].nid;
-                site.narrative = item.field_ftritem_narrative[0].value;
+                if (item.field_ftritem_place.length > 0 && item.field_ftritem_place[0].nid) {
+                    site.placeId = item.field_ftritem_place[0].nid;
+                }
+                if (item.field_ftritem_narrative.length > 0 && item.field_ftritem_narrative[0].value) {
+                    site.narrative = item.field_ftritem_narrative[0].value;
+                }
                 devtrac.dataPull.sites.push(site);
                 return site;
             });
             devtrac.dataPull.fieldTrip.sites = sites;
             if (sites.length == 0) {
                 devtrac.dataPull.saveFieldtrip(callback);
+                return;
             }
             devtrac.dataPull.placeDetailsForSite(callback);
         }
@@ -193,6 +198,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
         callback();
         return;
     }
+    
     var site = devtrac.dataPull.sites.pop();
     var placeSuccess = function(placeResponse){
         if (devtrac.common.hasError(placeResponse)) {
@@ -200,24 +206,26 @@ DataPull.prototype.placeDetailsForSite = function(callback){
             callback();
         }
         else {
-            var placeDetails = placeResponse["#data"][0];
-            site.placeId = placeDetails.nid;
-            site.placeName = placeDetails.title;
-            site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
-            site.contactInfo.name = placeDetails.field_place_responsible_person[0].value;
-            site.contactInfo.phone = placeDetails.field_place_phone[0].value;
-            site.contactInfo.email = placeDetails.field_place_email[0].value;
-            site.placeTaxonomy = [];
-            for (var index in placeDetails.taxonomy) {
-                var item = placeDetails.taxonomy[index];
-                var placeType = devtrac.dataPull.getPlaceTypeFor(item.tid);
-                if (placeType) {
-                    var placeTaxonomy = new PlaceTaxonomy();
-                    placeTaxonomy.id = item.tid;
-                    placeTaxonomy.name = item.name;
-                    site.type = placeType.name;
-                    site.placeTaxonomy.push(placeTaxonomy);
-                    break;
+            if (placeResponse["#data"].length > 0) {
+                var placeDetails = placeResponse["#data"][0];
+                site.placeId = placeDetails.nid;
+                site.placeName = placeDetails.title;
+                site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
+                site.contactInfo.name = placeDetails.field_place_responsible_person[0].value;
+                site.contactInfo.phone = placeDetails.field_place_phone[0].value;
+                site.contactInfo.email = placeDetails.field_place_email[0].value;
+                site.placeTaxonomy = [];
+                for (var index in placeDetails.taxonomy) {
+                    var item = placeDetails.taxonomy[index];
+                    var placeType = devtrac.dataPull.getPlaceTypeFor(item.tid);
+                    if (placeType) {
+                        var placeTaxonomy = new PlaceTaxonomy();
+                        placeTaxonomy.id = item.tid;
+                        placeTaxonomy.name = item.name;
+                        site.type = placeType.name;
+                        site.placeTaxonomy.push(placeTaxonomy);
+                        break;
+                    }
                 }
             }
             

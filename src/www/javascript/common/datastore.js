@@ -23,9 +23,22 @@ DataStore.prototype.init = function(callback){
 }
 
 DataStore.prototype.retrieveFieldTrip = function(callback){
+    function portOldImages(){
+        $.each(devtrac.fieldTrip.sites, function(index, site){
+            if (site.photos && site.photos.length) {
+                var photos = {};
+                $.each(site.photos, function(photo){
+                    photos[photo] = null;
+                });
+                devtrac.fieldTrip.sites[index].photos = photos;
+            }
+        });
+    }
+    
     navigator.store.get(function(response){
         if (response) {
             devtrac.fieldTrip = JSON.parse(response);
+            portOldImages();
             if (callback) {
                 callback();
             }
@@ -69,9 +82,9 @@ DataStore.prototype.updateTripImageFid = function(imagePath, fid, callback){
         });
     }
     else {
-		if (callback) {
-			callback('No image found to update');
-		}
+        if (callback) {
+            callback('No image found to update');
+        }
     }
 }
 
