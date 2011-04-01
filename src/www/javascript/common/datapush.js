@@ -7,14 +7,11 @@ DataPush.prototype.uploadData = function(progressCallback, callback){
     //				callback(msg3);
     //			});
     
-    //        devtrac.dataPush.updateFieldTripItem(id, function(msg2, id2){
-    //            
-    //        });
-    //    });
-    
     devtrac.dataPush.uploadImages(progressCallback, function(msg){
         progressCallback(msg);
-        callback('Data uploaded successfiully');
+		devtrac.dataPush.updateFieldTripItem(devtrac.fieldTrip.sites[0], function(msg2, id2){
+           callback('Data uploaded successfiully'); 
+        });
     });
 }
 
@@ -94,23 +91,50 @@ DataPush.prototype.createFieldTripItem = function(tripId, callback){
     });
 }
 
-DataPush.prototype.updateFieldTripItem = function(nid, callback){
+//function Site(){
+//    this.id = "";
+//    this.name = "";
+//	this.placeId = "";
+//	this.placeName = "";
+//	this.placeGeo = "";
+//	this.placeTaxonomy = [];
+//    this.type = "";
+//    this.offline = false;
+//    this.complete = false;
+//	this.narrative = "";
+//    this.contactInfo = {
+//        name: "",
+//        phone: "",
+//        email: ""
+//    };
+//    this.submission = [];
+//    this.photos = {};
+//    this.actionItems = [];
+//}
+
+DataPush.prototype.updateFieldTripItem = function(site, callback){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
+	var images = [];
+	for(var photo in site.photos){
+		var image = {fid:site.photos[photo], data:{description:''}};
+		images.push(image);
+	}
     var node = {
-        nid: nid,
+        nid: site.id,
         uid: userId,
         name: userName,
         type: 'ftritem',
         changed: timestamp,
-        title: 'My remote fieldtrip updated',
+        title: site.name,
         field_ftritem_public_summary: [{
-            value: 'This field is mandatory changed'
+            value: "Some Value"
         }],
         field_ftritem_narrative: [{
-            value: 'The full report. this field is mandatory changed'
-        }]
+            value: site.narrative
+        }],
+		field_ftritem_images:images
     };
     
     var params = devtrac.dataPush._createNodeSaveParams(node);
