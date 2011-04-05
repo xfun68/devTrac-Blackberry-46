@@ -366,12 +366,17 @@ public class NetworkCommand implements Command {
 			base64OutStream.flush();
 			base64OutStream.close();
 			outStream.flush();
-			String base64Data = escapeString(outStream.toString());
+			String base64Data = outStream.toString();
 			outStream.close();
-			return new JSONObject("{filename:'" + escapeString(fileName)
-					+ "',filesize:" + fileSize + ",timestamp:" + lastModified
-					+ ",filemime:'" + escapeString(getMimeType(fileName))
-					+ "',file:'" + base64Data + "'}");
+			
+			JSONObject fileData =  new JSONObject();
+			fileData.put("file", base64Data);
+			fileData.put("filename", fileName);
+			fileData.put("filesize", fileSize);
+			fileData.put("timestamp", lastModified);
+			fileData.put("filemime", getMimeType(fileName));
+			
+			return fileData;
 		} finally {
 			if (fileConnection != null && fileConnection.isOpen()) {
 				try {
@@ -382,19 +387,7 @@ public class NetworkCommand implements Command {
 		}
 
 	}
-
-	private String escapeString(String value) {
-		// Replace the following:
-		// => \ with \\
-		// => " with \"
-		// => ' with \'
-		value = PhoneGap.replace(value, "\\", "\\\\");
-		value = PhoneGap.replace(value, "\"", "\\\"");
-		value = PhoneGap.replace(value, "'", "\\'");
-
-		return value;
-	}
-
+	
 	private String getMimeType(String fileName) {
 		int dotPos = fileName.lastIndexOf('.');
 		if (dotPos == -1)

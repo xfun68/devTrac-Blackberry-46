@@ -91,27 +91,6 @@ DataPush.prototype.createFieldTripItem = function(tripId, callback){
     });
 }
 
-//function Site(){
-//    this.id = "";
-//    this.name = "";
-//	this.placeId = "";
-//	this.placeName = "";
-//	this.placeGeo = "";
-//	this.placeTaxonomy = [];
-//    this.type = "";
-//    this.offline = false;
-//    this.complete = false;
-//	this.narrative = "";
-//    this.contactInfo = {
-//        name: "",
-//        phone: "",
-//        email: ""
-//    };
-//    this.submission = [];
-//    this.photos = {};
-//    this.actionItems = [];
-//}
-
 DataPush.prototype.updateFieldTripItem = function(site, callback){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
