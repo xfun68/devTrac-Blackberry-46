@@ -30,6 +30,7 @@ import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.io.StreamConnection;
 
+import net.rim.blackberry.api.browser.URLEncodedPostData;
 import net.rim.device.api.system.CoverageInfo;
 import net.rim.device.api.system.DeviceInfo;
 import net.rim.device.api.system.RadioInfo;
@@ -47,6 +48,7 @@ import net.rim.device.api.io.Base64OutputStream;
 
 import com.phonegap.PhoneGap;
 import com.phonegap.api.Command;
+import com.phonegap.util.MD5;
 
 public class NetworkCommand implements Command {
 
@@ -101,19 +103,22 @@ public class NetworkCommand implements Command {
 			reqURL = instruction.substring(CODE.length() + 11);
 			int tildaIndex = instruction.lastIndexOf('~');
 			try {
-				JSONObject fileDetails = new JSONObject(instruction.substring(tildaIndex + 1));
+				JSONObject fileDetails = new JSONObject(
+						instruction.substring(tildaIndex + 1));
 				instruction = instruction.substring(0, tildaIndex);
 				String filePath = fileDetails.getString("filePath");
 				String loggedinUser = fileDetails.getString("user");
 				fileData = readFileData(filePath);
-				String fileTargetPath = fileDetails.getString("targetPath") + "/" + fileData.getString("filename");
+				String fileTargetPath = fileDetails.getString("targetPath")
+						+ "/" + fileData.getString("filename");
 				fileData.put("uid", loggedinUser);
 				fileData.put("filepath", fileTargetPath);
 			} catch (Exception e) {
-				return "alert('Error occured while uploading content')";
+				return ";if (navigator.network.XHR_error) { navigator.network.XHR_error('Error occured while reading file.'); };";
 			}
 		case XHR_COMMAND:
-			reqURL = reqURL == null ? instruction.substring(CODE.length() + 5) : reqURL;
+			reqURL = reqURL == null ? instruction.substring(CODE.length() + 5)
+					: reqURL;
 			String POSTdata = null;
 			int pipeIndex = reqURL.indexOf("|");
 			if (pipeIndex > -1) {
@@ -122,7 +127,7 @@ public class NetworkCommand implements Command {
 			}
 			
 			if (fileData != null) {
-				POSTdata +="&file=" + fileData.toString();
+				POSTdata += "&file=" + urlEncode(fileData.toString());
 			}
 			// Something that is used by the BlackBerry Enterprise Server for
 			// the BES Push apps. We want to initiate a direct TCP connection,
@@ -330,7 +335,7 @@ public class NetworkCommand implements Command {
 						} else {
 							resp = content;
 						}
-						updateContent(";if (navigator.network.XHR_success) { navigator.network.XHR_success("
+						updateContent(";if (navigator.network.XHR_error) { navigator.network.XHR_error("
 								+ resp + "); };");
 						resp = null;
 					} finally {
@@ -368,14 +373,14 @@ public class NetworkCommand implements Command {
 			outStream.flush();
 			String base64Data = outStream.toString();
 			outStream.close();
-			
-			JSONObject fileData =  new JSONObject();
+
+			JSONObject fileData = new JSONObject();
 			fileData.put("file", base64Data);
 			fileData.put("filename", fileName);
 			fileData.put("filesize", fileSize);
 			fileData.put("timestamp", lastModified);
 			fileData.put("filemime", getMimeType(fileName));
-			
+
 			return fileData;
 		} finally {
 			if (fileConnection != null && fileConnection.isOpen()) {
@@ -388,6 +393,13 @@ public class NetworkCommand implements Command {
 
 	}
 	
+	private String urlEncode(String value) {
+		value = PhoneGap.replace(value, "+", "%2B");	
+		value = PhoneGap.replace(value, "=", "%3D");	
+		value = PhoneGap.replace(value, "/", "%2F");	
+		return value;
+	}
+
 	private String getMimeType(String fileName) {
 		int dotPos = fileName.lastIndexOf('.');
 		if (dotPos == -1)

@@ -36,5 +36,9 @@ SettingsController.prototype.uploadData = function(){
 		alert(msg);
 		$('.upload_progress_log').html("");
 		devtrac.settingsController.show();
+	},function(msg){
+		alert(msg);
+		$('.upload_progress_log').html("");
+		devtrac.settingsController.show();
 	});
 }

@@ -1147,16 +1147,21 @@ Network.prototype.isReachable = function(hostName, successCallback, options) {
 	PhoneGap.exec("network",["reach"]);
 };
 // Temporary implementation of XHR. Soon-to-be modeled as the w3c implementation.
-Network.prototype.XHR = function(URL, POSTdata, successCallback) {
+Network.prototype.XHR = function(URL, POSTdata, successCallback, errorCallback) {
 	var req = URL;
 	if (POSTdata !== null) {
 		req += "|" + POSTdata;
 	}
 	this.XHR_success = successCallback;
+	if(errorCallback){
+		this.XHR_error = errorCallback;
+	} else {
+		this.XHR_error = successCallback;
+	}
 	PhoneGap.exec("network",["xhr",req]);
 };
 
-Network.prototype.XHRUpload = function(URL, data, filepath, loggedinUser, targetPath, successCallback) {
+Network.prototype.XHRUpload = function(URL, data, filepath, loggedinUser, targetPath, successCallback, errorCallback) {
 	var req = URL;
 	if (data !== null) {
 		req += "|" + data;
@@ -1169,6 +1174,12 @@ Network.prototype.XHRUpload = function(URL, data, filepath, loggedinUser, target
 		});
 	}
 	this.XHR_success = successCallback;
+	if(errorCallback){
+		this.XHR_error = errorCallback;
+	} else {
+		this.XHR_error = successCallback;
+	}
+	
 	PhoneGap.exec("network",["xhrupload",req]);
 };
 /**

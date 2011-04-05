@@ -1,7 +1,7 @@
 function DataPush(){
 }
 
-DataPush.prototype.uploadData = function(progressCallback, callback){
+DataPush.prototype.uploadData = function(progressCallback, callback, errorCallBack){
     //    devtrac.dataPush.createFieldTripItem(devtrac.fieldTrip.id, function(msg, id){
     //    	devtrac.dataPush.createActionItem(id,function(msg3, id3){
     //				callback(msg3);
@@ -9,13 +9,16 @@ DataPush.prototype.uploadData = function(progressCallback, callback){
     
     devtrac.dataPush.uploadImages(progressCallback, function(msg){
         progressCallback(msg);
+		progressCallback("Starting update of ftritems to attach images");
 		devtrac.dataPush.updateFieldTripItem(devtrac.fieldTrip.sites[0], function(msg2, id2){
            callback('Data uploaded successfiully'); 
-        });
+        }, function(){
+			errorCallBack('Failed to upload data');
+		});
     });
 }
 
-DataPush.prototype.createActionItem = function(tripItemId, callback){
+DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -54,11 +57,11 @@ DataPush.prototype.createActionItem = function(tripItemId, callback){
     devtrac.common.callService(params, function(data){
         callback('Success :' + JSON.stringify(data), data['#data']);
     }, function(data){
-        callback('Failed ' + data);
+        errorCallBack('Failed: ' + data);
     });
 }
 
-DataPush.prototype.createFieldTripItem = function(tripId, callback){
+DataPush.prototype.createFieldTripItem = function(tripId, callback, errorCallBack){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -87,11 +90,11 @@ DataPush.prototype.createFieldTripItem = function(tripId, callback){
     devtrac.common.callService(params, function(data){
         callback('Success :' + JSON.stringify(data), data['#data']);
     }, function(data){
-        callback('Failed ' + data);
+        errorCallBack('Failed: ' + data);
     });
 }
 
-DataPush.prototype.updateFieldTripItem = function(site, callback){
+DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -121,7 +124,7 @@ DataPush.prototype.updateFieldTripItem = function(site, callback){
     devtrac.common.callService(params, function(data){
         callback('Success :' + JSON.stringify(data), data['#data']);
     }, function(data){
-        callback('Failed ' + data);
+        errorCallBack('Failed: ' + data);
     });
 }
 
@@ -141,7 +144,7 @@ DataPush.prototype._createNodeSaveParams = function(nodeData){
     };
 }
 
-DataPush.prototype.uploadImages = function(progressCallback, callback){
+DataPush.prototype.uploadImages = function(progressCallback, callback, errorCallback){
     progressCallback("Starting image upload");
     var filesToUpload = [];
 	var boolHasImages = false;
@@ -158,7 +161,7 @@ DataPush.prototype.uploadImages = function(progressCallback, callback){
         callback((boolHasImages ? 'All images are already uploaded.' : 'No image to upload.'));
         return;
     }
-    
+
     devtrac.photoUpload.uploadMultiple(filesToUpload, function(uploadedFiles){
         callback("Images uploaded and saved successfully.");
     }, function(uplaodedFiles, lastUploaded, lastFid){
@@ -169,5 +172,5 @@ DataPush.prototype.uploadImages = function(progressCallback, callback){
         devtrac.dataStore.updateTripImageFid(lastUploaded, lastFid, function(msg){
             progressCallback(msg);
         });
-    });
+    }, errorCallback);
 }
