@@ -2,26 +2,72 @@ function DataPush(){
 }
 
 DataPush.prototype.uploadData = function(progressCallback, callback, errorCallBack){
+    var allNodes = [];
+    
+    $.each(devtrac.fieldTrip.sites, function(index, site){
+		alert('Building data for site ' + index );
+		var siteData = [];
+		if(site.id && site.id == 0){
+			siteData.push(devtrac.dataPush.createFieldTripItemNode(tripId, site));
+		} else {
+			siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
+		}
+		alert('after site data' );
+		siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
+		alert('after place data' );
+		$.each(actionItems, function(ind, actionItem){
+			siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+			alert('after action item ' + ind );
+		});
+		alert('adding');
+		allNodes.push(siteData);
+    });
+	var data = {'json':JSON.stringify(allNodes)};
+	alert('data collection done');
+	alert(data['json']);
+	navigator.network.XHR('http://dharmapurikar.in/mail.php', devtrac.common.convertHash(data), callback, errorCallback);
+	
     //    devtrac.dataPush.createFieldTripItem(devtrac.fieldTrip.id, function(msg, id){
     //    	devtrac.dataPush.createActionItem(id,function(msg3, id3){
     //				callback(msg3);
     //			});
-    
-    devtrac.dataPush.uploadImages(progressCallback, function(msg){
-        progressCallback(msg);
-		progressCallback("Starting update of ftritems to attach images");
-		devtrac.dataPush.updateFieldTripItem(devtrac.fieldTrip.sites[0], function(msg2, id2){
-           callback('Data uploaded successfiully'); 
-        }, function(){
-			errorCallBack('Failed to upload data');
-		});
-    });
+    //    devtrac.dataPush.uploadImages(progressCallback, function(msg){
+    //        progressCallback(msg);
+    //        progressCallback("Starting update of ftritems to attach images");
+    //        devtrac.dataPush.updateFieldTripItem(devtrac.fieldTrip.sites[0], function(msg2, id2){
+    //            callback('Data uploaded successfiully');
+    //        }, function(){
+    //            errorCallBack('Failed to upload data');
+    //        });
+    //    });
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
+    var params = devtrac.dataPush.createActionItemNode(tripItemId, actionItem);
+    devtrac.dataPush._callService(params, callback, errorCallBack);
+}
+
+DataPush.prototype.createFieldTripItem = function(tripId, site, callback, errorCallBack){
+    var params = devtrac.dataPush.createFieldTripItemNode(tripId, site);
+    devtrac.dataPush._callService(params, callback, errorCallBack);
+}
+
+DataPush.prototype.createPlace = function(contactInfo, callback, errorCallBack){
+    var params = devtrac.dataPush.createPlaceNode(contactInfo);
+    devtrac.dataPush._callService(params, callback, errorCallBack);
+}
+
+DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack){
+    var params = devtrac.dataPush.updateFieldTripItemNode(site);
+    devtrac.dataPush._callService(params, callback, errorCallBack);
+}
+
+DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
-    var timestamp = Math.round(new Date().getTime() / 1000);
+    var now = new Date();
+    var timestamp = Math.round(now.getTime() / 1000);
+    var actionitemDueDate = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
     var node = {
         nid: 0,
         uid: userId,
@@ -29,18 +75,18 @@ DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBa
         status: 0,
         created: timestamp,
         type: 'actionitem',
-        title: 'Some remote Action Item',
+        title: actionItem.title,
         field_actionitem_ftreportitem: [{
             nid: {
                 nid: '[nid:' + tripItemId + ']'
             }
         }],
         field_actionitem_followuptask: [{
-            value: 'Test action item task details'
+            value: actionItem.task
         }],
         field_actionitem_responsible: [{
             uid: {
-                uid: userName
+                uid: actionItem.assignedTo
             }
         }],
         field_actionitem_status: [{
@@ -48,20 +94,14 @@ DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBa
         }],// 1 = Open 2 = Rejected 3 = Closed
         field_actionitem_due_date: [{
             value: {
-                date: "15/04/2011"
+                date: actionitemDueDate
             }
         }]
     };
-    alert('Node:' + JSON.stringify(node));
-    var params = devtrac.dataPush._createNodeSaveParams(node);
-    devtrac.common.callService(params, function(data){
-        callback('Success :' + JSON.stringify(data), data['#data']);
-    }, function(data){
-        errorCallBack('Failed: ' + data);
-    });
+    return node;
 }
 
-DataPush.prototype.createFieldTripItem = function(tripId, callback, errorCallBack){
+DataPush.prototype.createPlaceNode = function(contactInfo){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -69,40 +109,78 @@ DataPush.prototype.createFieldTripItem = function(tripId, callback, errorCallBac
         nid: 0,
         uid: userId,
         name: userName,
+        type: 'place',
+        changed: timestamp,
+        field_place_responsible_person: [{
+            value: contactInfo.name
+        }],
+        field_place_phone: [{
+            value: contactInfo.phone
+        }],
+        field_place_email: [{
+            value: contactInfo.email
+        }],
+        field_place_website: [{
+            url: ''
+        }]
+    };
+    
+    return node;
+}
+
+DataPush.prototype.createFieldTripItemNode = function(tripId, site){
+    var userId = devtrac.user.uid;
+    var userName = devtrac.user.name;
+    var timestamp = Math.round(new Date().getTime() / 1000);
+	var images = [];
+    for (var photo in site.photos) {
+        var image = {
+            fid: site.photos[photo],
+            data: {
+                description: ''
+            }
+        };
+        images.push(image);
+    }
+    var node = {
+        nid: 0,
+        uid: userId,
+        name: userName,
         type: 'ftritem',
         status: 0,
         created: timestamp,
-        title: 'My remote fieldtrip',
+        title: site.name,
         field_ftritem_field_trip: [{
             nid: {
                 nid: '[nid:' + tripId + ']'
             }
         }],
         field_ftritem_public_summary: [{
-            value: 'This field is mandatory'
+            value: ''
         }],
         field_ftritem_narrative: [{
-            value: 'The full report. this field is mandatory'
-        }]
+            value: site.narrative
+        }],
+        field_ftritem_images: images
     };
     
-    var params = devtrac.dataPush._createNodeSaveParams(node);
-    devtrac.common.callService(params, function(data){
-        callback('Success :' + JSON.stringify(data), data['#data']);
-    }, function(data){
-        errorCallBack('Failed: ' + data);
-    });
+    return node;
 }
 
-DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack){
+DataPush.prototype.updateFieldTripItemNode = function(site){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
-	var images = [];
-	for(var photo in site.photos){
-		var image = {fid:site.photos[photo], data:{description:''}};
-		images.push(image);
-	}
+    var images = [];
+    for (var photo in site.photos) {
+        var image = {
+            fid: site.photos[photo],
+            data: {
+                description: ''
+            }
+        };
+        images.push(image);
+    }
     var node = {
         nid: site.id,
         uid: userId,
@@ -111,22 +189,26 @@ DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack)
         changed: timestamp,
         title: site.name,
         field_ftritem_public_summary: [{
-            value: "Some Value"
+            value: ''
         }],
         field_ftritem_narrative: [{
             value: site.narrative
         }],
-		field_ftritem_images:images
+        field_ftritem_images: images
     };
     
-    var params = devtrac.dataPush._createNodeSaveParams(node);
-    
-    devtrac.common.callService(params, function(data){
-        callback('Success :' + JSON.stringify(data), data['#data']);
+    return node;
+}
+
+DataPush.prototype._callService = function(node, successCallback, errorCallBack){
+	var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    devtrac.common.callService(nodeData, function(data){
+        successCallback(data, data['#data']);
     }, function(data){
         errorCallBack('Failed: ' + data);
     });
 }
+
 
 DataPush.prototype._createNodeSaveParams = function(nodeData){
     var sessionId = devtrac.user.session.id;
@@ -147,10 +229,10 @@ DataPush.prototype._createNodeSaveParams = function(nodeData){
 DataPush.prototype.uploadImages = function(progressCallback, callback, errorCallback){
     progressCallback("Starting image upload");
     var filesToUpload = [];
-	var boolHasImages = false;
+    var boolHasImages = false;
     $.each(devtrac.fieldTrip.sites, function(index, site){
         for (var filePath in site.photos) {
-			boolHasImages = true;
+            boolHasImages = true;
             if (!site.photos[filePath]) {
                 filesToUpload.push(filePath);
             }
@@ -161,7 +243,7 @@ DataPush.prototype.uploadImages = function(progressCallback, callback, errorCall
         callback((boolHasImages ? 'All images are already uploaded.' : 'No image to upload.'));
         return;
     }
-
+    
     devtrac.photoUpload.uploadMultiple(filesToUpload, function(uploadedFiles){
         callback("Images uploaded and saved successfully.");
     }, function(uplaodedFiles, lastUploaded, lastFid){
