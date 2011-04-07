@@ -5,28 +5,28 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallBa
     var allNodes = [];
     
     $.each(devtrac.fieldTrip.sites, function(index, site){
-		alert('Building data for site ' + index );
-		var siteData = [];
-		if(site.id && site.id == 0){
-			siteData.push(devtrac.dataPush.createFieldTripItemNode(tripId, site));
-		} else {
-			siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
-		}
-		alert('after site data' );
-		siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
-		alert('after place data' );
-		$.each(actionItems, function(ind, actionItem){
-			siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
-			alert('after action item ' + ind );
-		});
-		alert('adding');
-		allNodes.push(siteData);
+        var siteData = [];
+        if (site.id && site.id == 0) {
+            siteData.push(devtrac.dataPush.createFieldTripItemNode(tripId, site));
+        }
+        else {
+            siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
+        }
+        siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
+        $.each(site.actionItems, function(ind, actionItem){
+            siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+            alert('after action item ' + ind);
+        });
+        alert('adding');
+        allNodes.push(siteData);
     });
-	var data = {'json':JSON.stringify(allNodes)};
-	alert('data collection done');
-	alert(data['json']);
-	navigator.network.XHR('http://dharmapurikar.in/mail.php', devtrac.common.convertHash(data), callback, errorCallback);
-	
+    var data = {
+        'json': JSON.stringify(allNodes)
+    };
+    alert('data collection done');
+    alert(data['json']);
+    navigator.network.XHR('http://dharmapurikar.in/mail.php', "json=" + data['json'], callback, errorCallBack);
+    
     //    devtrac.dataPush.createFieldTripItem(devtrac.fieldTrip.id, function(msg, id){
     //    	devtrac.dataPush.createActionItem(id,function(msg3, id3){
     //				callback(msg3);
@@ -132,7 +132,7 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
-	var images = [];
+    var images = [];
     for (var photo in site.photos) {
         var image = {
             fid: site.photos[photo],
@@ -201,7 +201,7 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
 }
 
 DataPush.prototype._callService = function(node, successCallback, errorCallBack){
-	var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
     devtrac.common.callService(nodeData, function(data){
         successCallback(data, data['#data']);
     }, function(data){
