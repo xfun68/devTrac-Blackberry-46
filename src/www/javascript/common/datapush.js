@@ -2,31 +2,36 @@ function DataPush(){
 }
 
 DataPush.prototype.uploadData = function(progressCallback, callback, errorCallback){
-	devtrac.dataPush.uploadImages(progressCallback, function(msg){
-		progressCallback('Starting upload of site data.');
-		var siteData = [];
-	    $.each(devtrac.fieldTrip.sites, function(index, site){
-	    	if (site.offline) {
-	            siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
-	            site.id = "%REPORTITEMID%";
-	        } else {
-	            siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
-	        }
-			
-			siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
-	        
-	        $.each(site.actionItems, function(ind, actionItem){
-	            siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
-	        });
-	        
-	        siteData.push(devtrac.dataPush.questionsSaveNode(site));
-	        //services_sync
-	    });
-	    alert(JSON.stringify(siteData));
-	    navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(siteData), function(d){
-			callback('Data uploaded successfully.')
-		}, errorCallback);
-	},errorCallback);
+    devtrac.dataPush.uploadImages(progressCallback, function(msg){
+        progressCallback('Starting upload of site data.');
+        var siteData = [];
+        $.each(devtrac.fieldTrip.sites, function(index, site){
+            var placeId = site.offline ? 0 : site.placeId;
+            siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo));
+            
+            if (site.offline) {
+                siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
+                site.id = "%REPORTITEMID%";
+                site.placeId = "%PLACEID%";
+            }
+            else {
+                siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
+            }
+            
+            $.each(site.actionItems, function(ind, actionItem){
+                siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+            });
+            
+            siteData.push(devtrac.dataPush.questionsSaveNode(site));
+            //services_sync
+        });
+		
+		var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
+        alert(JSON.stringify(serviceSyncNode));
+        navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(serviceSyncNode), function(d){
+            callback('Data uploaded successfully.')
+        }, errorCallback);
+    }, errorCallback);
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
@@ -39,8 +44,8 @@ DataPush.prototype.createFieldTripItem = function(tripId, site, callback, errorC
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
-DataPush.prototype.createPlace = function(contactInfo, callback, errorCallBack){
-    var params = devtrac.dataPush.createPlaceNode(contactInfo);
+DataPush.prototype.createUpdatePlace = function(placeId, contactInfo, callback, errorCallBack){
+    var params = devtrac.dataPush.createUpdatePlaceNode(placeId, contactInfo);
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
@@ -90,12 +95,12 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     return nodeData;
 }
 
-DataPush.prototype.createPlaceNode = function(contactInfo){
+DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
     var node = {
-        nid: 0,
+        nid: placeId,
         uid: userId,
         name: userName,
         type: 'place',
@@ -149,14 +154,19 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         }],
         field_ftritem_narrative: [{
             value: site.narrative
+        }],
+        field_ftritem_place: [{
+            nid: {
+                nid: "[nid:" + site.placeId + "]"
+            }
         }]
     };
     
-	if (images.length > 0) {
-		node['field_ftritem_images'] = images;
-	}
-	
-	return devtrac.dataPush._createNodeSaveParams(node);
+    if (images.length > 0) {
+        node['field_ftritem_images'] = images;
+    }
+    
+    return devtrac.dataPush._createNodeSaveParams(node);
 }
 
 DataPush.prototype.updateFieldTripItemNode = function(site){
@@ -187,11 +197,11 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
             value: site.narrative
         }]
     };
-	
-	if (images.length > 0) {
-		node['field_ftritem_images'] = images;
-	}
-	return devtrac.dataPush._createNodeSaveParams(node);
+    
+    if (images.length > 0) {
+        node['field_ftritem_images'] = images;
+    }
+    return devtrac.dataPush._createNodeSaveParams(node);
 }
 
 DataPush.prototype.questionsSaveNode = function(site){
@@ -211,12 +221,38 @@ DataPush.prototype.questionsSaveNode = function(site){
         nonce: timestamp,
         hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
         questions: questions,
-        qnid: site.id
+        qnid: site.id,
+        contextnid: site.placeId
+    };
+    return node;
+}
+
+DataPush.prototype.serviceSyncSaveNode = function(data){
+    var sessionId = devtrac.user.session.id;
+    var timestamp = Math.round(new Date().getTime() / 1000);
+    var userId = devtrac.user.uid;
+    var userName = devtrac.user.name;
+
+    var nodeData = {
+        nid: 0,
+        uid: userId,
+        name: userName,
+        type: 'service_sync',
+        created: timestamp,
+        body: JSON.stringify(data), 
+		title: timestamp
     };
 	
-    //contextnid: id
-    
-    return node;
+    return {
+        method: DT.NODE_SAVE,
+        sessid: sessionId,
+        domain_name: DT.DOMAIN,
+        domain_time_stamp: timestamp,
+        api_key: DT.API_KEY,
+        nonce: timestamp,
+        hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
+        node: JSON.stringify(nodeData)
+    };
 }
 
 DataPush.prototype._callService = function(nodeData, successCallback, errorCallBack){
