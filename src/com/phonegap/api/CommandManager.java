@@ -25,7 +25,7 @@ public final class CommandManager {
 	public CommandManager(PhoneGap app) {
 		this.app = app;
 
-		commands = new Command[12];
+		commands = new Command[13];
 		commands[0] = new CameraCommand(app);
 		commands[1] = new ContactsCommand();
 		commands[2] = new NotificationCommand();
@@ -38,6 +38,7 @@ public final class CommandManager {
 		commands[9] = new ExitCommand();
 		commands[10] = new StoreCommand();
 		commands[11] = new FileCommand();
+		commands[12] = new ImageCommand();
 	}
 
 	/**

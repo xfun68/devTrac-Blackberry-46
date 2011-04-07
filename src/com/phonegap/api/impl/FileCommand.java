@@ -18,7 +18,7 @@ public class FileCommand implements Command {
 	
 	/**
 	 * Determines whether the specified instruction is accepted by the command. 
-	 * @param instruction The string instruction passed from JavaScript via cookie.
+	 * @param instruction The string instrucstion passed from JavaScript via cookie.
 	 * @return true if the Command accepts the instruction, false otherwise.
 	 */
 	public boolean accept(String instruction) {

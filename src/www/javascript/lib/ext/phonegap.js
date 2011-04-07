@@ -585,6 +585,24 @@ File.prototype.read = function(fileName, successCallback, errorCallback) {
 File.prototype.write = function(fileName, data) {
 	alert('File I/O not implemented in PhoneGap BlackBerry - yet.');
 };
+ /**
+ *  This class provides generic image file related utility functions e.g. resize.
+ */
+function Image() {
+	this.resize_success = null;
+	this.resize_error = null;
+}
+
+if (typeof navigator.image === "undefined") { navigator.image = new Image(); }
+
+Image.prototype.resize = function(imagePath, desiredWidth, desiredHeight, successCallback, errorCallback) {
+	this.resize_success = successCallback;
+	this.resize_error = errorCallback;
+	alert('Doing image resize call for '+ imagePath + ' to size '+ desiredWidth + 'x'+ desiredHeight);
+	PhoneGap.exec("image",["resize", desiredWidth + 'x' + desiredHeight + '~' + fileName]);
+};
+
+
 /**
  * This class provides access to device GPS data.
  * @constructor

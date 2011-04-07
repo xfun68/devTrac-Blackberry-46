@@ -15,10 +15,16 @@ PhotoController.prototype.attach = function(){
     var photo = $("#photo_path");
     if (photo.val()) {
 		devtrac.currentSite.photos[photo.val()]=null;
+		alert("Resizing " + photo.val());
+		navigator.image.resize(photo.val(), 45, 40, function(path){
+			alert(path);
+		},function(err){
+			alert(err);
+		})
 		photo.val("");
-		devtrac.dataStore.saveCurrentSite(function(){
+		/*devtrac.dataStore.saveCurrentSite(function(){
 			alert("Image attached successfully.")
 			devtrac.photoController.show();
-		});
+		});*/
     }
 }
