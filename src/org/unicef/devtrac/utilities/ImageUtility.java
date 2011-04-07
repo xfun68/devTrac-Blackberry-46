@@ -5,50 +5,70 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 import net.rim.device.api.math.Fixed32;
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
+import net.rim.device.api.system.JPEGEncodedImage;
 
 public class ImageUtility {
+	public static final String ERROR_PREFIX = "Error: ";
 
 	public static String resizeImage(String path, int requiredWidth,
 			int requiredHeight) {
 		EncodedImage encodedImage = getBitmapImageForPath(path);
-		int currentWidth = Fixed32.toFP(encodedImage.getWidth());
-		int currentHeight = Fixed32.toFP(encodedImage.getHeight());
+		encodedImage = getResizedEncodedImage(encodedImage, requiredWidth, requiredHeight);
+		Bitmap resizedBitmap = encodedImage.getBitmap();
+		byte[] resized = JPEGEncodedImage.encode(resizedBitmap, 75).getData();
 
-		int scaleXFixed32 = Fixed32.div(currentWidth, requiredWidth);
-		int scaleYFixed32 = Fixed32.div(currentHeight, requiredHeight);
-
-		EncodedImage resizedImage = encodedImage.scaleImage32(scaleXFixed32,
-				scaleYFixed32);
 		FileConnection fcImg = null;
 		String imageExtension = "";
 		String imagePathWintoutExtension = path;
-		if(path.lastIndexOf('.') != -1)
-		{
+		if (path.lastIndexOf('.') != -1) {
 			imageExtension = path.substring(path.lastIndexOf('.'));
-			imagePathWintoutExtension = path.substring(0,path.lastIndexOf('.'));
+			imagePathWintoutExtension = path
+					.substring(0, path.lastIndexOf('.'));
 		}
-		String resizedPath = imagePathWintoutExtension + "_" + requiredWidth + "x" + requiredHeight + imageExtension;
+		String resizedPath = imagePathWintoutExtension + "_" + requiredWidth
+				+ "x" + requiredHeight + imageExtension;
 		try {
-			fcImg = (FileConnection) Connector.open(resizedPath, Connector.WRITE);
-			if (!fcImg.exists()) {
-				fcImg.create();
-				OutputStream out = fcImg.openOutputStream();
-				out.write(resizedImage.getData());
-				out.flush();
-				out.close();
+			fcImg = (FileConnection) Connector.open(resizedPath,
+					Connector.READ_WRITE);
+			if (fcImg.exists()) {
+				fcImg.delete();
 			}
+			fcImg.create();
+			OutputStream out = fcImg.openOutputStream();
+			out.write(resized);
+			out.flush();
+			out.close();
 		} catch (Exception e) {
+			return ERROR_PREFIX + e.getMessage();
 		} finally {
 			try {
 				if (fcImg != null) {
 					fcImg.close();
 				}
 			} catch (Exception e) {
-				return null;
 			}
 		}
 		return resizedPath;
+	}
+
+	private static EncodedImage getResizedEncodedImage(
+			EncodedImage encodedImage, int width, int height) {
+
+		int currentWidthFixed32 = Fixed32.toFP(encodedImage.getWidth());
+		int currentHeightFixed32 = Fixed32.toFP(encodedImage.getHeight());
+
+		int requiredWidthFixed32 = Fixed32.toFP(width);
+		int requiredHeightFixed32 = Fixed32.toFP(height);
+
+		int scaleXFixed32 = Fixed32.div(currentWidthFixed32,
+				requiredWidthFixed32);
+		int scaleYFixed32 = Fixed32.div(currentHeightFixed32,
+				requiredHeightFixed32);
+
+		encodedImage = encodedImage.scaleImage32(scaleXFixed32, scaleYFixed32);
+		return encodedImage;
 	}
 
 	public static EncodedImage getBitmapImageForPath(String imagePath) {
@@ -69,7 +89,7 @@ public class ImageUtility {
 		} finally {
 			try {
 				if (fconn != null) {
-					fconn.close();;
+					fconn.close();
 				}
 			} catch (Exception e) {
 				return null;

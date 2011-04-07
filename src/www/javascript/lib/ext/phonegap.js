@@ -599,7 +599,7 @@ Image.prototype.resize = function(imagePath, desiredWidth, desiredHeight, succes
 	this.resize_success = successCallback;
 	this.resize_error = errorCallback;
 	alert('Doing image resize call for '+ imagePath + ' to size '+ desiredWidth + 'x'+ desiredHeight);
-	PhoneGap.exec("image",["resize", desiredWidth + 'x' + desiredHeight + '~' + fileName]);
+	PhoneGap.exec("image",["resize", desiredWidth + 'x' + desiredHeight + '~' + imagePath]);
 };
 
 
