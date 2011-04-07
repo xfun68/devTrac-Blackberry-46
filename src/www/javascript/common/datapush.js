@@ -2,27 +2,31 @@ function DataPush(){
 }
 
 DataPush.prototype.uploadData = function(progressCallback, callback, errorCallback){
-    var siteData = [];
-    
-    $.each(devtrac.fieldTrip.sites, function(index, site){
-        if (site.id && site.id == 0) {
-            siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
-            site.id = "%REPORTITEMID%";
-        }
-        else {
-            siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
-        }
-        siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
-        
-        $.each(site.actionItems, function(ind, actionItem){
-            siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
-        });
-        
-        siteData.push(devtrac.dataPush.questionsSaveNode(site));
-        //services_sync
-    });
-    alert(JSON.stringify(siteData));
-    navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(siteData), callback, errorCallback);
+	devtrac.dataPush.uploadImages(progressCallback, function(msg){
+		progressCallback('Starting upload of site data.');
+		var siteData = [];
+	    $.each(devtrac.fieldTrip.sites, function(index, site){
+	    	if (site.offline) {
+	            siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
+	            site.id = "%REPORTITEMID%";
+	        } else {
+	            siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
+	        }
+			
+			siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
+	        
+	        $.each(site.actionItems, function(ind, actionItem){
+	            siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+	        });
+	        
+	        siteData.push(devtrac.dataPush.questionsSaveNode(site));
+	        //services_sync
+	    });
+	    alert(JSON.stringify(siteData));
+	    navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(siteData), function(d){
+			callback('Data uploaded successfully.')
+		}, errorCallback);
+	},errorCallback);
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
@@ -145,10 +149,13 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         }],
         field_ftritem_narrative: [{
             value: site.narrative
-        }],
-        field_ftritem_images: images
+        }]
     };
     
+	if (images.length > 0) {
+		node['field_ftritem_images'] = images;
+	}
+	
 	return devtrac.dataPush._createNodeSaveParams(node);
 }
 
@@ -178,9 +185,12 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
         }],
         field_ftritem_narrative: [{
             value: site.narrative
-        }],
-        field_ftritem_images: images
+        }]
     };
+	
+	if (images.length > 0) {
+		node['field_ftritem_images'] = images;
+	}
 	return devtrac.dataPush._createNodeSaveParams(node);
 }
 

@@ -598,7 +598,6 @@ if (typeof navigator.image === "undefined") { navigator.image = new Image(); }
 Image.prototype.resize = function(imagePath, desiredWidth, desiredHeight, successCallback, errorCallback) {
 	this.resize_success = successCallback;
 	this.resize_error = errorCallback;
-	alert('Doing image resize call for '+ imagePath + ' to size '+ desiredWidth + 'x'+ desiredHeight);
 	PhoneGap.exec("image",["resize", desiredWidth + 'x' + desiredHeight + '~' + imagePath]);
 };
 
