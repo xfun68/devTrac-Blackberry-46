@@ -14,14 +14,14 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         }
         siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
         
-        $.each(actionItems, function(ind, actionItem){
+        $.each(site.actionItems, function(ind, actionItem){
             siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
         });
         
         siteData.push(devtrac.dataPush.questionsSaveNode(site));
         //services_sync
     });
-    
+    alert(JSON.stringify(siteData));
     navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(siteData), callback, errorCallback);
 }
 
@@ -110,8 +110,7 @@ DataPush.prototype.createPlaceNode = function(contactInfo){
         }]
     };
     
-    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
-    return nodeData;
+    return devtrac.dataPush._createNodeSaveParams(node);
 }
 
 DataPush.prototype.createFieldTripItemNode = function(tripId, site){
@@ -150,8 +149,7 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         field_ftritem_images: images
     };
     
-    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
-    return nodeData;
+	return devtrac.dataPush._createNodeSaveParams(node);
 }
 
 DataPush.prototype.updateFieldTripItemNode = function(site){
@@ -183,8 +181,7 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
         }],
         field_ftritem_images: images
     };
-    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
-    return nodeData;
+	return devtrac.dataPush._createNodeSaveParams(node);
 }
 
 DataPush.prototype.questionsSaveNode = function(site){
@@ -204,8 +201,9 @@ DataPush.prototype.questionsSaveNode = function(site){
         nonce: timestamp,
         hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
         questions: questions,
-        qnid: site.id,
+        qnid: site.id
     };
+	
     //contextnid: id
     
     return node;
