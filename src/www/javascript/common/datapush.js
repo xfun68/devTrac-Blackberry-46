@@ -1,45 +1,28 @@
 function DataPush(){
 }
 
-DataPush.prototype.uploadData = function(progressCallback, callback, errorCallBack){
-    var allNodes = [];
+DataPush.prototype.uploadData = function(progressCallback, callback, errorCallback){
+    var siteData = [];
     
     $.each(devtrac.fieldTrip.sites, function(index, site){
-        var siteData = [];
         if (site.id && site.id == 0) {
-            siteData.push(devtrac.dataPush.createFieldTripItemNode(tripId, site));
+            siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
+            site.id = "%REPORTITEMID%";
         }
         else {
             siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
         }
         siteData.push(devtrac.dataPush.createPlaceNode(site.contactInfo));
-        $.each(site.actionItems, function(ind, actionItem){
+        
+        $.each(actionItems, function(ind, actionItem){
             siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
-            alert('after action item ' + ind);
         });
-        alert('adding');
-        allNodes.push(siteData);
+        
+        siteData.push(devtrac.dataPush.questionsSaveNode(site));
+        //services_sync
     });
-    var data = {
-        'json': JSON.stringify(allNodes)
-    };
-    alert('data collection done');
-    alert(data['json']);
-    navigator.network.XHR('http://dharmapurikar.in/mail.php', "json=" + data['json'], callback, errorCallBack);
     
-    //    devtrac.dataPush.createFieldTripItem(devtrac.fieldTrip.id, function(msg, id){
-    //    	devtrac.dataPush.createActionItem(id,function(msg3, id3){
-    //				callback(msg3);
-    //			});
-    //    devtrac.dataPush.uploadImages(progressCallback, function(msg){
-    //        progressCallback(msg);
-    //        progressCallback("Starting update of ftritems to attach images");
-    //        devtrac.dataPush.updateFieldTripItem(devtrac.fieldTrip.sites[0], function(msg2, id2){
-    //            callback('Data uploaded successfiully');
-    //        }, function(){
-    //            errorCallBack('Failed to upload data');
-    //        });
-    //    });
+    navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(siteData), callback, errorCallback);
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
@@ -67,7 +50,8 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     var userName = devtrac.user.name;
     var now = new Date();
     var timestamp = Math.round(now.getTime() / 1000);
-    var actionitemDueDate = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+    var oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    var actionitemDueDate = oneMonthLater.getDate() + '/' + (oneMonthLater.getMonth() + 1) + '/' + oneMonthLater.getFullYear();
     var node = {
         nid: 0,
         uid: userId,
@@ -98,7 +82,8 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
             }
         }]
     };
-    return node;
+    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    return nodeData;
 }
 
 DataPush.prototype.createPlaceNode = function(contactInfo){
@@ -110,7 +95,7 @@ DataPush.prototype.createPlaceNode = function(contactInfo){
         uid: userId,
         name: userName,
         type: 'place',
-        changed: timestamp,
+        created: timestamp,
         field_place_responsible_person: [{
             value: contactInfo.name
         }],
@@ -125,7 +110,8 @@ DataPush.prototype.createPlaceNode = function(contactInfo){
         }]
     };
     
-    return node;
+    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    return nodeData;
 }
 
 DataPush.prototype.createFieldTripItemNode = function(tripId, site){
@@ -164,7 +150,8 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         field_ftritem_images: images
     };
     
-    return node;
+    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    return nodeData;
 }
 
 DataPush.prototype.updateFieldTripItemNode = function(site){
@@ -196,12 +183,35 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
         }],
         field_ftritem_images: images
     };
+    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+    return nodeData;
+}
+
+DataPush.prototype.questionsSaveNode = function(site){
+    var sessionId = devtrac.user.session.id;
+    var timestamp = Math.round(new Date().getTime() / 1000);
+    var questions = {};
+    $.each(site.submission, function(index, question){
+        questions[question.id] = question.response;
+    });
+    
+    var node = {
+        method: DT.QUESTIONS_SAVE,
+        sessid: sessionId,
+        domain_name: DT.DOMAIN,
+        domain_time_stamp: timestamp,
+        api_key: DT.API_KEY,
+        nonce: timestamp,
+        hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
+        questions: questions,
+        qnid: site.id,
+    };
+    //contextnid: id
     
     return node;
 }
 
-DataPush.prototype._callService = function(node, successCallback, errorCallBack){
-    var nodeData = devtrac.dataPush._createNodeSaveParams(node);
+DataPush.prototype._callService = function(nodeData, successCallback, errorCallBack){
     devtrac.common.callService(nodeData, function(data){
         successCallback(data, data['#data']);
     }, function(data){
