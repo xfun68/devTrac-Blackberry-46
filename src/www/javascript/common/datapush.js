@@ -26,8 +26,9 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         });
 		
 		var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
-		progressCallback('Calling upload service with '+ serviceSyncNode.length +' byte data.');
-		devtrac.dataPush._callService(params, function(d){
+		navigator.network.XHR("http://dharmapurikar.in/mail.php", "json="+ JSON.stringify(serviceSyncNode), function(d){alert(d)}, errorCallBack);
+		progressCallback('Calling upload service with '+ devtrac.common.convertHash(serviceSyncNode).length +' byte data.');
+		devtrac.dataPush._callService(serviceSyncNode, function(d){
 			callback('Data uploaded successfully.');
 		}, errorCallBack);
 
