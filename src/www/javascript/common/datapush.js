@@ -24,14 +24,17 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             
             siteData.push(devtrac.dataPush.questionsSaveNode(site));
         });
-		
-		var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
-		navigator.network.XHR("http://dharmapurikar.in/mail.php", "json="+ JSON.stringify(serviceSyncNode), function(d){alert(d)}, errorCallBack);
-		progressCallback('Calling upload service with '+ devtrac.common.convertHash(serviceSyncNode).length +' byte data.');
-		devtrac.dataPush._callService(serviceSyncNode, function(d){
-			callback('Data uploaded successfully.');
-		}, errorCallBack);
-
+        
+        var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
+        progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+        devtrac.dataPush._callService(serviceSyncNode, function(response){
+			alert("Received response from service: " + JSON.stringify(response));
+            navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
+                callback('Data uploaded successfully.');
+            }, errorCallback);
+            
+        }, errorCallback);
+        
     }, errorCallback);
 }
 
@@ -233,17 +236,17 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
     var timestamp = Math.round(new Date().getTime() / 1000);
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
-
+    
     var nodeData = {
         nid: 0,
         uid: userId,
         name: userName,
         type: 'service_sync',
         created: timestamp,
-        body: JSON.stringify(data), 
-		title: timestamp
+        body: JSON.stringify(data),
+        title: timestamp
     };
-	
+    
     return {
         method: DT.NODE_SAVE,
         sessid: sessionId,
@@ -277,7 +280,7 @@ DataPush.prototype._createNodeSaveParams = function(nodeData){
         api_key: DT.API_KEY,
         nonce: timestamp,
         hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
-        node: JSON.stringify(nodeData)
+        node: nodeData
     };
 }
 
