@@ -28,7 +28,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
         progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
         devtrac.dataPush._callService(serviceSyncNode, function(response){
-			alert("Received response from service: " + JSON.stringify(response));
+            alert("Received response from service: " + JSON.stringify(response));
             navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
                 callback('Data uploaded successfully.');
             }, errorCallback);
@@ -211,11 +211,12 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
 DataPush.prototype.questionsSaveNode = function(site){
     var sessionId = devtrac.user.session.id;
     var timestamp = Math.round(new Date().getTime() / 1000);
-    var questions = {};
+    var responses = "{";
     $.each(site.submission, function(index, question){
-        questions[question.id] = question.response;
+        var response = devtrac.dataPush._getQuestionResponse(question);
+        responses += question.id + ":" + JSON.stringify(response);
     });
-    
+    responses += "}";
     var node = {
         method: DT.QUESTIONS_SAVE,
         sessid: sessionId,
@@ -224,11 +225,28 @@ DataPush.prototype.questionsSaveNode = function(site){
         api_key: DT.API_KEY,
         nonce: timestamp,
         hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
-        questions: questions,
+        questions: JSON.parse(responses),
         qnid: site.id,
         contextnid: site.placeId
     };
     return node;
+}
+
+DataPush.prototype._getQuestionResponse = function(submission){
+    var questionType = "";
+    $.each(devtrac.questions, function(index, item){
+        if (submission.id == item.id) {
+            questionType = item.type;
+        }
+    });
+    if (questionType == "1") {
+        var response = {};
+        $.each(submission.response.split('~'), function(index, answer){
+            response[answer] = "1";
+        });
+        return response;
+    }
+    return submission.response;
 }
 
 DataPush.prototype.serviceSyncSaveNode = function(data){
