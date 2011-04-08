@@ -23,14 +23,14 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             });
             
             siteData.push(devtrac.dataPush.questionsSaveNode(site));
-            //services_sync
         });
 		
 		var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
-        alert(JSON.stringify(serviceSyncNode));
-        navigator.network.XHR('http://dharmapurikar.in/mail.php', 'json=' + JSON.stringify(serviceSyncNode), function(d){
-            callback('Data uploaded successfully.')
-        }, errorCallback);
+		progressCallback('Calling upload service with '+ serviceSyncNode.length +' byte data.');
+		devtrac.dataPush._callService(params, function(d){
+			callback('Data uploaded successfully.');
+		}, errorCallBack);
+
     }, errorCallback);
 }
 
