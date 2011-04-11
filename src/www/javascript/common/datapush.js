@@ -264,9 +264,7 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
         body: JSON.stringify(data),
         title: timestamp
     };
-    var urlEncode = true;
-	var base64NodeData = devtrac.common.base64Encode(JSON.stringify(nodeData), urlEncode);
-	//alert('base64NodeData: '+ base64NodeData);
+    
     return {
         method: DT.NODE_SAVE,
         sessid: sessionId,
@@ -275,7 +273,7 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
         api_key: DT.API_KEY,
         nonce: timestamp,
         hash: devtrac.common.generateHash(DT.NODE_SAVE, timestamp),
-        node: base64NodeData
+        node: JSON.stringify(nodeData)
     };
 }
 
