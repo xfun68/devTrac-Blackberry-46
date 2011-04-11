@@ -259,7 +259,7 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
         nid: 0,
         uid: userId,
         name: userName,
-        type: 'service_sync',
+        type: 'bbsync',
         created: timestamp,
         body: JSON.stringify(data),
         title: timestamp
