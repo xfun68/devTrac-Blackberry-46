@@ -2,40 +2,57 @@ function DataPush(){
 }
 
 DataPush.prototype.uploadData = function(progressCallback, callback, errorCallback){
+    navigator.log.debug('Data sysc started');
+    navigator.log.debug('Starting image upload');
     devtrac.dataPush.uploadImages(progressCallback, function(msg){
-        progressCallback('Starting upload of site data.');
+        progressCallback('Image upload done, Starting upload of site data.');
         var siteData = [];
+        
         $.each(devtrac.fieldTrip.sites, function(index, site){
             var placeId = site.offline ? 0 : site.placeId;
             siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo));
             
             if (site.offline) {
+                navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
                 siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
                 site.id = "%REPORTITEMID%";
                 site.placeId = "%PLACEID%";
             }
             else {
+                navigator.log.debug('Collectiong data for Updating site ' + ((site && site.name) ? site.name : ''));
                 siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
             }
             
             $.each(site.actionItems, function(ind, actionItem){
+                navigator.log.debug('Collectiong data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
                 siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
             });
-            
+            navigator.log.debug('Collectiong data for Updating answers data');
             siteData.push(devtrac.dataPush.questionsSaveNode(site));
         });
-        
+        navigator.log.debug('Creating service sync node');
         var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
+        navigator.log.debug('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
         progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
         devtrac.dataPush._callService(serviceSyncNode, function(response){
+            navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             alert("Received response from service: " + JSON.stringify(response));
+            //TODO:For debugging only, need to be removed
             navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
                 callback('Data uploaded successfully.');
             }, errorCallback);
             
-        }, errorCallback);
-        
-    }, errorCallback);
+        }, function(srvErr){
+            navigator.log.log('Error in sync service call.');
+            navigator.log.log(srvErr);
+            errorCallback(srvErr);
+        });
+        navigator.log.debug('Called upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+    }, function(err){
+        navigator.log.log('Error in image upload');
+        navigator.log.log(err);
+        errorCallback(err);
+    });
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
