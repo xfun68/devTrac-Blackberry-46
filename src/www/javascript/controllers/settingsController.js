@@ -4,6 +4,9 @@ function SettingsController(){
 
 SettingsController.prototype.show = function(){
     screens.show("settings");
+	navigator.log.getDebug(function(isDebugOn){
+		$("#log_debug_mode").attr('checked', isDebugOn);
+	});
 }
 
 SettingsController.prototype.updateQuestionsPlaces = function(){
@@ -40,5 +43,22 @@ SettingsController.prototype.uploadData = function(){
 		alert(msg);
 		$('.upload_progress_log').html("");
 		devtrac.settingsController.show();
+	});
+}
+
+SettingsController.prototype.showLog = function(){
+	navigator.log.show(function(success){
+		if(!sucess){
+			alert("Can't open log viewer");
+		}
+	});
+}
+SettingsController.prototype.setDebugMode = function(){
+	var isDebugModOn = $("#log_debug_mode").is(':checked');
+	navigator.log.setDebug(isDebugModOn, function(success){
+		var debugMode = "Debug mode is "+ (isDebugModOn? "on" : "off")+" now";
+		navigator.log.log(debugMode);
+		navigator.log.debug(debugMode);
+		alert(debugMode);
 	});
 }

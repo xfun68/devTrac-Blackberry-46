@@ -569,6 +569,41 @@ Device.prototype.init = function() {
 window.device.init();/**
  * This class provides generic read and write access to the mobile device file system.
  */
+
+function Log() {
+	this.logged = null;
+}
+
+if (typeof navigator.log === "undefined") { navigator.log = new Log(); }
+
+Log.prototype.log = function(message, callback) {
+	this.logged = callback;
+	PhoneGap.exec("log",["log", message]);
+};
+
+Log.prototype.debug = function(message, callback) {
+	this.logged = callback;
+	PhoneGap.exec("log",["debug", message]);
+};
+
+Log.prototype.setDebug = function(debugModeOn, callback) {
+	this.logged = callback;
+	PhoneGap.exec("log",["set.debug", debugModeOn]);
+};
+
+Log.prototype.getDebug = function(callback) {
+	this.logged = callback;
+	PhoneGap.exec("log",["get.debug"]);
+};
+
+Log.prototype.show = function(callback) {
+	this.logged = callback;
+	PhoneGap.exec("log",["show"]);
+};
+
+/**
+ *  This class provides generic file related utility functions e.g. read as base64.
+ */
 function File() {
 	this.read_success = null;
 	this.read_error = null;

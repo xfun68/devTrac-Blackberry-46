@@ -54,9 +54,12 @@ import net.rim.device.api.ui.container.MainScreen;
 
 import com.phonegap.api.CommandManager;
 import com.phonegap.api.CommandResult;
+import com.phonegap.api.impl.LogCommand;
 import com.phonegap.io.ConnectionManager;
 import com.phonegap.io.PrimaryResourceFetchThread;
 import com.phonegap.io.SecondaryResourceFetchThread;
+
+import net.rim.device.api.system.EventLogger;
 
 import org.json.me.*;
 
@@ -132,6 +135,7 @@ public class PhoneGap extends UiApplication implements RenderingApplication {
         thread.start();
         refreshTimer = new Timer();
         refreshTimer.scheduleAtFixedRate(new TimerRefresh(), 500, 500);
+        EventLogger.register(LogCommand.LOG_GUID, LogCommand.APP_NAME, EventLogger.VIEWER_STRING);
 	}
 	public Object eventOccurred(final Event event) 
     {

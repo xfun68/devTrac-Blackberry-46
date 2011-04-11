@@ -42,8 +42,10 @@ function initializeApplicationEvents(){
         $("#upload_data").click(devtrac.settingsController.uploadData);
 		$("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
 		$("#wipe_out_data").click(devtrac.settingsController.wipeout);
-        $("#delete_proceed").click(devtrac.settingsController.performWipeout);
+		$("#show_log").click(devtrac.settingsController.showLog);
+		$("#delete_proceed").click(devtrac.settingsController.performWipeout);
         $("#delete_cancel").click(devtrac.settingsController.show);
+		$("#log_debug_mode").change(devtrac.settingsController.setDebugMode);
         
     }
     

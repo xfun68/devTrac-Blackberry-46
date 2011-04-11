@@ -22,6 +22,7 @@
  */
 package com.phonegap.api.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,26 +30,18 @@ import java.io.InputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.io.StreamConnection;
+import javax.microedition.io.file.FileConnection;
 
-import net.rim.blackberry.api.browser.URLEncodedPostData;
+import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.system.CoverageInfo;
 import net.rim.device.api.system.DeviceInfo;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.ui.UiApplication;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
-import javax.microedition.io.Connector;
-import javax.microedition.io.file.FileConnection;
-
 import org.json.me.JSONObject;
-
-import net.rim.device.api.io.Base64OutputStream;
 
 import com.phonegap.PhoneGap;
 import com.phonegap.api.Command;
-import com.phonegap.util.MD5;
 
 public class NetworkCommand implements Command {
 
@@ -107,6 +100,7 @@ public class NetworkCommand implements Command {
 						instruction.substring(tildaIndex + 1));
 				instruction = instruction.substring(0, tildaIndex);
 				String filePath = fileDetails.getString("filePath");
+				LogCommand.DEBUG("Reading " + filePath + " for uploading");
 				String loggedinUser = fileDetails.getString("user");
 				fileData = readFileData(filePath);
 				String fileTargetPath = fileDetails.getString("targetPath")
@@ -114,6 +108,7 @@ public class NetworkCommand implements Command {
 				fileData.put("uid", loggedinUser);
 				fileData.put("filepath", fileTargetPath);
 			} catch (Exception e) {
+				LogCommand.DEBUG("Error while reading image file for uploading. " + e.getMessage());
 				return ";if (navigator.network.XHR_error) { navigator.network.XHR_error('Error occured while reading file.'); };";
 			}
 		case XHR_COMMAND:
@@ -125,6 +120,8 @@ public class NetworkCommand implements Command {
 				POSTdata = reqURL.substring(pipeIndex + 1);
 				reqURL = reqURL.substring(0, pipeIndex);
 			}
+			
+			LogCommand.DEBUG("Calling service " + reqURL + " with post data " + POSTdata);
 			
 			if (fileData != null) {
 				POSTdata += "&file=" + urlEncode(fileData.toString());
@@ -148,7 +145,7 @@ public class NetworkCommand implements Command {
 					reqURL += ";interface=wifi";
 				}
 			}
-
+			
 			connThread.fetch(reqURL, POSTdata);
 			reqURL = null;
 			POSTdata = null;
@@ -335,6 +332,9 @@ public class NetworkCommand implements Command {
 						} else {
 							resp = content;
 						}
+						
+						LogCommand.LOG("Error while service call " + resp);
+						
 						updateContent(";if (navigator.network.XHR_error) { navigator.network.XHR_error("
 								+ resp + "); };");
 						resp = null;
@@ -380,8 +380,11 @@ public class NetworkCommand implements Command {
 			fileData.put("filesize", fileSize);
 			fileData.put("timestamp", lastModified);
 			fileData.put("filemime", getMimeType(fileName));
-
+			LogCommand.DEBUG("Successfully read file " + filePath + ". Base 64 Data length is "+ base64Data.length());
 			return fileData;
+		} catch(Exception e){
+			LogCommand.LOG("Fail to read file " + filePath + ". " + e.getMessage());
+			throw e;
 		} finally {
 			if (fileConnection != null && fileConnection.isOpen()) {
 				try {
