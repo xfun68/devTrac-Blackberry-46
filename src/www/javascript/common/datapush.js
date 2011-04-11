@@ -125,7 +125,6 @@ DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
         uid: userId,
         name: userName,
         type: 'place',
-        created: timestamp,
         field_place_responsible_person: [{
             value: contactInfo.name
         }],
@@ -139,6 +138,12 @@ DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
             url: ''
         }]
     };
+	
+	if(placeId == 0){
+		node.created = timestamp;
+	} else {
+		node.changed = timestamp;
+	}
     
     return devtrac.dataPush._createNodeSaveParams(node);
 }
