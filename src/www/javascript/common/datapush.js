@@ -300,7 +300,7 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
         type: 'bbsync',
         created: timestamp,
         body: JSON.stringify(data),
-        title: timestamp
+        title: 'Blackberry Sync Data for Trip Report: ' + devtrac.fieldTrip.title
     };
     
     return {

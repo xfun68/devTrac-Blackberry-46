@@ -70,9 +70,21 @@ function Common(){
     this.getOneMonthLaterDate = function(){
         var now = new Date();
         var oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-		var day = (oneMonthLater.getDate() < 9) ? '0'+oneMonthLater.getDate() : ''+oneMonthLater.getDate();
-        var month = (oneMonthLater.getMonth() < 9) ? '0'+oneMonthLater.getMonth() : ''+oneMonthLater.getMonth();
-        var year = ''+oneMonthLater.getFullYear();
-        return day + '/' + month + '/' + year;		
-    }	
+        var day = (oneMonthLater.getDate() < 9) ? '0' + oneMonthLater.getDate() : '' + oneMonthLater.getDate();
+        var month = (oneMonthLater.getMonth() < 9) ? '0' + oneMonthLater.getMonth() : '' + oneMonthLater.getMonth();
+        var year = '' + oneMonthLater.getFullYear();
+        return day + '/' + month + '/' + year;
+    }
+    
+    this.errorHandler = function(errMsg, url, lineNum){
+		 alert(errMsg);
+        var errorMessage = 'UnCaughtException: ' + errMsg;
+        if (url) 
+            errorMessage += ' for page: ' + url;
+        if (lineNum) 
+            errorMessage += ' on Line# ' + lineNum;
+        alert(errorMessage);
+        navigator.log.log(errorMessage);
+		return false;
+    }
 }

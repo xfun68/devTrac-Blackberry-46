@@ -7,7 +7,8 @@ function initializeApplicationEvents(){
     attachQuestionsButtons();
     attachPhotoButtons();
     attachActionItemButtons();
-	attachSettingsButton();
+    attachSettingsButton();
+	attachGlobalErrorHandler();
     
     function attachCommonEvents(){
         $(".back_to_site_list").click(fieldTripController.showTripReports);
@@ -40,13 +41,12 @@ function initializeApplicationEvents(){
     function attachSettingsButton(){
         $("#settings_button").click(devtrac.settingsController.show);
         $("#upload_data").click(devtrac.settingsController.uploadData);
-		$("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
-		$("#wipe_out_data").click(devtrac.settingsController.wipeout);
-		$("#show_log").click(devtrac.settingsController.showLog);
-		$("#delete_proceed").click(devtrac.settingsController.performWipeout);
+        $("#update_question_places").click(devtrac.settingsController.updateQuestionsPlaces);
+        $("#wipe_out_data").click(devtrac.settingsController.wipeout);
+        $("#show_log").click(devtrac.settingsController.showLog);
+        $("#delete_proceed").click(devtrac.settingsController.performWipeout);
         $("#delete_cancel").click(devtrac.settingsController.show);
-		$("#log_debug_mode").click(devtrac.settingsController.setDebugMode);
-        
+        $("#log_debug_mode").change(devtrac.settingsController.setDebugMode);
     }
     
     function attachNarrativeButtons(){
@@ -64,6 +64,11 @@ function initializeApplicationEvents(){
     function attachLoginButtons(){
         $("#login").click(devtrac.loginController.login);
         $("#logout").click(devtrac.loginController.logout);
+    }
+    
+    function attachGlobalErrorHandler(){
+        //$(window).error(devtrac.common.errorHandler);
+		//window.error = devtrac.common.errorHandler;
     }
 }
 
