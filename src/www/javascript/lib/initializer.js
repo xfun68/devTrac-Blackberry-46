@@ -68,15 +68,7 @@ function initializeApplicationEvents(){
     
     function attachGlobalErrorHandler(){
         //$(window).error(devtrac.common.errorHandler);
-		//window.onerror = alert;
-		
-//		window.onerror = function(desc,page,line,chr){
-//			 alert('JavaScript error occurred! '
-//			  +' Error description: '+desc
-//			  +' Page address:       '+page
-//			  +' Line number:       '+line
-//			 );
-//			};
+		//window.onerror = devtrac.common.errorHandler;
     }
 }
 

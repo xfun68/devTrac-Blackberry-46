@@ -10,13 +10,14 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         try {
             $.each(devtrac.fieldTrip.sites, function(index, site){
                 var placeId = site.offline ? 0 : site.placeId;
-                siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo));
+                var placeTitle = 'Visit to ' + site.name;
+                siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo, placeTitle));
                 
                 if (site.offline) {
                     navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
-                    siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
                     site.id = "%REPORTITEMID%";
                     site.placeId = "%PLACEID%";
+                    siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
                 }
                 else {
                     navigator.log.debug('Collectiong data for Updating site ' + ((site && site.name) ? site.name : ''));
@@ -51,7 +52,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         devtrac.dataPush._callService(serviceSyncNode, function(response){
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             // TODO: Remove before pushing out.
-			alert("Received response from service: " + JSON.stringify(response));
+            alert("Received response from service: " + JSON.stringify(response));
             navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
                 callback('Data uploaded successfully.');
             }, errorCallback);
@@ -79,8 +80,8 @@ DataPush.prototype.createFieldTripItem = function(tripId, site, callback, errorC
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
-DataPush.prototype.createUpdatePlace = function(placeId, contactInfo, callback, errorCallBack){
-    var params = devtrac.dataPush.createUpdatePlaceNode(placeId, contactInfo);
+DataPush.prototype.createUpdatePlace = function(placeId, contactInfo, title, callback, errorCallBack){
+    var params = devtrac.dataPush.createUpdatePlaceNode(placeId, contactInfo, title);
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
@@ -123,19 +124,19 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
             }
         }]
     };
-	
-	if (actionItem.id == 0) {
+    
+    if (actionItem.id == 0) {
         node.created = timestamp;
     }
     else {
         node.changed = timestamp;
     }
-	
+    
     var nodeData = devtrac.dataPush._createNodeSaveParams(node);
     return nodeData;
 }
 
-DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
+DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo, placeTitle){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -160,6 +161,7 @@ DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
     
     if (placeId == 0) {
         node.created = timestamp;
+        node.title = placeTitle;
     }
     else {
         node.changed = timestamp;
