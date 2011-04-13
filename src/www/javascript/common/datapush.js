@@ -95,11 +95,10 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     var timestamp = Math.round(new Date() / 1000);
     var actionitemDueDate = devtrac.common.getOneMonthLaterDate();
     var node = {
-        nid: 0,
+        nid: actionItem.id,
         uid: userId,
         name: userName,
         status: 0,
-        created: timestamp,
         type: 'actionitem',
         title: actionItem.title,
         field_actionitem_ftreportitem: [{
@@ -117,13 +116,21 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
         }],
         field_actionitem_status: [{
             value: 1
-        }],// 1 = Open 2 = Rejected 3 = Closed
+        }],
         field_actionitem_due_date: [{
             value: {
                 date: actionitemDueDate
             }
         }]
     };
+	
+	if (actionItem.id == 0) {
+        node.created = timestamp;
+    }
+    else {
+        node.changed = timestamp;
+    }
+	
     var nodeData = devtrac.dataPush._createNodeSaveParams(node);
     return nodeData;
 }

@@ -78,7 +78,7 @@ function Common(){
     }
     
     this.errorHandler = function(errMsg, url, lineNum){
-        alert(errMsg);
+		alert(errMsg);
         var errorMessage = 'UnCaughtException: ' + errMsg;
         if (url) 
             errorMessage += ' for page: ' + url;

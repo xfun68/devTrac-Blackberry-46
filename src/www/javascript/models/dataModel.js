@@ -55,6 +55,7 @@ function QuestionTaxonomy(){
 }
 
 function ActionItem(){
+	this.id = "";
     this.title = "";
 	this.task = "";
     this.assignedTo = "";

@@ -53,6 +53,7 @@ ActionItemController.prototype.save = function(){
     }
     
     var actionItem = new ActionItem();
+	actionItem.id = 0;
     actionItem.title = title;
     actionItem.task = task;
     actionItem.assignedTo = assignedTo;

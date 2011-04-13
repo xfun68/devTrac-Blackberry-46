@@ -300,8 +300,9 @@ DataPull.prototype.actionItemDetailsForSite = function(callback){
         }
         else {
             var actionItems = $.map(actionItemResponse['#data'], function(item){
-                var actionItem = new ActionItem();
+				var actionItem = new ActionItem();
                 actionItem.title = item.title;
+                actionItem.id = item.nid;
                 actionItem.task = item.field_actionitem_followuptask[0].value;
                 actionItem.assignedTo = $.map(item.field_actionitem_responsible, function(user){
                     return user.uid;
