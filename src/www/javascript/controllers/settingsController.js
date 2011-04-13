@@ -48,15 +48,16 @@ SettingsController.prototype.uploadData = function(){
 
 SettingsController.prototype.showLog = function(){
 	navigator.log.show(function(success){
-		if(!sucess){
+		if(!success){
 			alert("Can't open log viewer");
 		}
 	});
 }
 SettingsController.prototype.setDebugMode = function(){
-	var isDebugModOn = $("#log_debug_mode").is(':checked');
-	navigator.log.setDebug(isDebugModOn, function(success){
-		var debugMode = "Debug mode is "+ (isDebugModOn? "on" : "off")+" now";
+	var debugToggle = !$("#log_debug_mode").is(':checked');
+	alert("Debug mode is: " + debugToggle);
+	navigator.log.setDebug(debugToggle, function(success){
+		var debugMode = "Debug mode is "+ (debugToggle? "on" : "off")+" now";
 		navigator.log.log(debugMode);
 		navigator.log.debug(debugMode);
 		alert(debugMode);
