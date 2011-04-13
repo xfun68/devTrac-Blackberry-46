@@ -1,5 +1,6 @@
 function Common(){
     this.callService = function(data, callback, errorCallback){
+        navigator.log.debug("Network call with data: " + JSON.stringify(data));
         navigator.network.XHR(DT.SERVICE_ENDPOINT, devtrac.common.convertHash(data), callback, errorCallback);
     }
     
@@ -77,7 +78,7 @@ function Common(){
     }
     
     this.errorHandler = function(errMsg, url, lineNum){
-		 alert(errMsg);
+        alert(errMsg);
         var errorMessage = 'UnCaughtException: ' + errMsg;
         if (url) 
             errorMessage += ' for page: ' + url;
@@ -85,6 +86,11 @@ function Common(){
             errorMessage += ' on Line# ' + lineNum;
         alert(errorMessage);
         navigator.log.log(errorMessage);
-		return false;
+        return false;
+    }
+
+    this.logAndShowGenericError = function(message){
+        navigator.log.log(message);
+        alert("Error occured while processing. Refer to log console for more details.");
     }
 }

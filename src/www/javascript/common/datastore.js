@@ -47,7 +47,7 @@ DataStore.prototype.retrieveFieldTrip = function(callback){
             callback();
         }
     }, function(error){
-        alert("Offline storage error");
+        devtrac.common.logAndShowGenericError("Offline storage error: " + error);
         if (callback) {
             callback();
         }
@@ -57,8 +57,8 @@ DataStore.prototype.retrieveFieldTrip = function(callback){
 DataStore.prototype.saveFieldTrip = function(callback){
     navigator.store.put(function(){
         callback();
-    }, function(){
-        alert("Could not update field trip.");
+    }, function(error){
+        devtrac.common.logAndShowGenericError("Could not update field trip. Error: " + error);
         callback();
     }, devtrac.user.name, JSON.stringify(devtrac.fieldTrip));
 }
@@ -109,7 +109,7 @@ DataStore.prototype.getQuestions = function(callback){
             callback();
         }
     }, function(error){
-        alert("Offline storage error");
+        devtrac.common.logAndShowGenericError("Offline storage error: " + error);
         if (callback) {
             callback();
         }
@@ -128,7 +128,7 @@ DataStore.prototype.getPlaces = function(callback){
             callback();
         }
     }, function(error){
-        alert("Offline storage error");
+        devtrac.common.logAndShowGenericError("Offline storage error: " + error);
         if (callback) {
             callback();
         }
@@ -147,7 +147,7 @@ DataStore.prototype.getProfiles = function(callback){
             callback();
         }
     }, function(error){
-        alert("Offline storage error");
+        devtrac.common.logAndShowGenericError("Offline storage error: " + error);
         if (callback) {
             callback();
         }

@@ -4,7 +4,8 @@ function QuestionsController(){
 }
 
 QuestionsController.prototype.show = function(){
-    screens.show("loading");
+    navigator.log.debug("Showing questions.");
+	screens.show("loading");
 	var container = $('.question-content');
     container.html("");
     devtrac.questionsController.answers = [];
@@ -30,13 +31,14 @@ QuestionsController.prototype.show = function(){
                 questionHtml = devtrac.questionsController.numericQuestion(q);
                 break;
             default:
-                alert("Unknown Question Type: " + q.type);
+                devtrac.common.logAndShowGenericError("Unknown Question Type: " + q.type);
         }
         container.append(questionHtml);
     });
     devtrac.questionsController.attachValidations();
     devtrac.questionsController.populateResponse();
     screens.show("questions_form");
+	navigator.log.debug("Displayed questions.");
 }
 
 QuestionsController.prototype.listQuestion = function(q){

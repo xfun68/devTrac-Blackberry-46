@@ -2,10 +2,10 @@ function DataPush(){
 }
 
 DataPush.prototype.uploadData = function(progressCallback, callback, errorCallback){
-    navigator.log.debug('Data sysc started');
+    navigator.log.debug('Data sync started');
     navigator.log.debug('Starting image upload');
     devtrac.dataPush.uploadImages(progressCallback, function(msg){
-        progressCallback('Image upload done, Starting upload of site data.');
+        progressCallback('Image upload completed. Starting to upload site data.');
         var siteData = [];
         try {
             $.each(devtrac.fieldTrip.sites, function(index, site){
@@ -50,8 +50,8 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         
         devtrac.dataPush._callService(serviceSyncNode, function(response){
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
-            alert("Received response from service: " + JSON.stringify(response));
-            //TODO:For debugging only, need to be removed
+            // TODO: Remove before pushing out.
+			alert("Received response from service: " + JSON.stringify(response));
             navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
                 callback('Data uploaded successfully.');
             }, errorCallback);

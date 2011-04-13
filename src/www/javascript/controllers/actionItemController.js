@@ -3,7 +3,8 @@ function ActionItemController(){
 }
 
 ActionItemController.prototype.show = function(){
-    screens.show("loading");
+    navigator.log.debug("Showing action items");
+	screens.show("loading");
     var actionItemGrid = $(".action_item_grid");
     if (devtrac.currentSite.actionItems.length == 0) {
         $("#no_action_items").show();
@@ -23,11 +24,13 @@ ActionItemController.prototype.show = function(){
         container.append(html);
     });
     actionItemGrid.show();
+	navigator.log.debug("Displayed action items");
     screens.show("list_action_items");
 }
 
 ActionItemController.prototype.add = function(){
-    $("#action_item_title").val("");
+    navigator.log.debug("Adding action item");
+	$("#action_item_title").val("");
     $("#action_item_task").val("");
     var users = $("#action_item_assigned_to");
     users.html("");
@@ -35,9 +38,11 @@ ActionItemController.prototype.add = function(){
         users.append("<option value='" + profile.username + "'>" + profile.name + "</option>");
     });
     screens.show("add_action_item");
+	navigator.log.debug("Displayed add action item screen");
 }
 
 ActionItemController.prototype.save = function(){
+	navigator.log.debug("Saving action item");
     var title = $("#action_item_title").val();
     var task = $("#action_item_task").val();
     var assignedTo = $("#action_item_assigned_to").val();
@@ -54,6 +59,7 @@ ActionItemController.prototype.save = function(){
     devtrac.currentSite.actionItems.push(actionItem);
     devtrac.dataStore.saveCurrentSite(function(){
         alert("Added action item.");
-        devtrac.actionItemController.show();
+        navigator.log.debug("Saved action item. Will display list.");
+		devtrac.actionItemController.show();
     });
 }

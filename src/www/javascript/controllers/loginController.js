@@ -3,10 +3,13 @@ function LoginController(){
 }
 
 LoginController.prototype.show = function(){
+	navigator.log.debug("In show of login controller.");
     if (devtrac.user && devtrac.fieldTrip) {
+		navigator.log.debug("User is logged in and has a field trip. Showing trip reports.");
         fieldTripController.showTripReports();
         return;
     }
+	navigator.log.debug("User is logged in but either information is not saved or doesn't have field trips. Showing login screen.");
     screens.show("login");
 }
 
@@ -53,7 +56,7 @@ LoginController.prototype.login = function(){
             });
             
         }, function(){
-            alert("Error in saving: " + devtrac.user.name);
+            devtrac.common.logAndShowGenericError("Error in saving: " + devtrac.user.name);
         }, "user", JSON.stringify(devtrac.user));
     };
     
@@ -65,19 +68,24 @@ LoginController.prototype.login = function(){
 };
 
 LoginController.prototype.logout = function(){
+	navigator.log.debug("Logging out user.");
     logout(function(){
+		navigator.log.debug("Logged out remotely.");
         navigator.store.remove(function(){
+			navigator.log.debug("Removed saved session.");
             devtrac.user.loggedIn = false;
             devtrac.user.name = "";
             devtrac.user.email = "";
             devtrac.user.uid = 0;
             devtrac.fieldTrip = new FieldTrip();
+			navigator.log.debug("Showing login screen.");
             screens.show("login");
         }, function(){
-            alert("Error occured in deleting user: " + devtrac.user.name);
+            devtrac.common.logAndShowGenericError("Error occured in deleting user: " + devtrac.user.name);
             screens.show("login");
         }, "user");
     }, function(){
+		navigator.log.debug("Couldn't do normal logout. Just displaying login screen.");
         screens.show("login");
     })
 };
