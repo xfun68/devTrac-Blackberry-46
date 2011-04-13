@@ -32,7 +32,7 @@ ActionItemController.prototype.add = function(){
     var users = $("#action_item_assigned_to");
     users.html("");
     $(devtrac.profiles).each(function(index, profile){
-        users.append("<option value='" + profile.uid + "'>" + profile.name + "</option>");
+        users.append("<option value='" + profile.username + "'>" + profile.name + "</option>");
     });
     screens.show("add_action_item");
 }

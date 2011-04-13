@@ -7,33 +7,47 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
     devtrac.dataPush.uploadImages(progressCallback, function(msg){
         progressCallback('Image upload done, Starting upload of site data.');
         var siteData = [];
-        
-        $.each(devtrac.fieldTrip.sites, function(index, site){
-            var placeId = site.offline ? 0 : site.placeId;
-            siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo));
-            
-            if (site.offline) {
-                navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
-                siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
-                site.id = "%REPORTITEMID%";
-                site.placeId = "%PLACEID%";
-            }
-            else {
-                navigator.log.debug('Collectiong data for Updating site ' + ((site && site.name) ? site.name : ''));
-                siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
-            }
-            
-            $.each(site.actionItems, function(ind, actionItem){
-                navigator.log.debug('Collectiong data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
-                siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+        try {
+            $.each(devtrac.fieldTrip.sites, function(index, site){
+                var placeId = site.offline ? 0 : site.placeId;
+                siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo));
+                
+                if (site.offline) {
+                    navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
+                    siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
+                    site.id = "%REPORTITEMID%";
+                    site.placeId = "%PLACEID%";
+                }
+                else {
+                    navigator.log.debug('Collectiong data for Updating site ' + ((site && site.name) ? site.name : ''));
+                    siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
+                }
+                
+                $.each(site.actionItems, function(ind, actionItem){
+                    navigator.log.debug('Collectiong data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
+                    siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+                });
+                
+                navigator.log.debug('Collectiong data for Updating answers data');
+                if (site.submission && site.submission.length && site.submission.length > 0) {
+                    var questionsNode = devtrac.dataPush.questionsSaveNode(site);
+                    if (questionsNode) {
+                        siteData.push(questionsNode);
+                    }
+                }
             });
-            navigator.log.debug('Collectiong data for Updating answers data');
-            siteData.push(devtrac.dataPush.questionsSaveNode(site));
-        });
-        navigator.log.debug('Creating service sync node');
-        var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
-        navigator.log.debug('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
-        progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+            navigator.log.debug('Creating service sync node');
+            var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
+            navigator.log.debug('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+            progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+        } 
+        catch (ex) {
+            navigator.log.log('Error while crearting question save node');
+            navigator.log.log('Error: ' + ex);
+            errorCallback(ex);
+            return;
+        }
+        
         devtrac.dataPush._callService(serviceSyncNode, function(response){
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             alert("Received response from service: " + JSON.stringify(response));
@@ -78,10 +92,8 @@ DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack)
 DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
-    var now = new Date();
-    var timestamp = Math.round(now.getTime() / 1000);
-    var oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-    var actionitemDueDate = oneMonthLater.getDate() + '/' + (oneMonthLater.getMonth() + 1) + '/' + oneMonthLater.getFullYear();
+    var timestamp = Math.round(new Date() / 1000);
+    var actionitemDueDate = devtrac.common.getOneMonthLaterDate();
     var node = {
         nid: 0,
         uid: userId,
@@ -138,12 +150,13 @@ DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo){
             url: ''
         }]
     };
-	
-	if(placeId == 0){
-		node.created = timestamp;
-	} else {
-		node.changed = timestamp;
-	}
+    
+    if (placeId == 0) {
+        node.created = timestamp;
+    }
+    else {
+        node.changed = timestamp;
+    }
     
     return devtrac.dataPush._createNodeSaveParams(node);
 }
@@ -176,7 +189,7 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
             }
         }],
         field_ftritem_public_summary: [{
-            value: ''
+            value: site.narrative
         }],
         field_ftritem_narrative: [{
             value: site.narrative
@@ -217,7 +230,7 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
         changed: timestamp,
         title: site.name,
         field_ftritem_public_summary: [{
-            value: ''
+            value: site.narrative
         }],
         field_ftritem_narrative: [{
             value: site.narrative
@@ -233,9 +246,12 @@ DataPush.prototype.updateFieldTripItemNode = function(site){
 DataPush.prototype.questionsSaveNode = function(site){
     var sessionId = devtrac.user.session.id;
     var timestamp = Math.round(new Date().getTime() / 1000);
+    
     var responses = "{";
     $.each(site.submission, function(index, question){
         var response = devtrac.dataPush._getQuestionResponse(question);
+        if (responses.length > 2) 
+            responses += ',';
         responses += question.id + ":" + JSON.stringify(response);
     });
     responses += "}";

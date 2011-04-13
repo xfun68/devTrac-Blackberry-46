@@ -66,4 +66,13 @@ function Common(){
             }
         }
     }
+    
+    this.getOneMonthLaterDate = function(){
+        var now = new Date();
+        var oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+		var day = (oneMonthLater.getDate() < 9) ? '0'+oneMonthLater.getDate() : ''+oneMonthLater.getDate();
+        var month = (oneMonthLater.getMonth() < 9) ? '0'+oneMonthLater.getMonth() : ''+oneMonthLater.getMonth();
+        var year = ''+oneMonthLater.getFullYear();
+        return day + '/' + month + '/' + year;		
+    }	
 }
