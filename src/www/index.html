@@ -101,7 +101,6 @@
         <div id="sites_to_visit" style="display: none">
             <div class="toolbar">
                 <h1><span id="trip_title"></span></h1>
-                <span id="logout" name="logout" class="back">Logout</span>
             </div>
             <div class="content">
                 <div class="right">
@@ -132,7 +131,9 @@
                     </div>
                 </div>
                 <div class="right">
-                    <span id="settings_button" class="link">Settings</span>
+                    <span id="logout" name="logout" class="link">Change User</span>
+                    | <span id="upload_data" class="link">Upload Field Trip</span>
+                    | <span id="settings_button" class="link">Settings</span>
                 </div>
             </div>
         </div>
@@ -176,24 +177,22 @@
                 <div>
                     <div align="center">
                         <p>
-                            <input type="button" id="upload_data" class="button" value="Upload fieldtrip data"/>
-                        </p>
-						<p>
                             <input type="button" id="update_question_places" class="button" value="Download Database"/>
                         </p>
                         <p>
                             <input type="button" id="wipe_out_data" class="button" value="DELETE Data"/>
                         </p>
-						<p>
+                        <p>
                             <input type="button" id="show_log" class="button" value="Show Log"/>
                         </p>
-						<p>
+                        <p>
                             <input type="checkbox" value="on" id="log_debug_mode" /><span>Debug Mode</span>
                         </p>
                     </div>
                 </div>
             </div>
-        </div><!-- Delete Confirm Screen -->
+        </div>
+        <!-- Delete Confirm Screen -->
         <div id="delete_confirm" style="display: none">
             <div class="toolbar">
                 <h1>Delete Confirm</h1>
@@ -214,7 +213,8 @@
             </div>
             <div class="upload_progress_log">
             </div>
-        </div><!-- Questionnaire form Screen -->
+        </div>
+        <!-- Questionnaire form Screen -->
         <div id="questions_form" style="display: none">
             <div class="toolbar">
                 <h1 id="Report_item">Questionnaire</h1>
