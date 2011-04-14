@@ -38,11 +38,11 @@ SettingsController.prototype.uploadData = function(){
     }, function(msg){
         alert(msg);
         $('.upload_progress_log').html("");
-        devtrac.settingsController.show();
+        fieldTripController.showTripReports();
     }, function(msg){
         alert(msg);
         $('.upload_progress_log').html("");
-        devtrac.settingsController.show();
+        fieldTripController.showTripReports();
     });
 }
 

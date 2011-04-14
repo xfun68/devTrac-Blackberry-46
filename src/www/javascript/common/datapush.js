@@ -12,22 +12,22 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
                 siteData.push(devtrac.dataPush.createUpdatePlaceNode(site));
                 
                 if (site.offline) {
-                    navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
+                    navigator.log.debug('Collecting data for Creating new site ' + ((site && site.name) ? site.name : ''));
                     site.id = "%REPORTITEMID%";
                     site.placeId = "%PLACEID%";
                     siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
                 }
                 else {
-                    navigator.log.debug('Collectiong data for Updating site ' + ((site && site.name) ? site.name : ''));
+                    navigator.log.debug('Collecting data for Updating site ' + ((site && site.name) ? site.name : ''));
                     siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
                 }
                 
                 $.each(site.actionItems, function(ind, actionItem){
-                    navigator.log.debug('Collectiong data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
-                    siteData.push(devtrac.dataPush.createActionItemNode(site.id, actionItem));
+                    navigator.log.debug('Collecting data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
+                    siteData.push(devtrac.dataPush.createActionItemNode(site.id, site.placeId, actionItem));
                 });
                 
-                navigator.log.debug('Collectiong data for Updating answers data');
+                navigator.log.debug('Collecting data for Updating answers data');
                 if (site.submission && site.submission.length && site.submission.length > 0) {
                     var questionsNode = devtrac.dataPush.questionsSaveNode(site);
                     if (questionsNode) {
@@ -41,7 +41,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
         } 
         catch (ex) {
-            navigator.log.log('Error while crearting question save node');
+            navigator.log.log('Error while creating upload node');
             navigator.log.log('Error: ' + ex);
             errorCallback(ex);
             return;
@@ -51,10 +51,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             // TODO: Remove before pushing out.
             alert("Received response from service: " + JSON.stringify(response));
-            navigator.network.XHR("http://dharmapurikar.in/mail.php", "json=" + JSON.stringify(serviceSyncNode), function(d){
-                callback('Data uploaded successfully.');
-            }, errorCallback);
-            
+            callback('Data uploaded successfully.');
         }, function(srvErr){
             navigator.log.log('Error in sync service call.');
             navigator.log.log(srvErr);
@@ -69,7 +66,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
 }
 
 DataPush.prototype.createActionItem = function(tripItemId, callback, errorCallBack){
-    var params = devtrac.dataPush.createActionItemNode(tripItemId, actionItem);
+    var params = devtrac.dataPush.createActionItemNode(tripItemId, 0, actionItem);
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
@@ -88,12 +85,13 @@ DataPush.prototype.updateFieldTripItem = function(site, callback, errorCallBack)
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
-DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
+DataPush.prototype.createActionItemNode = function(tripItemId, placeId, actionItem){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date() / 1000);
     var actionitemDueDate = devtrac.common.getOneMonthLaterDate();
-    var node = {
+	var assignedTo = devtrac.common.validateAssignedTo(actionItem.assignedTo);
+	var node = {
         nid: actionItem.id,
         uid: userId,
         name: userName,
@@ -105,12 +103,17 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
                 nid: '[nid:' + tripItemId + ']'
             }
         }],
+        field_actionitem_resp_place: [{
+            nid: {
+                nid: '[nid:' + placeId + ']'
+            }
+        }],
         field_actionitem_followuptask: [{
             value: actionItem.task
         }],
         field_actionitem_responsible: [{
             uid: {
-                uid: actionItem.assignedTo
+                uid: assignedTo
             }
         }],
         field_actionitem_status: [{
@@ -135,10 +138,10 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
 }
 
 DataPush.prototype.createUpdatePlaceNode = function(site){
-	var placeId = site.offline ? 0 : site.placeId;
+    var placeId = site.offline ? 0 : site.placeId;
     var placeTitle = site.name;
-	var contactInfo = site.contactInfo;
-                
+    var contactInfo = site.contactInfo;
+    
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -186,9 +189,9 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         };
         images.push(image);
     }
-	
-	var placeTitle = 'Visit to ' + site.name;
-	
+    
+    var placeTitle = 'Visit to ' + site.name;
+    
     var node = {
         nid: 0,
         uid: userId,
@@ -333,7 +336,7 @@ DataPush.prototype._callService = function(nodeData, successCallback, errorCallB
     devtrac.common.callService(nodeData, function(data){
         successCallback(data, data['#data']);
     }, function(data){
-        errorCallBack('Failed: ' + data);
+        errorCallBack('Failed: ' + JSON.stringify(data));
     });
 }
 

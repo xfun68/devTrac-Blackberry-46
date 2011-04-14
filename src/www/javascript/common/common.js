@@ -78,7 +78,7 @@ function Common(){
     }
     
     this.errorHandler = function(errMsg, url, lineNum){
-		alert(errMsg);
+        alert(errMsg);
         var errorMessage = 'UnCaughtException: ' + errMsg;
         if (url) 
             errorMessage += ' for page: ' + url;
@@ -88,9 +88,19 @@ function Common(){
         navigator.log.log(errorMessage);
         return false;
     }
-
+    
     this.logAndShowGenericError = function(message){
         navigator.log.log(message);
         alert("Error occured while processing. Refer to log console for more details.");
+    }
+    
+    this.validateAssignedTo = function(assignedValue){
+        for (var index in devtrac.profiles) {
+            var profile = devtrac.profiles[index];
+            if (profile.uid === assignedValue || profile.username === assignedValue) {
+                return profile.username;
+            }
+        }
+        return devtrac.user.name;
     }
 }
