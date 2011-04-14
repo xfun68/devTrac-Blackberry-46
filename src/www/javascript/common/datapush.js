@@ -9,9 +9,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         var siteData = [];
         try {
             $.each(devtrac.fieldTrip.sites, function(index, site){
-                var placeId = site.offline ? 0 : site.placeId;
-                var placeTitle = 'Visit to ' + site.name;
-                siteData.push(devtrac.dataPush.createUpdatePlaceNode(placeId, site.contactInfo, placeTitle));
+                siteData.push(devtrac.dataPush.createUpdatePlaceNode(site));
                 
                 if (site.offline) {
                     navigator.log.debug('Collectiong data for Creating new site ' + ((site && site.name) ? site.name : ''));
@@ -80,8 +78,8 @@ DataPush.prototype.createFieldTripItem = function(tripId, site, callback, errorC
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
-DataPush.prototype.createUpdatePlace = function(placeId, contactInfo, title, callback, errorCallBack){
-    var params = devtrac.dataPush.createUpdatePlaceNode(placeId, contactInfo, title);
+DataPush.prototype.createUpdatePlace = function(site, callback, errorCallBack){
+    var params = devtrac.dataPush.createUpdatePlaceNode(site);
     devtrac.dataPush._callService(params, callback, errorCallBack);
 }
 
@@ -136,7 +134,11 @@ DataPush.prototype.createActionItemNode = function(tripItemId, actionItem){
     return nodeData;
 }
 
-DataPush.prototype.createUpdatePlaceNode = function(placeId, contactInfo, placeTitle){
+DataPush.prototype.createUpdatePlaceNode = function(site){
+	var placeId = site.offline ? 0 : site.placeId;
+    var placeTitle = site.name;
+	var contactInfo = site.contactInfo;
+                
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
@@ -184,6 +186,9 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         };
         images.push(image);
     }
+	
+	var placeTitle = 'Visit to ' + site.name;
+	
     var node = {
         nid: 0,
         uid: userId,
@@ -191,7 +196,7 @@ DataPush.prototype.createFieldTripItemNode = function(tripId, site){
         type: 'ftritem',
         status: 0,
         created: timestamp,
-        title: site.name,
+        title: placeTitle,
         field_ftritem_field_trip: [{
             nid: {
                 nid: '[nid:' + tripId + ']'
