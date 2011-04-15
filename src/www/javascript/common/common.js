@@ -103,4 +103,16 @@ function Common(){
         }
         return devtrac.user.name;
     }
+    
+    this.findPlaceType = function(site){
+		if (site.offline) {
+		    for (var index in devtrac.places) {
+         		var place = devtrac.places[index];
+		        if (site.type == place.name) {
+                    return place.id;
+                }
+            }
+        }
+        return site.placeTaxonomy[0].id;
+    }
 }

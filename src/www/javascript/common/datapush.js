@@ -51,7 +51,8 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             // TODO: Remove before pushing out.
             alert("Received response from service: " + JSON.stringify(response));
-            callback('Data uploaded successfully.');
+            callback('Data uploaded successfully. Trip will be re-downloaded.');
+            devtrac.dataPush.clearAndResync();
         }, function(srvErr){
             navigator.log.log('Error in sync service call.');
             navigator.log.log(srvErr);
@@ -62,6 +63,14 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         navigator.log.log('Error in image upload');
         navigator.log.log(err);
         errorCallback(err);
+    });
+}
+
+DataPush.prototype.clearAndResync = function(){
+    devtrac.dataStore.removeFieldTrip(function(){
+        devtrac.fieldTrip = new FieldTrip();
+        devtrac.currentSite = "";
+        devtrac.dataPull.tripDetails(fieldTripController.showTripReports);
     });
 }
 
@@ -90,8 +99,8 @@ DataPush.prototype.createActionItemNode = function(tripItemId, placeId, actionIt
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date() / 1000);
     var actionitemDueDate = devtrac.common.getOneMonthLaterDate();
-	var assignedTo = devtrac.common.validateAssignedTo(actionItem.assignedTo);
-	var node = {
+    var assignedTo = devtrac.common.validateAssignedTo(actionItem.assignedTo);
+    var node = {
         nid: actionItem.id,
         uid: userId,
         name: userName,
@@ -145,6 +154,7 @@ DataPush.prototype.createUpdatePlaceNode = function(site){
     var userId = devtrac.user.uid;
     var userName = devtrac.user.name;
     var timestamp = Math.round(new Date().getTime() / 1000);
+    var placeTypeId = devtrac.common.findPlaceType(site);
     var node = {
         nid: placeId,
         uid: userId,
@@ -161,7 +171,10 @@ DataPush.prototype.createUpdatePlaceNode = function(site){
         }],
         field_place_website: [{
             url: ''
-        }]
+        }],
+        taxonomy: {
+            1: placeTypeId
+        }
     };
     
     if (placeId == 0) {

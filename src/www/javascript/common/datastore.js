@@ -24,7 +24,7 @@ DataStore.prototype.init = function(callback){
 
 DataStore.prototype.retrieveFieldTrip = function(callback){
     navigator.log.debug("Trying to retreive a field trip for user: " + devtrac.user.name);
-	function portOldImages(){
+    function portOldImages(){
         $.each(devtrac.fieldTrip.sites, function(index, site){
             if (site.photos && site.photos.length) {
                 var photos = {};
@@ -55,8 +55,22 @@ DataStore.prototype.retrieveFieldTrip = function(callback){
     }, devtrac.user.name);
 }
 
+DataStore.prototype.removeFieldTrip = function(callback){
+    navigator.store.remove(function(response){
+        navigator.log.debug("Removed current user field trip from datastore.");
+        if (callback) {
+            callback();
+        }
+    }, function(error){
+        devtrac.common.logAndShowGenericError("Offline storage error: " + error);
+        if (callback) {
+            callback();
+        }
+    }, devtrac.user.name);
+}
+
 DataStore.prototype.saveFieldTrip = function(callback){
-	navigator.log.debug("Storing field trip: " + devtrac.fieldTrip.title);
+    navigator.log.debug("Storing field trip: " + devtrac.fieldTrip.title);
     navigator.store.put(function(){
         callback();
     }, function(error){
