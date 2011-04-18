@@ -17,7 +17,7 @@ ActionItemController.prototype.show = function(){
     container.html("");
     $.each(devtrac.currentSite.actionItems, function(index, item){
 		var profiles = $.grep(devtrac.profiles, function(profile){
-			return item.assignedTo == profile.uid;
+			return item.assignedTo == profile.username;
         });
 		var name = profiles.length > 0 ? profiles[0].name : "N/A";
         var html = "<div class='grid_row'><div class='col1'>" + item.title + "</div><div class='col2'>" + name + "</div></div>";

@@ -49,10 +49,13 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         
         devtrac.dataPush._callService(serviceSyncNode, function(response){
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
-            // TODO: Remove before pushing out.
-            alert("Received response from service: " + JSON.stringify(response));
-            callback('Data uploaded successfully. Trip will be re-downloaded.');
-            devtrac.dataPush.clearAndResync();
+            if (response['#error']) {
+                alert("Error occured in uploading trip information. Please try again.");
+            }
+            else {
+                callback('Data uploaded successfully. Trip will be re-downloaded.');
+                devtrac.dataPush.clearAndResync();
+            }
         }, function(srvErr){
             navigator.log.log('Error in sync service call.');
             navigator.log.log(srvErr);
@@ -329,6 +332,7 @@ DataPush.prototype.serviceSyncSaveNode = function(data){
         name: userName,
         type: 'bbsync',
         created: timestamp,
+        fieldtrip: devtrac.fieldTrip.id,
         body: JSON.stringify(data),
         title: 'Blackberry Sync Data for Trip Report: ' + devtrac.fieldTrip.title
     };
