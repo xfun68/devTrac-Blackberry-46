@@ -24,7 +24,8 @@ siteController.create = function(){
     site.offline = true;
     site.name = $("#site_title").val();
     site.type = $("#sitetypes").val();
-    devtrac.fieldTrip.sites.push(site);
+    site.narrative = "Please provide a full report.";
+	devtrac.fieldTrip.sites.push(site);
 	navigator.store.put(function(){
         alert(site.name + " added successfuly.");
 		$("#site_title").val("");

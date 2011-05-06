@@ -170,7 +170,7 @@ DataPush.prototype.createUpdatePlaceNode = function(site){
             value: contactInfo.phone
         }],
         field_place_email: [{
-            value: contactInfo.email
+            email: contactInfo.email
         }],
         field_place_website: [{
             url: ''

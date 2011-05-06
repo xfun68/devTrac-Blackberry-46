@@ -15,9 +15,14 @@ SiteDetailController.prototype.narrative = function(){
 };
 
 SiteDetailController.prototype.updateNarrative = function(){
-    devtrac.currentSite.narrative = $(".site_narrative_notes").val();
-    devtrac.dataStore.saveCurrentSite(function(){
-        alert("Updated narrative text.");
-        devtrac.siteDetailController.show();
-    });
+	var narrative = $(".site_narrative_notes").val();
+	if (narrative) {
+		devtrac.currentSite.narrative = narrative;
+		devtrac.dataStore.saveCurrentSite(function(){
+			alert("Updated narrative text.");
+			devtrac.siteDetailController.show();
+		});
+	}else{
+		alert("Please provide summary.");
+	}
 };
