@@ -13,14 +13,26 @@ ContactInfoController.prototype.edit = function(){
 }
 
 ContactInfoController.prototype.save = function(){
-    navigator.log.debug("Saving contact information");
-    devtrac.currentSite.contactInfo.name = $("#contact_name_input").val();
-    devtrac.currentSite.contactInfo.phone = $("#contact_phone_number_input").val();
-    devtrac.currentSite.contactInfo.email = $("#contact_email_input").val();
+    if (validEmail()) {
+        navigator.log.debug("Saving contact information");
+        devtrac.currentSite.contactInfo.name = $("#contact_name_input").val();
+        devtrac.currentSite.contactInfo.phone = $("#contact_phone_number_input").val();
+        devtrac.currentSite.contactInfo.email = $("#contact_email_input").val();
+        
+        devtrac.dataStore.saveCurrentSite(function(){
+            alert("Contact information saved.");
+            navigator.log.debug("Saved site with contact information changes.");
+            devtrac.siteDetailController.show();
+        });
+    }
     
-    devtrac.dataStore.saveCurrentSite(function(){
-        alert("Contact information saved.");
-		navigator.log.debug("Saved site with contact information changes.");
-        devtrac.siteDetailController.show();
-    });
+    function validEmail(){
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var address = $("#contact_email_input").val();
+        if (reg.test(address) == false) {
+            alert('Invalid Email Address.');
+            return false;
+        }
+        return true;
+    }
 }
