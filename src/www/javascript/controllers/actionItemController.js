@@ -6,7 +6,7 @@ ActionItemController.prototype.show = function(){
     navigator.log.debug("Showing action items");
 	screens.show("loading");
     var actionItemGrid = $(".action_item_grid");
-    if (devtrac.currentSite.actionItems.length == 0) {
+	if (devtrac.currentSite.actionItems.length == 0) {
         $("#no_action_items").show();
         actionItemGrid.hide();
         screens.show("list_action_items");
@@ -15,7 +15,7 @@ ActionItemController.prototype.show = function(){
     var container = $("#action_items_list");
     $("#no_action_items").hide();
     container.html("");
-    $.each(devtrac.currentSite.actionItems, function(index, item){
+	$.each(devtrac.currentSite.actionItems, function(index, item){
 		var profiles = $.grep(devtrac.profiles, function(profile){
 			return item.assignedTo == profile.username;
         });

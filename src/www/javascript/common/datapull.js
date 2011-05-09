@@ -44,7 +44,7 @@ DataPull.prototype.questions = function(callback){
     };
     
     var questionFailed = function(){
-        navigator.log.alert("Downloading of questions failed.");
+        navigator.log.debug("Downloading of questions failed.");
         callback();
     };
     
@@ -56,7 +56,7 @@ DataPull.prototype.questions = function(callback){
 DataPull.prototype.placeTypes = function(callback){
 	navigator.log.debug("Requesting places to download.");
     var placesSuccess = function(placesResponse){
-        if (devtrac.common.hasError(placesResponse)) {
+		if (devtrac.common.hasError(placesResponse)) {
             devtrac.common.logAndShowGenericError(devtrac.common.getErrorMessage(placesResponse));
             callback();
         }
@@ -65,7 +65,7 @@ DataPull.prototype.placeTypes = function(callback){
             var places = $.map(placesResponse['#data'], function(item){
                 var placeType = new PlaceType();
                 placeType.id = item.tid;
-                placeType.name = item.term_data_term_hierarchy_name ? item.term_data_term_hierarchy_name : item.term_data_name;
+                placeType.name = item.term_data_name;
                 placeType.parentId = item.term_data_term_hierarchy_tid ? item.term_data_term_hierarchy_tid : item.tid;
 				navigator.log.debug("Processed place with id: " + placeType.id);
                 return placeType;

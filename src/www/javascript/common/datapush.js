@@ -9,35 +9,34 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
         var siteData = [];
         try {
             $.each(devtrac.fieldTrip.sites, function(index, site){
-                siteData.push(devtrac.dataPush.createUpdatePlaceNode(site));
+    			siteData.push(devtrac.dataPush.createUpdatePlaceNode(site));
                 
                 if (site.offline) {
-                    navigator.log.debug('Collecting data for Creating new site ' + ((site && site.name) ? site.name : ''));
+	                navigator.log.debug('Collecting data for Creating new site ' + ((site && site.name) ? site.name : ''));
                     site.id = "%REPORTITEMID%";
                     site.placeId = "%PLACEID%";
                     siteData.push(devtrac.dataPush.createFieldTripItemNode(devtrac.fieldTrip.id, site));
-                }
+	            }
                 else {
                     navigator.log.debug('Collecting data for Updating site ' + ((site && site.name) ? site.name : ''));
                     siteData.push(devtrac.dataPush.updateFieldTripItemNode(site));
-                }
-                
+	            }
                 $.each(site.actionItems, function(ind, actionItem){
                     navigator.log.debug('Collecting data for creating ActionItem ' + ((actionItem && actionItem.title) ? actionItem.title : '') + ' node');
                     siteData.push(devtrac.dataPush.createActionItemNode(site.id, site.placeId, actionItem));
                 });
                 
                 navigator.log.debug('Collecting data for Updating answers data');
-                if (site.submission && site.submission.length && site.submission.length > 0) {
-                    var questionsNode = devtrac.dataPush.questionsSaveNode(site);
-                    if (questionsNode) {
-                        siteData.push(questionsNode);
+	            if (site.submission && site.submission.length && site.submission.length > 0) {
+	                var questionsNode = devtrac.dataPush.questionsSaveNode(site);
+	                if (questionsNode) {
+	                    siteData.push(questionsNode);
                     }
                 }
             });
             navigator.log.debug('Creating service sync node');
             var serviceSyncNode = devtrac.dataPush.serviceSyncSaveNode(siteData);
-            navigator.log.debug('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
+	        navigator.log.debug('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
             progressCallback('Calling upload service with ' + devtrac.common.convertHash(serviceSyncNode).length + ' byte data.');
         } 
         catch (ex) {
@@ -151,15 +150,15 @@ DataPush.prototype.createActionItemNode = function(tripItemId, placeId, actionIt
 }
 
 DataPush.prototype.createUpdatePlaceNode = function(site){
-    var placeId = site.offline ? 0 : site.placeId;
-    var placeTitle = site.name;
-    var contactInfo = site.contactInfo;
-    
+	var placeId = site.offline ? 0 : site.placeId;
+	var placeTitle = site.name;
+	var contactInfo = site.contactInfo;
+	
     var userId = devtrac.user.uid;
-    var userName = devtrac.user.name;
-    var timestamp = Math.round(new Date().getTime() / 1000);
-    var placeTypeId = devtrac.common.findPlaceType(site);
-    var node = {
+	var userName = devtrac.user.name;
+	var timestamp = Math.round(new Date().getTime() / 1000);
+	var placeTypeId = devtrac.common.findPlaceType(site);
+	var node = {
         nid: placeId,
         uid: userId,
         name: userName,
@@ -180,15 +179,13 @@ DataPush.prototype.createUpdatePlaceNode = function(site){
             1: placeTypeId
         }
     };
-    
     if (placeId == 0) {
-        node.created = timestamp;
+	    node.created = timestamp;
         node.title = placeTitle;
     }
     else {
-        node.changed = timestamp;
+	    node.changed = timestamp;
     }
-    
     return devtrac.dataPush._createNodeSaveParams(node);
 }
 
