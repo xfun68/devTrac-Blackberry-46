@@ -20,50 +20,51 @@ function Common(){
     }
     
     this.hasError = function(response){
-        if (response["#error"]) {
-            return true;
+		if (response["#error"]) {
+		    return true;
         }
         else {
-            if (response["#data"]) {
-                var data = response["#data"];
+		    if (response["#data"]) {
+		        var data = response["#data"];
                 if (data["#error"]) {
-                    return true;
+		            return true;
                 }
                 else {
-                    return false;
+		            return false;
                 }
             }
             else {
-                return true;
+		        return true;
             }
         }
     }
     
     this.getErrorMessage = function(response){
-        if (response["#error"]) {
-            if (response["#message"]) {
-                return response["#message"];
-            }
-            else 
-                if (response["#data"]) {
-                    return response["#data"];
-                }
-                else {
-                    return "Unknown error occured. Please try again.";
-                }
+		if (response["#error"]) {
+		    if (response["#message"]) {
+				return response["#message"];
+			}
+			else {
+				if (response["#data"]) {
+					return response["#data"];
+				}
+				else {
+					return "Unknown error occured. Please try again.";
+				}
+			}
         }
         else {
-            if (response["#data"]) {
-                var data = response["#data"];
+		    if (response["#data"]) {
+		        var data = response["#data"];
                 if (data["#error"]) {
-                    return data["#message"];
+		            return data["#message"];
                 }
                 else {
-                    return "Unknown error.";
+		            return "Unknown error.";
                 }
             }
             else {
-                return "Unexpected #data format.";
+		        return "Unexpected #data format.";
             }
         }
     }
@@ -91,7 +92,7 @@ function Common(){
     
     this.logAndShowGenericError = function(message){
         navigator.log.log(message);
-        alert("Error occured while processing. Refer to log console for more details.");
+		alert("Error occured while processing. Refer to log console for more details.");
     }
     
     this.validateAssignedTo = function(assignedValue){

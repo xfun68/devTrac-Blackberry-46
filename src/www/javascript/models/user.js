@@ -9,7 +9,7 @@ function User(){
 User.prototype.authenticate = function(userName, password, successCallback, failedCallback){
     var success = function(response){
 		if (devtrac.common.hasError(response)) {
-            devtrac.common.logAndShowGenericError(getErrorMessage(response));
+            alert(devtrac.common.getErrorMessage(response));
             failedCallback();
         }
         else {
@@ -21,7 +21,7 @@ User.prototype.authenticate = function(userName, password, successCallback, fail
     var failed = function(response, textStatus){
         devtrac.common.logAndShowGenericError("Error occured in authenticating. Details: [" + textStatus + "], " + JSON.stringify(response));
     };
-    authenticate(userName, password, success, failed);
+	authenticate(userName, password, success, failed);
 };
 
 User.prototype.parseUserData = function(response){

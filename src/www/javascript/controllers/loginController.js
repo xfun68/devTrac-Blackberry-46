@@ -64,7 +64,7 @@ LoginController.prototype.login = function(){
         screens.show("login");
     };
     screens.show("loading");
-    devtrac.user.authenticate(userName, password, renderView, loginFailed);
+	devtrac.user.authenticate(userName, password, renderView, loginFailed);
 };
 
 LoginController.prototype.logout = function(){

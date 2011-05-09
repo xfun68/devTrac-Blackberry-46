@@ -22,7 +22,7 @@ SettingsController.prototype.wipeout = function(){
 
 SettingsController.prototype.performWipeout = function(){
     navigator.store.nuke(function(){
-        alert("All application data deleted.");
+        alert("All application data deleted. Application will exit.");
         navigator.utility.exit();
     }, function(){
         devtrac.common.logAndShowGenericError("Error occured while deleting application data.")

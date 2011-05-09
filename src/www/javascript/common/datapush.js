@@ -51,6 +51,7 @@ DataPush.prototype.uploadData = function(progressCallback, callback, errorCallba
             navigator.log.debug('Received response from service: ' + JSON.stringify(response));
             if (response['#error']) {
                 alert("Error occured in uploading trip information. Please try again.");
+				fieldTripController.showTripReports();
             }
             else {
                 callback('Data uploaded successfully. Trip will be re-downloaded.');
