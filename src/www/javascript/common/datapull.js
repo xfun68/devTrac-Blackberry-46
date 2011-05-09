@@ -240,7 +240,7 @@ DataPull.prototype.placeDetailsForSite = function(callback){
                 site.placeGeo = placeDetails.field_place_lat_long.openlayers_wkt;
                 site.contactInfo.name = placeDetails.field_place_responsible_person[0].value;
                 site.contactInfo.phone = placeDetails.field_place_phone[0].value;
-                site.contactInfo.email = placeDetails.field_place_email[0].value;
+                site.contactInfo.email = placeDetails.field_place_email[0].email;
                 site.placeTaxonomy = [];
                 for (var index in placeDetails.taxonomy) {
                     var item = placeDetails.taxonomy[index];
