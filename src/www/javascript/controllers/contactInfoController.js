@@ -13,7 +13,8 @@ ContactInfoController.prototype.edit = function(){
 }
 
 ContactInfoController.prototype.save = function(){
-    if (validEmail()) {
+	var address = $("#contact_email_input").val();
+    if ((address.length == 0) || validEmail(address)) {
         navigator.log.debug("Saving contact information");
         devtrac.currentSite.contactInfo.name = $("#contact_name_input").val();
         devtrac.currentSite.contactInfo.phone = $("#contact_phone_number_input").val();
@@ -26,9 +27,8 @@ ContactInfoController.prototype.save = function(){
         });
     }
     
-    function validEmail(){
+    function validEmail(address){
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        var address = $("#contact_email_input").val();
         if (reg.test(address) == false) {
             alert('Invalid Email Address.');
             return false;
