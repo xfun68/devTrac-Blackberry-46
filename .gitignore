@@ -4,3 +4,4 @@
 bin
 deliverables
 *.tmp_*
+src/build
